@@ -384,6 +384,79 @@
       </div>
     </div>
 
+    <!-- HORMONES PANEL -->
+    <div class="panel">
+      <div class="panel-header" onclick="togglePanel(this)">
+        <span class="panel-icon">⚡</span>
+        <h2>Hormone Panel</h2>
+        <span class="panel-toggle">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="marker-grid">
+          <div class="marker-field">
+            <div class="field-name">Testosterone (Total) — Male</div>
+            <div class="field-unit">ng/dL</div>
+            <input type="number" step="1" name="testosterone_male" placeholder="e.g. 650">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Testosterone (Total) — Female</div>
+            <div class="field-unit">ng/dL</div>
+            <input type="number" step="1" name="testosterone_female" placeholder="e.g. 45">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Free Testosterone — Male</div>
+            <div class="field-unit">pg/mL</div>
+            <input type="number" step="0.1" name="free_testosterone_male" placeholder="e.g. 12">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Estradiol (E2)</div>
+            <div class="field-unit">pg/mL</div>
+            <input type="number" step="0.1" name="estradiol" placeholder="e.g. 80">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Progesterone</div>
+            <div class="field-unit">ng/mL</div>
+            <input type="number" step="0.1" name="progesterone" placeholder="e.g. 12">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">DHEA-S</div>
+            <div class="field-unit">μg/dL</div>
+            <input type="number" step="1" name="dheas" placeholder="e.g. 220">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Cortisol (AM, fasting)</div>
+            <div class="field-unit">μg/dL</div>
+            <input type="number" step="0.1" name="cortisol" placeholder="e.g. 14">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">SHBG (Sex Hormone Binding Globulin)</div>
+            <div class="field-unit">nmol/L</div>
+            <input type="number" step="1" name="shbg" placeholder="e.g. 45">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">LH (Luteinizing Hormone)</div>
+            <div class="field-unit">mIU/mL</div>
+            <input type="number" step="0.1" name="lh" placeholder="e.g. 5.5">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">FSH (Follicle Stimulating Hormone)</div>
+            <div class="field-unit">mIU/mL</div>
+            <input type="number" step="0.1" name="fsh" placeholder="e.g. 6.2">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Prolactin</div>
+            <div class="field-unit">ng/mL</div>
+            <input type="number" step="0.1" name="prolactin" placeholder="e.g. 10">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">IGF-1 (Growth Hormone Proxy)</div>
+            <div class="field-unit">ng/mL</div>
+            <input type="number" step="1" name="igf1" placeholder="e.g. 180">
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="submit-wrap">
       <button type="button" class="btn-analyze" onclick="analyzeBloodwork()">
         🔍 Analyze My Results
@@ -662,6 +735,116 @@ const MARKERS = {
     explain_low: 'Very low homocysteine is generally positive.',
     explain_high: 'Elevated homocysteine is a significant cardiovascular and neurological risk marker. It damages blood vessel walls and increases stroke risk. Standard reference ranges are far too permissive. Even 8-12 μmol/L is functionally elevated. Usually responsive to B12, B6, and folate.',
     explain_optimal: 'Homocysteine is in an excellent functional range — methylation and B-vitamin status looks good.'
+  },
+
+  // ── HORMONES ────────────────────────────────────────────────────────────
+  testosterone_male: {
+    name: 'Testosterone (Total) — Male',
+    unit: 'ng/dL',
+    optimal: [500, 900],
+    standard: [300, 1000],
+    explain_low: 'Low testosterone in men is one of the most common and under-addressed health issues of our time. Symptoms: fatigue, low libido, muscle loss, brain fog, mood changes, belly fat accumulation. Standard labs allow down to 300 ng/dL — functionally, anything below 500 warrants investigation. Common drivers: poor sleep, high stress, insulin resistance, zinc deficiency, low vitamin D, alcohol, and excess body fat.',
+    explain_high: 'High total testosterone can indicate testosterone replacement without proper monitoring, PCOS in women, or adrenal issues. In men, very high levels may indicate exogenous testosterone use or rare conditions.',
+    explain_optimal: 'Total testosterone is in a healthy functional range — good androgenic hormone status.'
+  },
+  testosterone_female: {
+    name: 'Testosterone (Total) — Female',
+    unit: 'ng/dL',
+    optimal: [25, 70],
+    standard: [15, 70],
+    explain_low: 'Low testosterone in women is common and rarely addressed. Symptoms: low libido, fatigue, poor muscle tone, mood flatness, and brain fog. Often overlooked because standard labs have very wide ranges for women.',
+    explain_high: 'Elevated testosterone in women is associated with PCOS, insulin resistance, and adrenal overactivity. Symptoms include acne, excess hair growth, irregular cycles, and mood changes. Often tied to high fasting insulin.',
+    explain_optimal: 'Female testosterone is in the functional optimal range — balanced androgenic hormone status.'
+  },
+  free_testosterone_male: {
+    name: 'Free Testosterone — Male',
+    unit: 'pg/mL',
+    optimal: [9, 18],
+    standard: [9, 30],
+    explain_low: 'Free testosterone is the biologically active fraction. Low free T — even with normal total T — means the hormone isn\'t reaching your cells. High SHBG is the most common cause, which can be driven by thyroid dysfunction, liver issues, or low insulin. This is the marker that actually correlates with symptoms.',
+    explain_high: 'High free testosterone suggests either high total testosterone or low SHBG. Context matters — evaluate alongside total T and SHBG.',
+    explain_optimal: 'Free testosterone is in the functional optimal range — active androgenic hormone is available to tissues.'
+  },
+  estradiol: {
+    name: 'Estradiol (E2)',
+    unit: 'pg/mL',
+    optimal: [60, 150],
+    standard: [20, 350],
+    explain_low: 'Low estradiol causes bone loss, vaginal dryness, poor sleep, mood instability, cardiovascular risk, and accelerated aging. In perimenopausal women, this is one of the most important markers to track. Standard reference ranges allow for levels that are far too low for optimal function.',
+    explain_high: 'Elevated estradiol is associated with estrogen dominance — fibroids, heavy periods, mood swings, water retention, and increased breast cancer risk. In men, high estradiol causes low libido, gynecomastia, and testosterone suppression. Key driver: aromatase activity, which increases with body fat and alcohol.',
+    explain_optimal: 'Estradiol is in a functional optimal range — good estrogenic hormone status.'
+  },
+  progesterone: {
+    name: 'Progesterone',
+    unit: 'ng/mL',
+    optimal: [5, 25],
+    standard: [1, 25],
+    explain_low: 'Low progesterone is extremely common in women, especially in the second half of the cycle and perimenopause. Symptoms: anxiety, insomnia, PMS, heavy periods, estrogen dominance pattern. Progesterone is the calming, protective hormone — when it\'s low, estrogen goes unopposed.',
+    explain_high: 'Very high progesterone outside of pregnancy is uncommon. During luteal phase and pregnancy, higher values are expected and normal.',
+    explain_optimal: 'Progesterone looks balanced — good luteal phase support.'
+  },
+  dheas: {
+    name: 'DHEA-S',
+    unit: 'μg/dL',
+    optimal: [150, 380],
+    standard: [65, 380],
+    explain_low: 'DHEA-S is the adrenal precursor to testosterone and estrogen. Low DHEA-S is one of the earliest signs of adrenal fatigue and accelerated aging. It declines with chronic stress, poor sleep, and aging. Symptoms: fatigue, low mood, reduced resilience to stress, low libido.',
+    explain_high: 'Elevated DHEA-S can indicate adrenal hyperactivity, PCOS, or congenital adrenal hyperplasia. In women, it can cause androgen excess symptoms.',
+    explain_optimal: 'DHEA-S is in a healthy functional range — good adrenal reserve and hormonal precursor status.'
+  },
+  cortisol: {
+    name: 'Cortisol (AM, fasting)',
+    unit: 'μg/dL',
+    optimal: [10, 18],
+    standard: [6, 23],
+    explain_low: 'Low morning cortisol suggests HPA axis dysregulation — the adrenal fatigue pattern. Symptoms: extreme morning fatigue that doesn\'t improve with sleep, low blood pressure, salt cravings, poor stress resilience. The cortisol awakening response is one of the body\'s most important regulatory signals.',
+    explain_high: 'Elevated morning cortisol reflects chronic HPA activation — prolonged stress, poor sleep, blood sugar dysregulation, inflammation. High cortisol suppresses thyroid function, breaks down muscle, promotes belly fat storage, and disrupts sleep architecture.',
+    explain_optimal: 'Morning cortisol is in the functional optimal range — good HPA axis function.'
+  },
+  shbg: {
+    name: 'SHBG (Sex Hormone Binding Globulin)',
+    unit: 'nmol/L',
+    optimal: [25, 55],
+    standard: [17, 124],
+    explain_low: 'Low SHBG is strongly associated with insulin resistance, metabolic syndrome, and PCOS. It means more free (active) sex hormones are circulating, which sounds good for testosterone but also means more free estrogen. Usually an early metabolic warning signal.',
+    explain_high: 'High SHBG binds up testosterone and estrogen, leaving too little free hormone available. Common causes: thyroid hyperthyroidism, liver dysfunction, low insulin, high estrogen, aging. Even with normal total T, high SHBG can cause low testosterone symptoms.',
+    explain_optimal: 'SHBG is in a functional optimal range — good hormone binding balance.'
+  },
+  lh: {
+    name: 'LH (Luteinizing Hormone)',
+    unit: 'mIU/mL',
+    optimal: [2, 8],
+    standard: [1.7, 15],
+    explain_low: 'Low LH suppresses testosterone production in men and disrupts ovulation in women. Can be caused by high stress (cortisol suppresses LH), overtraining, undereating, or pituitary issues.',
+    explain_high: 'High LH in women with irregular cycles is a classic PCOS finding. In men, high LH suggests primary testicular failure — the brain is signaling hard but the testes aren\'t responding.',
+    explain_optimal: 'LH is in the functional optimal range — good pituitary-gonadal communication.'
+  },
+  fsh: {
+    name: 'FSH (Follicle Stimulating Hormone)',
+    unit: 'mIU/mL',
+    optimal: [2, 9],
+    standard: [1.5, 12.4],
+    explain_low: 'Low FSH suppresses egg and sperm development. Often seen with hypothalamic dysfunction from chronic stress or undereating.',
+    explain_high: 'High FSH in women is one of the earliest signs of declining ovarian reserve and perimenopause. In men, high FSH indicates impaired sperm production. Elevated FSH means the pituitary is working harder to compensate.',
+    explain_optimal: 'FSH is in the functional optimal range.'
+  },
+  prolactin: {
+    name: 'Prolactin',
+    unit: 'ng/mL',
+    optimal: [3, 15],
+    standard: [2, 29],
+    explain_low: 'Very low prolactin is uncommon and rarely clinically significant.',
+    explain_high: 'Elevated prolactin suppresses testosterone and estrogen, disrupts ovulation, and causes low libido, infertility, and galactorrhea. Common causes: stress, hypothyroidism, certain medications (especially antidepressants), and in some cases a benign pituitary tumor (prolactinoma). Always recheck with a morning, fasting sample.',
+    explain_optimal: 'Prolactin is in the functional optimal range — no evidence of suppression of reproductive hormones.'
+  },
+  igf1: {
+    name: 'IGF-1 (Growth Hormone Proxy)',
+    unit: 'ng/mL',
+    optimal: [150, 300],
+    standard: [100, 300],
+    explain_low: 'Low IGF-1 reflects low growth hormone output — associated with poor muscle mass, slow recovery, fatigue, increased body fat, poor skin and hair quality, and accelerated aging. Key drivers: poor sleep (GH is released during deep sleep), low protein intake, insulin resistance, and zinc deficiency.',
+    explain_high: 'Elevated IGF-1 can indicate acromegaly or excess GH. In some contexts, higher-normal IGF-1 is associated with faster cellular growth — context and symptoms matter.',
+    explain_optimal: 'IGF-1 is in the functional optimal range — good growth hormone axis activity.'
   }
 };
 
