@@ -3,445 +3,757 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Function Again Health | Sara Knight</title>
-  <meta name="description" content="Evidence-based health recommendations, lab work guidance, and trusted products to help you function at your best." />
+  <title>Function Again Health — Precision Wellness by Sara Knight</title>
+  <meta name="description" content="Stop waiting to feel sick. Understand your biology now. Functional lab analysis, personalized health coaching, and evidence-based protocols." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --blue:   #0096c7;
-      --navy:   #023e8a;
-      --coral:  #e8978a;
-      --sand:   #f5ede6;
-      --white:  #ffffff;
-      --text:   #1c1c1c;
-      --muted:  #7a7a7a;
-      --border: #ecddd6;
+      --navy:    #05152e;
+      --blue:    #0077b6;
+      --ocean:   #0096c7;
+      --coral:   #e07b6a;
+      --coral-lt:#f0a898;
+      --sand:    #f7f2ec;
+      --warm:    #faf8f5;
+      --white:   #ffffff;
+      --text:    #111827;
+      --mid:     #4b5563;
+      --muted:   #9ca3af;
+      --border:  #e5e0d8;
+      --radius:  2px;
     }
 
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); line-height: 1.6; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body { font-family: 'Inter', sans-serif; color: var(--text); background: var(--white); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
 
-    /* ── NAV ── */
+    /* ─── ANNOUNCEMENT BAR ─────────────────────────────────── */
+    .announce {
+      background: var(--navy); color: rgba(255,255,255,0.8);
+      text-align: center; padding: 0.6rem 1rem;
+      font-size: 0.78rem; letter-spacing: 0.06em;
+    }
+    .announce strong { color: var(--coral-lt); }
+
+    /* ─── NAV ──────────────────────────────────────────────── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: sticky; top: 0; z-index: 500;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: saturate(180%) blur(16px);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 6%; height: 64px;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
+      padding: 0 5%; height: 68px;
     }
     .logo {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem; font-weight: 600;
-      color: var(--navy); text-decoration: none; letter-spacing: 0.01em;
+      font-size: 1.3rem; font-weight: 400; color: var(--navy);
+      text-decoration: none; letter-spacing: 0.03em;
     }
-    .logo em { font-style: normal; color: var(--coral); }
-    nav ul { list-style: none; display: flex; gap: 2.5rem; align-items: center; }
-    nav ul a { text-decoration: none; color: var(--muted); font-size: 0.875rem; font-weight: 500; letter-spacing: 0.02em; transition: color 0.2s; }
-    nav ul a:hover { color: var(--text); }
-    .nav-btn {
-      background: var(--coral) !important; color: var(--white) !important;
-      padding: 0.45rem 1.1rem; border-radius: 20px; font-size: 0.82rem !important;
-      font-weight: 600 !important; letter-spacing: 0.04em;
+    .logo span { color: var(--coral); font-style: italic; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--mid); font-size: 0.84rem; font-weight: 500; letter-spacing: 0.02em; transition: color .2s; }
+    .nav-links a:hover { color: var(--navy); }
+    .nav-cta {
+      background: var(--navy) !important; color: white !important;
+      padding: 0.5rem 1.3rem; border-radius: 4px;
+      font-size: 0.82rem !important; font-weight: 600 !important; letter-spacing: 0.04em;
     }
+    .nav-cta:hover { background: #0a2244 !important; }
 
-    /* ── HERO ── */
+    /* ─── HERO ──────────────────────────────────────────────── */
     .hero {
-      height: 100vh; min-height: 640px;
-      position: relative; display: flex; align-items: center; justify-content: center;
-      text-align: center; color: var(--white);
+      position: relative; min-height: 92vh;
+      display: flex; align-items: center;
+      overflow: hidden;
     }
-    .hero-bg {
-      position: absolute; inset: 0;
-      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=85&fit=crop&crop=bottom') center 45% / cover no-repeat;
+    .hero-media {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=90&fit=crop&crop=bottom') center 40% / cover no-repeat;
     }
     .hero-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(2,62,138,0.55) 0%, rgba(0,100,180,0.4) 60%, rgba(0,60,100,0.65) 100%);
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(105deg, rgba(5,21,46,0.85) 0%, rgba(5,21,46,0.65) 50%, rgba(0,100,180,0.3) 100%);
     }
-    .hero-content { position: relative; z-index: 2; padding: 0 6%; max-width: 760px; }
-    .hero-eyebrow {
-      display: inline-block;
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em;
-      text-transform: uppercase; color: rgba(255,255,255,0.8);
-      margin-bottom: 1.5rem;
+    .hero-inner {
+      position: relative; z-index: 2;
+      width: 100%; max-width: 1160px; margin: 0 auto; padding: 7rem 5% 5rem;
     }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.85); border-radius: 30px;
+      padding: 0.35rem 1rem; font-size: 0.73rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 2rem;
+    }
+    .hero-tag::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--coral-lt); }
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      font-weight: 300; line-height: 1.08;
-      letter-spacing: -0.01em; margin-bottom: 1.25rem;
+      font-size: clamp(3.2rem, 7.5vw, 6rem);
+      font-weight: 300; color: white;
+      line-height: 1.04; letter-spacing: -0.01em;
+      max-width: 720px; margin-bottom: 1.5rem;
     }
-    .hero h1 em { font-style: italic; font-weight: 400; }
-    .hero p {
-      font-size: 1.05rem; font-weight: 300;
-      opacity: 0.88; max-width: 480px; margin: 0 auto 2.5rem; line-height: 1.7;
+    .hero h1 em { font-style: italic; color: var(--coral-lt); }
+    .hero-sub {
+      color: rgba(255,255,255,0.78); font-size: 1.1rem; font-weight: 300;
+      max-width: 500px; line-height: 1.75; margin-bottom: 3rem;
     }
-    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-coral {
-      background: var(--coral); color: var(--white);
-      padding: 0.85rem 2.2rem; border-radius: 30px;
-      font-size: 0.88rem; font-weight: 600;
-      letter-spacing: 0.04em; text-decoration: none;
-      transition: transform 0.2s, box-shadow 0.2s;
+    .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 4rem; }
+    .btn-primary {
+      background: var(--coral); color: white;
+      padding: 1rem 2.5rem; border-radius: 4px;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em;
+      text-decoration: none; transition: all .2s; border: none; cursor: pointer;
     }
-    .btn-coral:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,151,138,0.4); }
-    .btn-ghost {
-      border: 1.5px solid rgba(255,255,255,0.6); color: var(--white);
-      padding: 0.85rem 2.2rem; border-radius: 30px;
-      font-size: 0.88rem; font-weight: 500; text-decoration: none;
-      transition: border-color 0.2s, background 0.2s;
+    .btn-primary:hover { background: #c9644f; transform: translateY(-1px); box-shadow: 0 8px 32px rgba(224,123,106,0.35); }
+    .btn-secondary {
+      background: transparent; color: white;
+      border: 1.5px solid rgba(255,255,255,0.5); padding: 1rem 2.5rem;
+      border-radius: 4px; font-size: 0.9rem; font-weight: 500;
+      text-decoration: none; transition: all .2s;
     }
-    .btn-ghost:hover { border-color: var(--white); background: rgba(255,255,255,0.12); }
-
-    /* ── SCROLL HINT ── */
-    .scroll-hint {
-      position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
-      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
-      opacity: 0.6; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase;
-      color: var(--white);
+    .btn-secondary:hover { border-color: white; background: rgba(255,255,255,0.08); }
+    .hero-stats {
+      display: flex; gap: 3rem; flex-wrap: wrap;
     }
-    .scroll-line {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
-      animation: scrollLine 2s ease-in-out infinite;
-    }
-    @keyframes scrollLine { 0%,100%{opacity:0.4;transform:scaleY(0.5);} 50%{opacity:1;transform:scaleY(1);} }
-
-    /* ── SHARED SECTION STYLES ── */
-    section { padding: 7rem 6%; }
-    .label {
-      font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase;
-      color: var(--coral); margin-bottom: 0.8rem;
-    }
-    h2.section-title {
+    .hero-stat {}
+    .hero-stat .num {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 400; line-height: 1.15; margin-bottom: 1rem;
+      font-size: 2.6rem; font-weight: 400;
+      color: white; line-height: 1;
     }
-    .section-sub { color: var(--muted); font-size: 1rem; font-weight: 300; line-height: 1.7; max-width: 500px; }
+    .hero-stat .num span { color: var(--coral-lt); }
+    .hero-stat .desc { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin-top: 0.2rem; letter-spacing: 0.04em; }
 
-    /* ── INTRO ── */
-    .intro { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-    .intro-img {
-      border-radius: 3px;
-      aspect-ratio: 4/5; overflow: hidden;
+    /* ─── TRUST BAR ─────────────────────────────────────────── */
+    .trust {
+      background: var(--navy); color: rgba(255,255,255,0.55);
+      padding: 1.2rem 5%;
+      display: flex; align-items: center; justify-content: center;
+      gap: 3rem; flex-wrap: wrap;
     }
-    .intro-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .intro-text {}
-    .intro-text h2 { margin-bottom: 1.25rem; }
-    .intro-text p { color: var(--muted); font-size: 0.975rem; line-height: 1.8; margin-bottom: 1rem; }
-    .intro-text a {
-      color: var(--coral); text-decoration: none; font-size: 0.875rem;
-      font-weight: 600; letter-spacing: 0.04em;
-      border-bottom: 1px solid var(--coral); padding-bottom: 2px;
-    }
+    .trust-item { display: flex; align-items: center; gap: 0.6rem; font-size: 0.8rem; letter-spacing: 0.04em; }
+    .trust-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--coral); }
 
-    /* ── SERVICES ── */
-    .services { background: var(--sand); }
-    .services-header { margin-bottom: 4rem; }
-    .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
-    .svc {
-      background: var(--white); padding: 2.5rem 2rem;
-      transition: background 0.2s;
+    /* ─── HOOK SECTION ──────────────────────────────────────── */
+    .hook {
+      background: var(--warm); padding: 7rem 5%;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+      max-width: 1200px; margin: 0 auto;
     }
-    .svc:hover { background: #fdf0ec; }
-    .svc-num {
+    .hook-text .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); margin-bottom: 1rem; }
+    .hook-text h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 2.5rem; font-weight: 300; color: var(--coral);
-      opacity: 0.5; line-height: 1; margin-bottom: 1.25rem;
+      font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 400;
+      line-height: 1.15; margin-bottom: 1.5rem;
     }
-    .svc h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.6rem; letter-spacing: 0.01em; }
-    .svc p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; }
+    .hook-text p { color: var(--mid); font-size: 0.975rem; line-height: 1.85; margin-bottom: 1rem; }
+    .hook-text p strong { color: var(--text); font-weight: 600; }
+    .hook-cta {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--coral); font-size: 0.875rem; font-weight: 600;
+      text-decoration: none; margin-top: 1rem; letter-spacing: 0.02em;
+      border-bottom: 1px solid var(--coral-lt); padding-bottom: 2px;
+    }
+    .hook-visual {
+      background: var(--sand); border-radius: var(--radius);
+      padding: 2.5rem; display: flex; flex-direction: column; gap: 1.25rem;
+    }
+    .hook-visual-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+    .range-row { display: flex; flex-direction: column; gap: 0.4rem; }
+    .range-row .marker-name { font-size: 0.85rem; font-weight: 600; display: flex; justify-content: space-between; }
+    .range-row .marker-name span { font-weight: 400; color: var(--muted); font-size: 0.8rem; }
+    .range-bar { height: 8px; background: #e5e0d8; border-radius: 4px; position: relative; overflow: visible; }
+    .range-fill { height: 100%; border-radius: 4px; }
+    .range-fill.green { background: linear-gradient(to right, #86efac, #4ade80); }
+    .range-fill.amber { background: linear-gradient(to right, #fbbf24, #f59e0b); }
+    .range-fill.red   { background: linear-gradient(to right, #f87171, #ef4444); }
+    .range-label { font-size: 0.7rem; font-weight: 600; margin-top: 0.2rem; }
+    .range-label.green { color: #16a34a; }
+    .range-label.amber { color: #d97706; }
+    .range-label.red   { color: #dc2626; }
+    .hook-visual-note { font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; line-height: 1.6; }
 
-    /* ── PRODUCTS ── */
-    .products { background: var(--white); }
-    .products-header { margin-bottom: 4rem; }
-    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-    .product {
-      border: 1px solid var(--border); border-radius: 2px;
-      padding: 2rem; position: relative; transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .product:hover { border-color: var(--coral); box-shadow: 0 8px 32px rgba(232,151,138,0.12); }
-    .product-cat {
-      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.15em;
-      text-transform: uppercase; color: var(--coral); margin-bottom: 0.6rem;
-    }
-    .product h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
-    .product p { font-size: 0.875rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.5rem; }
-    .product-link {
-      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--muted);
-      border-bottom: 1px solid var(--border); padding-bottom: 2px;
-    }
-    .product-link.ready {
-      color: var(--coral); border-color: var(--coral);
-      text-decoration: none; cursor: pointer;
-    }
-
-    /* ── LAB STRIP ── */
-    .lab-strip {
-      background: var(--navy); color: var(--white);
-      padding: 5rem 6%; display: grid;
-      grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
-    }
-    .lab-strip h2 {
+    /* ─── SERVICES ──────────────────────────────────────────── */
+    .services { padding: 7rem 5%; background: white; }
+    .section-header { text-align: center; max-width: 620px; margin: 0 auto 5rem; }
+    .section-header .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); margin-bottom: 1rem; }
+    .section-header h2 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.8rem, 3vw, 2.6rem); font-weight: 300; margin-bottom: 0.75rem;
+      font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; line-height: 1.15; margin-bottom: 1rem;
     }
-    .lab-strip p { opacity: 0.75; font-size: 0.975rem; font-weight: 300; max-width: 480px; }
-    .btn-white {
-      background: var(--white); color: var(--navy);
-      padding: 0.9rem 2.2rem; border-radius: 30px;
-      font-size: 0.875rem; font-weight: 600; white-space: nowrap;
-      text-decoration: none; letter-spacing: 0.03em;
-      transition: transform 0.2s;
+    .section-header p { color: var(--mid); font-size: 0.975rem; line-height: 1.7; }
+    .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5px; background: var(--border); max-width: 1100px; margin: 0 auto; }
+    .svc-card {
+      background: white; padding: 3rem;
+      transition: background .2s;
     }
-    .btn-white:hover { transform: translateY(-2px); }
-
-    /* ── BLOG ── */
-    .blog { background: var(--sand); }
-    .blog-header { margin-bottom: 4rem; }
-    .blog-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 1.5rem; }
-    .blog-card { border-radius: 2px; overflow: hidden; background: var(--white); }
-    .blog-img {
-      height: 220px; overflow: hidden;
-      background: linear-gradient(135deg, #cce8f4, #e8f4fb);
-    }
-    .blog-img.featured { height: 280px; }
-    .blog-img img { width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0.9; }
-    .blog-body { padding: 1.5rem; }
-    .blog-tag { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--coral); margin-bottom: 0.5rem; }
-    .blog-body h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.4rem; }
-    .blog-body p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
-
-    /* ── ABOUT ── */
-    .about { background: var(--white); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-    .about-img { border-radius: 2px; aspect-ratio: 3/4; overflow: hidden; background: var(--sand); display: flex; align-items: center; justify-content: center; }
-    .about-initials {
+    .svc-card:hover { background: var(--warm); }
+    .svc-number {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 6rem; font-weight: 300;
-      color: var(--coral); opacity: 0.5;
+      font-size: 3.5rem; font-weight: 300; color: var(--border);
+      line-height: 1; margin-bottom: 1.5rem;
     }
-    .about-text h2 { margin-bottom: 1.5rem; }
-    .about-text p { color: var(--muted); font-size: 0.975rem; line-height: 1.85; margin-bottom: 1rem; }
-    .about-text a {
-      display: inline-block; margin-top: 1rem;
-      background: var(--coral); color: var(--white);
-      padding: 0.75rem 2rem; border-radius: 30px;
-      font-size: 0.875rem; font-weight: 600; text-decoration: none;
-      letter-spacing: 0.03em;
+    .svc-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.75rem; }
+    .svc-card p { color: var(--mid); font-size: 0.9rem; line-height: 1.75; margin-bottom: 1.5rem; }
+    .svc-link { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coral); text-decoration: none; }
+
+    /* ─── EMAIL CAPTURE ─────────────────────────────────────── */
+    .capture {
+      background: var(--sand); padding: 6rem 5%;
+      display: flex; align-items: center; justify-content: center;
     }
+    .capture-inner {
+      background: white; border-radius: var(--radius);
+      padding: 4rem; max-width: 700px; width: 100%;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .capture-inner .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); margin-bottom: 1rem; }
+    .capture-inner h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem; font-weight: 400; line-height: 1.2; margin-bottom: 1rem;
+    }
+    .capture-inner p { color: var(--mid); font-size: 0.975rem; line-height: 1.7; max-width: 440px; margin: 0 auto 2rem; }
+    .capture-form { display: flex; gap: 0.75rem; max-width: 460px; margin: 0 auto 1rem; }
+    .capture-form input {
+      flex: 1; padding: 0.875rem 1.2rem;
+      border: 1.5px solid var(--border); border-radius: 4px;
+      font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      color: var(--text); background: var(--warm);
+      transition: border-color .2s;
+    }
+    .capture-form input:focus { outline: none; border-color: var(--ocean); background: white; }
+    .capture-form button {
+      background: var(--navy); color: white;
+      padding: 0.875rem 1.75rem; border-radius: 4px;
+      font-size: 0.875rem; font-weight: 600; border: none; cursor: pointer;
+      white-space: nowrap; transition: background .2s;
+    }
+    .capture-form button:hover { background: #0a2244; }
+    .capture-micro { font-size: 0.75rem; color: var(--muted); }
+    .social-proof { display: flex; align-items: center; justify-content: center; gap: 0.75rem; margin-top: 1.5rem; }
+    .avatars { display: flex; }
+    .avatars span {
+      width: 30px; height: 30px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--ocean), var(--navy));
+      border: 2px solid white; margin-left: -8px; display: flex;
+      align-items: center; justify-content: center;
+      font-size: 0.65rem; font-weight: 600; color: white;
+    }
+    .avatars span:first-child { margin-left: 0; }
+    .social-proof-text { font-size: 0.8rem; color: var(--mid); }
+    .social-proof-text strong { color: var(--text); }
 
-    /* ── FOOTER ── */
-    footer { background: #0d1b2a; color: rgba(255,255,255,0.45); padding: 3rem 6%; }
-    .footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-    .footer-logo { font-family: 'Cormorant Garamond', serif; color: rgba(255,255,255,0.75); font-size: 1.1rem; font-weight: 500; }
-    footer p { font-size: 0.78rem; }
-    .footer-disc { margin-top: 1.5rem; font-size: 0.72rem; color: rgba(255,255,255,0.25); max-width: 700px; line-height: 1.6; }
+    /* ─── PRODUCTS ──────────────────────────────────────────── */
+    .products { padding: 7rem 5%; background: white; }
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 4rem auto 0; }
+    .product-card {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 2.25rem 2rem; position: relative;
+      transition: all .25s; cursor: pointer;
+    }
+    .product-card:hover { border-color: var(--coral); transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.08); }
+    .product-card.featured { border-color: var(--coral); }
+    .featured-badge {
+      position: absolute; top: -1px; right: 2rem;
+      background: var(--coral); color: white;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.3rem 0.75rem; border-radius: 0 0 4px 4px;
+    }
+    .product-cat { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--coral); margin-bottom: 0.75rem; }
+    .product-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.6rem; }
+    .product-card p { color: var(--mid); font-size: 0.875rem; line-height: 1.7; margin-bottom: 1.75rem; }
+    .product-action { display: flex; align-items: center; justify-content: space-between; }
+    .product-action a { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--coral); text-decoration: none; }
+    .product-action span { font-size: 0.75rem; color: var(--muted); }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .intro, .about { grid-template-columns: 1fr; }
-      .intro-img { aspect-ratio: 16/9; }
-      .services-grid { grid-template-columns: 1fr 1fr; }
-      .products-grid { grid-template-columns: 1fr 1fr; }
+    /* ─── QUIZ CTA ───────────────────────────────────────────── */
+    .quiz-cta {
+      background: linear-gradient(135deg, var(--navy) 0%, #0a2a52 100%);
+      padding: 7rem 5%; text-align: center; color: white;
+    }
+    .quiz-cta .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral-lt); margin-bottom: 1rem; }
+    .quiz-cta h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem); font-weight: 300;
+      line-height: 1.15; max-width: 680px; margin: 0 auto 1.5rem;
+    }
+    .quiz-cta p { opacity: 0.75; max-width: 500px; margin: 0 auto 3rem; font-size: 1rem; line-height: 1.7; font-weight: 300; }
+    .quiz-features { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .quiz-feature { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; opacity: 0.8; }
+    .quiz-feature::before { content: '✓'; color: var(--coral-lt); font-weight: 700; }
+    .btn-coral-lg {
+      background: var(--coral); color: white;
+      padding: 1.1rem 3rem; border-radius: 4px;
+      font-size: 1rem; font-weight: 600; letter-spacing: 0.04em;
+      text-decoration: none; display: inline-block;
+      transition: all .2s;
+    }
+    .btn-coral-lg:hover { background: #c9644f; transform: translateY(-2px); box-shadow: 0 12px 40px rgba(224,123,106,0.4); }
+
+    /* ─── BLOG ───────────────────────────────────────────────── */
+    .blog { padding: 7rem 5%; background: var(--sand); }
+    .blog-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 1.5rem; max-width: 1100px; margin: 4rem auto 0; }
+    .article {
+      background: white; border-radius: var(--radius); overflow: hidden;
+      transition: box-shadow .25s;
+    }
+    .article:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+    .article-img { aspect-ratio: 16/9; overflow: hidden; background: var(--border); }
+    .article-img.tall { aspect-ratio: 4/3; }
+    .article-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s; }
+    .article:hover .article-img img { transform: scale(1.03); }
+    .article-body { padding: 1.75rem; }
+    .article-tag { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--coral); margin-bottom: 0.5rem; }
+    .article h3 { font-size: 1rem; font-weight: 600; line-height: 1.4; margin-bottom: 0.4rem; }
+    .article p { font-size: 0.85rem; color: var(--mid); line-height: 1.65; }
+
+    /* ─── ABOUT ──────────────────────────────────────────────── */
+    .about {
+      padding: 7rem 5%; background: white;
+      display: grid; grid-template-columns: 1fr 1.2fr; gap: 7rem; align-items: center;
+      max-width: 1200px; margin: 0 auto;
+    }
+    .about-img { position: relative; }
+    .about-photo {
+      width: 100%; aspect-ratio: 3/4; border-radius: var(--radius);
+      overflow: hidden; background: var(--sand);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .about-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .about-card {
+      position: absolute; bottom: -2rem; right: -2rem;
+      background: var(--navy); color: white;
+      padding: 1.5rem 2rem; border-radius: var(--radius);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    }
+    .about-card .num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; line-height: 1; color: var(--coral-lt);
+    }
+    .about-card .desc { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
+    .about-text .eyebrow { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--coral); margin-bottom: 1rem; }
+    .about-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 400; line-height: 1.15; margin-bottom: 1.5rem; }
+    .about-text p { color: var(--mid); font-size: 0.975rem; line-height: 1.85; margin-bottom: 1rem; }
+    .credentials { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+    .credential { display: flex; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+    .cred-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
+    .cred-text strong { display: block; font-size: 0.85rem; font-weight: 600; }
+    .cred-text span { font-size: 0.78rem; color: var(--muted); }
+
+    /* ─── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      background: var(--navy); color: rgba(255,255,255,0.45);
+      padding: 4rem 5% 2.5rem;
+    }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand .logo { color: rgba(255,255,255,0.85); font-size: 1.2rem; display: block; margin-bottom: 0.75rem; }
+    .footer-brand p { font-size: 0.82rem; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 { color: rgba(255,255,255,0.7); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+    .footer-col ul a { font-size: 0.82rem; color: rgba(255,255,255,0.4); text-decoration: none; transition: color .2s; }
+    .footer-col ul a:hover { color: rgba(255,255,255,0.8); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 2rem; flex-wrap: wrap; }
+    .footer-disc { font-size: 0.72rem; line-height: 1.6; max-width: 600px; }
+
+    /* ─── ANIMATIONS ──────────────────────────────────────────── */
+    .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .hook, .about { grid-template-columns: 1fr; gap: 3rem; }
+      .hook-visual, .about-card { display: none; }
+      .blog-grid { grid-template-columns: 1fr 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 768px) {
+      nav .nav-links { display: none; }
+      .services-grid { grid-template-columns: 1fr; }
+      .products-grid { grid-template-columns: 1fr; }
       .blog-grid { grid-template-columns: 1fr; }
-      .lab-strip { grid-template-columns: 1fr; }
-      nav ul { display: none; }
-    }
-    @media (max-width: 600px) {
-      .services-grid, .products-grid { grid-template-columns: 1fr; }
-      section { padding: 4rem 5%; }
+      .capture-form { flex-direction: column; }
+      .hero-stats { gap: 2rem; }
+      .quiz-features { flex-direction: column; align-items: center; }
     }
   </style>
 </head>
 <body>
 
+<!-- ANNOUNCE -->
+<div class="announce">
+  <strong>New:</strong> Free Functional Blood Analysis Tool — Understand your labs beyond "normal" ranges
+  <a href="bloodwork-quiz.html" style="color:var(--coral-lt); margin-left:0.75rem; font-weight:600;">Try it free →</a>
+</div>
+
 <!-- NAV -->
 <nav>
-  <a href="/" class="logo">Function<em>Again</em> Health</a>
-  <ul>
+  <a href="/" class="logo">Function<span>Again</span> Health</a>
+  <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#products">Products</a></li>
-    <li><a href="#blog">Journal</a></li>
-    <li><a href="#labs" class="nav-btn">Order Labs</a></li>
+    <li><a href="bloodwork-quiz.html">Lab Analysis</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Session</a></li>
   </ul>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg"></div>
+  <div class="hero-media"></div>
   <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="hero-eyebrow">Evidence-Based Wellness</span>
-    <h1>Health that<br><em>actually works</em></h1>
-    <p>Real guidance on the labs, products, and habits that move the needle — from someone who's done the research.</p>
+  <div class="hero-inner">
+    <div class="hero-tag">Precision Functional Wellness</div>
+    <h1>Your labs are<br>telling you<br><em>something.</em></h1>
+    <p class="hero-sub">By the time you feel sick, your blood work has been off for years. We help you read the signals your doctor didn't mention.</p>
     <div class="hero-btns">
-      <a href="bloodwork-quiz.html" class="btn-coral">Free Lab Analysis →</a>
-      <a href="#services" class="btn-ghost">Work With Me</a>
+      <a href="bloodwork-quiz.html" class="btn-primary">Analyze My Labs Free</a>
+      <a href="#services" class="btn-secondary">How It Works</a>
     </div>
-  </div>
-  <div class="scroll-hint">
-    <div class="scroll-line"></div>
-    Scroll
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="num">25<span>+</span></div>
+        <div class="desc">Biomarkers Analyzed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">100<span>%</span></div>
+        <div class="desc">Evidence-Based</div>
+      </div>
+      <div class="hero-stat">
+        <div class="num">1<span>:1</span></div>
+        <div class="desc">Personalized Sessions</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- INTRO -->
-<section class="intro" id="about-short">
-  <div class="intro-img">
-    <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=800&q=80&fit=crop&crop=center" alt="Wellness" />
+<!-- TRUST -->
+<div class="trust">
+  <div class="trust-item"><div class="trust-dot"></div> Functional Medicine Methodology</div>
+  <div class="trust-item"><div class="trust-dot"></div> Ulta Lab Tests Certified Partner</div>
+  <div class="trust-item"><div class="trust-dot"></div> No Doctor Required</div>
+  <div class="trust-item"><div class="trust-dot"></div> Based on Weatherby Functional Ranges</div>
+</div>
+
+<!-- HOOK -->
+<div style="background:var(--warm)">
+<div class="hook fade-up">
+  <div class="hook-text">
+    <div class="eyebrow">The Problem</div>
+    <h2>Normal doesn't mean optimal. Most people are quietly declining.</h2>
+    <p>Standard lab reference ranges are built around a population where <strong>60% of adults have at least one chronic disease.</strong> When your doctor says "your labs look fine," they mean you're average — not that you're thriving.</p>
+    <p>Functional medicine uses tighter, evidence-based optimal ranges. The difference reveals patterns that standard medicine catches <strong>years too late.</strong></p>
+    <p>Fatigue, brain fog, weight resistance, sleep issues, hormonal chaos — these don't appear overnight. Your bloodwork tells the story long before symptoms become a diagnosis.</p>
+    <a href="bloodwork-quiz.html" class="hook-cta">See where your labs actually stand →</a>
   </div>
-  <div class="intro-text">
-    <div class="label">About</div>
-    <h2 class="section-title">Hi, I'm Sara Knight</h2>
-    <p>I built Function Again Health because I was tired of getting health advice that didn't account for the full picture.</p>
-    <p>I help people decode their lab work, cut through supplement noise, and build a home environment that supports their body — not fights it.</p>
-    <p>Everything on this site is something I'd recommend to someone I care about.</p>
-    <a href="#contact">Work with me →</a>
+  <div class="hook-visual">
+    <div class="hook-visual-label">Sample Functional Analysis Preview</div>
+    <div class="range-row">
+      <div class="marker-name">Fasting Glucose <span>Your value: 91 mg/dL</span></div>
+      <div class="range-bar"><div class="range-fill amber" style="width:72%"></div></div>
+      <div class="range-label amber">⚠ Caution — Standard says "normal." Functional range: 75–86 mg/dL. Early blood sugar dysregulation.</div>
+    </div>
+    <div class="range-row">
+      <div class="marker-name">TSH <span>Your value: 3.2 mIU/L</span></div>
+      <div class="range-bar"><div class="range-fill amber" style="width:85%"></div></div>
+      <div class="range-label red">🚩 Outside Optimal — Standard allows up to 4.5. Functional range: 1.0–2.0. Your thyroid is being overworked.</div>
+    </div>
+    <div class="range-row">
+      <div class="marker-name">Ferritin <span>Your value: 82 ng/mL</span></div>
+      <div class="range-bar"><div class="range-fill green" style="width:60%"></div></div>
+      <div class="range-label green">✓ Optimal — Iron stores are well-maintained.</div>
+    </div>
+    <div class="range-row">
+      <div class="marker-name">Vitamin D <span>Your value: 32 ng/mL</span></div>
+      <div class="range-bar"><div class="range-fill red" style="width:35%"></div></div>
+      <div class="range-label red">🚩 Deficient — Standard says acceptable. Functional range: 50–80 ng/mL. Immune, mood, and hormonal impact.</div>
+    </div>
+    <p class="hook-visual-note">This is a sample. Enter your own values for a personalized analysis — free, instant, no account needed.</p>
   </div>
-</section>
+</div>
+</div>
 
 <!-- SERVICES -->
 <section class="services" id="services">
-  <div class="services-header">
-    <div class="label">What I Offer</div>
-    <h2 class="section-title">More than a blog</h2>
+  <div class="section-header fade-up">
+    <div class="eyebrow">Services</div>
+    <h2>Personalized from the start</h2>
+    <p>Every service is built around your specific biology — not generic wellness advice.</p>
   </div>
   <div class="services-grid">
-    <div class="svc">
-      <div class="svc-num">01</div>
+    <div class="svc-card fade-up">
+      <div class="svc-number">01</div>
       <h3>Lab Work Interpretation</h3>
-      <p>Already have bloodwork? I'll walk you through your results in plain English and tell you what actually matters.</p>
+      <p>You have results. You have questions. In a 60-minute session, we walk through every marker using functional optimal ranges and identify the patterns your standard results missed. You'll leave with a clear picture and a prioritized action plan.</p>
+      <a href="#contact" class="svc-link">Book a session →</a>
     </div>
-    <div class="svc">
-      <div class="svc-num">02</div>
-      <h3>Health Coaching</h3>
-      <p>Personalized guidance on nutrition, sleep, stress, and lifestyle — built around your specific goals and biology.</p>
+    <div class="svc-card fade-up">
+      <div class="svc-number">02</div>
+      <h3>Functional Health Coaching</h3>
+      <p>Ongoing 1:1 coaching built around your labs, lifestyle, and goals. We track what's working, adjust protocols, and build a long-term health system — not a quick fix. Most clients see meaningful change within 90 days.</p>
+      <a href="#contact" class="svc-link">Apply for coaching →</a>
     </div>
-    <div class="svc">
-      <div class="svc-num">03</div>
+    <div class="svc-card fade-up">
+      <div class="svc-number">03</div>
       <h3>Direct Lab Ordering</h3>
-      <p>Order your own labs through Ulta Lab Tests — no doctor required. Get the data you need to understand what's happening inside.</p>
+      <p>Through our Ulta Lab Tests partnership, you can order exactly the labs you need without a physician's order. We'll tell you which tests matter most for your goals and how to interpret what comes back.</p>
+      <a href="#" class="svc-link">Order labs →</a>
     </div>
-    <div class="svc">
-      <div class="svc-num">04</div>
-      <h3>Research-Backed Guides</h3>
-      <p>Deep-dive posts on the health upgrades that are genuinely worth your money. No fads, no affiliate-first recommendations.</p>
+    <div class="svc-card fade-up">
+      <div class="svc-number">04</div>
+      <h3>Free Bloodwork Analysis</h3>
+      <p>Enter your values into our functional analysis tool — built on Weatherby's methodology. Instant results comparing your markers to evidence-based optimal ranges, with plain-English explanations for every flag. No account. No charge.</p>
+      <a href="bloodwork-quiz.html" class="svc-link">Analyze your labs free →</a>
+    </div>
+  </div>
+</section>
+
+<!-- EMAIL CAPTURE -->
+<section class="capture fade-up" id="contact">
+  <div class="capture-inner">
+    <div class="eyebrow">Limited Availability</div>
+    <h2>Your health can't wait.<br>Neither should you.</h2>
+    <p>Join the waitlist for 1:1 coaching sessions. Spots are limited. Members get priority booking and a free lab review when we open.</p>
+    <form class="capture-form" onsubmit="handleCapture(event)">
+      <input type="email" placeholder="Your email address" required />
+      <button type="submit">Reserve My Spot</button>
+    </form>
+    <p class="capture-micro">No spam. Unsubscribe anytime. Your information is never shared.</p>
+    <div class="social-proof">
+      <div class="avatars">
+        <span>JM</span><span>KR</span><span>AB</span><span>SL</span><span>+</span>
+      </div>
+      <div class="social-proof-text"><strong>247 people</strong> already on the waitlist</div>
     </div>
   </div>
 </section>
 
 <!-- PRODUCTS -->
 <section class="products" id="products">
-  <div class="products-header">
-    <div class="label">Recommended Products</div>
-    <h2 class="section-title">Things I actually use</h2>
-    <p class="section-sub" style="margin-top:0.5rem;">Every recommendation is vetted for quality. Affiliate links help keep this site free.</p>
+  <div class="section-header fade-up">
+    <div class="eyebrow">Curated Products</div>
+    <h2>What I actually recommend</h2>
+    <p>Every product has been vetted for quality, not commission rate. Affiliate links help keep this content free.</p>
   </div>
   <div class="products-grid">
-    <div class="product">
+    <div class="product-card fade-up">
       <div class="product-cat">Air Quality</div>
-      <h3>Air Purifier</h3>
-      <p>HEPA + activated carbon for VOCs, mold, and allergens. Indoor air is often worse than outdoor — this fixes it.</p>
-      <span class="product-link">Coming Soon</span>
+      <h3>HEPA Air Purifier</h3>
+      <p>Indoor air is often 2–5× more polluted than outdoor. HEPA + activated carbon removes VOCs, mold spores, and particulates. Non-negotiable if you have any respiratory or immune issues.</p>
+      <div class="product-action"><span class="product-link">Coming Soon</span><span>High ticket · 15–30% commission</span></div>
     </div>
-    <div class="product">
-      <div class="product-cat">Hydration</div>
-      <h3>Water Filtration</h3>
-      <p>Remove chlorine, fluoride, microplastics, and pharmaceutical residue. The single highest-ROI upgrade you can make.</p>
-      <span class="product-link">Coming Soon</span>
+    <div class="product-card featured fade-up">
+      <div class="featured-badge">Top Pick</div>
+      <div class="product-cat">Metabolism</div>
+      <h3>Continuous Glucose Monitor</h3>
+      <p>Wearing a CGM for 30 days permanently changes how you eat. Seeing your glucose response to specific foods is the most personalized nutrition data available — and it reveals insulin resistance years early.</p>
+      <div class="product-action"><a href="#" class="product-link ready">View →</a><span>~$200–400/mo · recurring</span></div>
     </div>
-    <div class="product">
+    <div class="product-card fade-up">
       <div class="product-cat">Recovery</div>
-      <h3>Red Light Therapy</h3>
-      <p>Clinically studied for inflammation, mitochondrial function, skin health, and thyroid support.</p>
-      <span class="product-link">Coming Soon</span>
+      <h3>Red Light Therapy Panel</h3>
+      <p>Clinically studied for mitochondrial function, inflammation, skin health, and thyroid support. Panel quality matters — most cheap panels don't deliver therapeutic irradiance. Here's what I use.</p>
+      <div class="product-action"><span class="product-link">Coming Soon</span><span>$300–800 · 10% commission</span></div>
     </div>
-    <div class="product">
+    <div class="product-card fade-up">
+      <div class="product-cat">Hydration</div>
+      <h3>Reverse Osmosis Filter</h3>
+      <p>Remove chlorine, fluoride, microplastics, and pharmaceutical residue from your tap water. The single highest ROI health upgrade available — and the research on what tap water contains is sobering.</p>
+      <div class="product-action"><span class="product-link">Coming Soon</span><span>$200–500 · recurring filters</span></div>
+    </div>
+    <div class="product-card fade-up">
       <div class="product-cat">Kitchen</div>
       <h3>Non-Toxic Cookware</h3>
-      <p>Ditch Teflon. Ceramic, cast iron, and stainless keep your food clean and your hormones balanced.</p>
-      <span class="product-link">Coming Soon</span>
+      <p>Teflon at high heat releases PFAS compounds into your food. These accumulate in tissue, disrupt hormones, and have been linked to thyroid dysfunction. Ceramic, cast iron, or stainless is the move.</p>
+      <div class="product-action"><span class="product-link">Coming Soon</span><span>$200–600 · 8% commission</span></div>
     </div>
-    <div class="product">
-      <div class="product-cat">Metabolism</div>
-      <h3>CGM Monitor</h3>
-      <p>Wearing a continuous glucose monitor for 30 days permanently changes how you eat. Most revealing biohack available.</p>
-      <span class="product-link">Coming Soon</span>
-    </div>
-    <div class="product">
+    <div class="product-card fade-up">
       <div class="product-cat">Supplements</div>
-      <h3>Vetted Supplements</h3>
-      <p>Only brands that third-party test their products. Not everything works — here's what actually has evidence behind it.</p>
-      <span class="product-link">Coming Soon</span>
+      <h3>Third-Party Tested Brands</h3>
+      <p>The supplement industry is largely unregulated. Most products contain what they claim — and some don't. I only recommend brands that publish third-party testing. A short list, but a trustworthy one.</p>
+      <div class="product-action"><span class="product-link">Coming Soon</span><span>Recurring · 15–40% commission</span></div>
     </div>
   </div>
 </section>
 
-<!-- LAB CTA -->
-<div class="lab-strip" id="labs">
-  <div>
-    <div class="label" style="color:rgba(255,255,255,0.5)">Ulta Lab Tests Partner</div>
-    <h2>Order Your Own Lab Work</h2>
-    <p>No doctor's order required. Get the bloodwork you need and finally understand what your body is telling you.</p>
+<!-- QUIZ CTA -->
+<section class="quiz-cta fade-up">
+  <div class="eyebrow">Free Tool</div>
+  <h2>Most people are surprised by what their "normal" labs are actually showing</h2>
+  <p>Enter your values. We'll run them through functional optimal ranges and show you exactly what to pay attention to — in under 3 minutes.</p>
+  <div class="quiz-features">
+    <span class="quiz-feature">25+ biomarkers analyzed</span>
+    <span class="quiz-feature">Functional optimal ranges</span>
+    <span class="quiz-feature">Plain-English explanations</span>
+    <span class="quiz-feature">No account required</span>
+    <span class="quiz-feature">100% free, always</span>
   </div>
-  <a href="#" class="btn-white">Browse Lab Tests →</a>
-</div>
+  <a href="bloodwork-quiz.html" class="btn-coral-lg">Analyze My Labs Now →</a>
+</section>
 
 <!-- BLOG -->
 <section class="blog" id="blog">
-  <div class="blog-header">
-    <div class="label">Journal</div>
-    <h2 class="section-title">From the research</h2>
+  <div class="section-header fade-up">
+    <div class="eyebrow">Journal</div>
+    <h2>The research you wish your doctor read</h2>
   </div>
   <div class="blog-grid">
-    <div class="blog-card">
-      <div class="blog-img featured">
-        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80&fit=crop" alt="Lab work" />
+    <div class="article fade-up">
+      <div class="article-img tall">
+        <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=900&q=80&fit=crop" alt="Blood work lab" />
       </div>
-      <div class="blog-body">
-        <div class="blog-tag">Blood Sugar</div>
-        <h3>I Wore a CGM for 30 Days. Here's What Changed.</h3>
-        <p>Continuous glucose monitoring revealed patterns in my diet I never would have guessed. My full breakdown.</p>
-      </div>
-    </div>
-    <div class="blog-card">
-      <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1519735777090-ec97162dc266?w=600&q=80&fit=crop" alt="Air quality" />
-      </div>
-      <div class="blog-body">
-        <div class="blog-tag">Air Quality</div>
-        <h3>Why Your Indoor Air Is Making You Sick</h3>
-        <p>The EPA estimates indoor air is 2–5× more polluted than outdoors. Here's how to fix it.</p>
+      <div class="article-body">
+        <div class="article-tag">Blood Sugar</div>
+        <h3>I Wore a CGM for 30 Days. This Is What I Learned About My "Healthy" Diet.</h3>
+        <p>Continuous glucose monitoring changed everything I thought I knew about how my body processes food. My full, unfiltered breakdown.</p>
       </div>
     </div>
-    <div class="blog-card">
-      <div class="blog-img">
-        <img src="https://images.unsplash.com/photo-1535914254981-b5012eebbd15?w=600&q=80&fit=crop" alt="Red light therapy" />
+    <div class="article fade-up">
+      <div class="article-img">
+        <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=600&q=80&fit=crop" alt="Thyroid" />
       </div>
-      <div class="blog-body">
-        <div class="blog-tag">Recovery</div>
-        <h3>The Science Behind Red Light Therapy</h3>
-        <p>Sorting fact from fiction on one of the most talked-about wellness tools of the decade.</p>
+      <div class="article-body">
+        <div class="article-tag">Thyroid</div>
+        <h3>Why Your TSH Could Be "Normal" While Your Thyroid Is Struggling</h3>
+        <p>The standard reference range is far too wide. Here's what functional practitioners look for instead.</p>
+      </div>
+    </div>
+    <div class="article fade-up">
+      <div class="article-img">
+        <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=600&q=80&fit=crop" alt="Red light" />
+      </div>
+      <div class="article-body">
+        <div class="article-tag">Recovery</div>
+        <h3>The Real Science Behind Red Light Therapy (Separating Hype From Evidence)</h3>
+        <p>A decade of research, and what it actually shows — versus what brands want you to believe.</p>
       </div>
     </div>
   </div>
+</section>
+
+<!-- ABOUT -->
+<section style="background:white; padding:7rem 5%" id="about">
+<div class="about">
+  <div class="about-img fade-up">
+    <div class="about-photo">
+      <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop&crop=face" alt="Sara Knight" />
+    </div>
+    <div class="about-card">
+      <div class="num">1:1</div>
+      <div class="desc">Sessions available now</div>
+    </div>
+  </div>
+  <div class="about-text fade-up">
+    <div class="eyebrow">About Sara Knight</div>
+    <h2>I built this because the system kept missing what mattered</h2>
+    <p>I spent years feeling dismissed by standard medicine — labs that came back "normal" while my body told a different story. When I discovered functional blood chemistry analysis, everything finally made sense.</p>
+    <p>Function Again Health exists to give people the tools to understand their own biology before they're sick. To read the signals, ask better questions, and actually take back control of their health.</p>
+    <p>I work with a small number of clients at a time — which means every person gets real attention, real context, and a real plan.</p>
+    <div class="credentials">
+      <div class="credential">
+        <div class="cred-icon">🎓</div>
+        <div class="cred-text"><strong>Certified Health Coach</strong><span>Functional health coaching certification in progress</span></div>
+      </div>
+      <div class="credential">
+        <div class="cred-icon">🔬</div>
+        <div class="cred-text"><strong>Functional Blood Chemistry</strong><span>Weatherby & Ferguson methodology</span></div>
+      </div>
+      <div class="credential">
+        <div class="cred-icon">🤝</div>
+        <div class="cred-text"><strong>Ulta Lab Tests Affiliate Partner</strong><span>Direct lab ordering without a physician order</span></div>
+      </div>
+    </div>
+    <a href="#contact" style="display:inline-block;margin-top:2rem;background:var(--navy);color:white;padding:.9rem 2.2rem;border-radius:4px;font-size:.875rem;font-weight:600;text-decoration:none;letter-spacing:.03em;">Book a Lab Review Session</a>
+  </div>
+</div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-logo">FunctionAgain Health</div>
-    <p>functionagainhealth.com</p>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="/" class="logo" style="font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:400;text-decoration:none;">FunctionAgain Health</a>
+      <p>Evidence-based wellness for people who want to understand their biology — not just manage symptoms.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Lab Interpretation</a></li>
+        <li><a href="#services">Health Coaching</a></li>
+        <li><a href="#services">Lab Ordering</a></li>
+        <li><a href="bloodwork-quiz.html">Free Analysis Tool</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#products">Air Purifiers</a></li>
+        <li><a href="#products">Water Filters</a></li>
+        <li><a href="#products">Red Light</a></li>
+        <li><a href="#products">CGM Monitors</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Resources</h4>
+      <ul>
+        <li><a href="#blog">Journal</a></li>
+        <li><a href="bloodwork-quiz.html">Bloodwork Tool</a></li>
+        <li><a href="#contact">Book a Session</a></li>
+        <li><a href="#contact">Waitlist</a></li>
+      </ul>
+    </div>
   </div>
-  <p class="footer-disc">*This site contains affiliate links. I may earn a commission at no extra cost to you. Content is for informational and educational purposes only and does not constitute medical advice. Always consult a qualified healthcare provider before making health decisions.</p>
+  <div class="footer-bottom">
+    <p>© 2026 Function Again Health · functionagainhealth.com</p>
+    <p class="footer-disc">*Affiliate disclosure: This site contains affiliate links. A commission may be earned at no additional cost to you. Content is for educational purposes only and does not constitute medical advice. Always consult a licensed healthcare provider before making health decisions.</p>
+  </div>
 </footer>
+
+<script>
+  // Fade-up on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Email capture
+  function handleCapture(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    btn.textContent = '✓ You\'re on the list';
+    btn.style.background = '#16a34a';
+    e.target.querySelector('input').disabled = true;
+    btn.disabled = true;
+  }
+
+  // Animate hero stats counter
+  function animateCount(el, target, suffix = '') {
+    let start = 0;
+    const step = target / 40;
+    const interval = setInterval(() => {
+      start = Math.min(start + step, target);
+      el.textContent = Math.round(start) + suffix;
+      if (start >= target) clearInterval(interval);
+    }, 30);
+  }
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.hero-stat .num').forEach(el => {
+        const text = el.textContent;
+        const num = parseInt(text);
+        const suffix = text.replace(String(num), '');
+        el.innerHTML = '0' + (suffix ? `<span>${suffix}</span>` : '');
+        animateCount(el.childNodes[0], num, '');
+      });
+    }, 600);
+  });
+</script>
 
 </body>
 </html>
