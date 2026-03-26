@@ -6,40 +6,43 @@
   <title>Is Your Bloodwork Optimal? | Function Again Health</title>
   <meta name="description" content="Enter your lab values and find out if you're truly optimal — not just 'normal'. Free functional blood chemistry analysis tool." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --green:    #0077b6;
-      --green-lt: #00b4d8;
-      --green-bg: #e0f4ff;
+      --navy:     #05152e;
+      --blue:     #0096c7;
+      --ocean:    #0077b6;
+      --coral:    #e07b6a;
+      --coral-lt: #f4a0a0;
+      --sand:     #f7f2ec;
+      --warm:     #faf8f5;
       --amber:    #d97706;
       --amber-bg: #fffbeb;
       --red:      #dc2626;
       --red-bg:   #fef2f2;
-      --cream:    #fdf8f4;
-      --text:     #1a1a1a;
+      --green-bg: #e0f4ff;
+      --cream:    #faf8f5;
+      --text:     #111827;
       --muted:    #6b7280;
-      --border:   #e5e7eb;
-      --coral:    #f4a0a0;
-      --coral-lt: #f9c4c4;
+      --border:   #e5e0d8;
       --white:    #ffffff;
       --shadow:   0 4px 24px rgba(0,0,0,0.07);
     }
-    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }
+    body { font-family: 'Inter', sans-serif; background: var(--warm); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
     nav {
       background: var(--white); border-bottom: 1px solid var(--border);
       padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px;
       position: sticky; top: 0; z-index: 100;
     }
-    .logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--blue); text-decoration: none; }
-    .logo span { color: var(--coral); }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; letter-spacing:.03em; }
+    .logo span { color: var(--coral); font-style: italic; }
     .back-link { font-size: 0.875rem; color: var(--muted); text-decoration: none; font-weight: 500; }
-    .back-link:hover { color: var(--blue); }
+    .back-link:hover { color: var(--navy); }
 
     .hero {
-      background: linear-gradient(135deg, #0096c7, #0077b6);
+      background: linear-gradient(135deg, var(--navy) 0%, #0a2a52 100%);
       color: white; text-align: center; padding: 4rem 5% 3rem;
     }
     .hero-badge {
@@ -48,7 +51,7 @@
       padding: 0.3rem 1rem; font-size: 0.78rem; font-weight: 600;
       letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.2rem;
     }
-    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 300; margin-bottom: 1rem; letter-spacing:-0.01em; }
     .hero p { opacity: 0.85; font-size: 1rem; max-width: 580px; margin: 0 auto; font-weight: 300; }
 
     .disclaimer {
@@ -70,7 +73,7 @@
       user-select: none;
     }
     .panel-icon { font-size: 1.3rem; }
-    .panel-header h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; flex: 1; }
+    .panel-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; flex: 1; }
     .panel-toggle { font-size: 1rem; color: var(--muted); transition: transform 0.2s; }
     .panel-header.open .panel-toggle { transform: rotate(180deg); }
     .panel-body { padding: 1.5rem; display: none; }
@@ -96,7 +99,7 @@
     /* ── SUBMIT ── */
     .submit-wrap { text-align: center; margin: 2rem 0 1rem; }
     .btn-analyze {
-      background: var(--coral); color: white; border: none;
+      background: var(--coral); /* coral */ color: white; border: none;
       padding: 1rem 3rem; border-radius: 10px; font-size: 1rem;
       font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
       transition: background 0.2s, transform 0.2s;
@@ -105,8 +108,8 @@
 
     /* ── RESULTS ── */
     #results { display: none; }
-    .results-summary {
-      background: var(--blue); color: white; border-radius: 14px;
+    .results-summary { background: linear-gradient(135deg, var(--navy), #0a2a52) !important; 
+      background: linear-gradient(135deg, var(--navy), #0a2a52); color: white; border-radius: 14px;
       padding: 2rem; text-align: center; margin-bottom: 1.5rem;
     }
     .results-summary h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
@@ -135,7 +138,7 @@
 
     /* ── CTA ── */
     .cta-box {
-      background: linear-gradient(135deg, #0096c7, #0077b6);
+      background: linear-gradient(135deg, var(--navy) 0%, #0a2a52 100%);
       color: white; border-radius: 14px; padding: 2.5rem 2rem; text-align: center;
     }
     .cta-box h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 0.75rem; }
