@@ -252,8 +252,8 @@ IMPORTANT: End with: "This report is for educational purposes only and does not 
       'content-type': 'application/json',
     },
     {
-      model: 'claude-sonnet-4-6',
-      max_tokens: 4096,
+      model: 'claude-haiku-4-5',  // Fast model for Netlify free tier (10s timeout). Upgrade to sonnet-4-6 with Netlify Pro.
+      max_tokens: 2048,
       messages: [{ role: 'user', content: prompt }],
     }
   );
