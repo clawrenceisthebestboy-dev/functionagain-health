@@ -459,7 +459,7 @@
 
     <div class="submit-wrap">
       <button type="button" class="btn-analyze" onclick="analyzeBloodwork()">
-        🔍 Analyze My Results
+        🔍 Preview My Results Free
       </button>
       <p style="margin-top:0.75rem; font-size:0.82rem; color:var(--muted);">Fill in as many or as few values as you have. Leave blank to skip.</p>
     </div>
@@ -474,9 +474,74 @@
       <p id="score-text" style="font-size:0.9rem; opacity:0.85;"></p>
     </div>
     <div class="result-cards" id="result-cards"></div>
-    <div class="cta-box">
-      <h2>Want a Full Analysis?</h2>
-      <p>This tool gives you a starting point. For a complete functional blood chemistry review — including pattern analysis, root cause identification, and a personalized protocol — book a session with Sara.</p>
+
+    <!-- PAYWALL -->
+    <div id="paywall-section" style="display:none;">
+      <div style="background:linear-gradient(135deg,#05152e,#0a2a52);border-radius:14px;padding:3rem 2.5rem;color:white;margin-bottom:1.5rem;text-align:center;">
+        <div style="display:inline-block;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:20px;padding:.3rem 1rem;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#f9c4c4;margin-bottom:1.25rem;">AI-Powered Full Report</div>
+        <h2 style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;margin-bottom:1rem;line-height:1.2;">Unlock Your Complete<br>Functional Health Report</h2>
+        <p style="opacity:.8;max-width:520px;margin:0 auto 2rem;font-size:.975rem;line-height:1.7;">The preview above shows which markers are flagged. Your full AI report includes:</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;max-width:520px;margin:0 auto 2.5rem;text-align:left;">
+          <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:1rem;">
+            <div style="font-size:1.2rem;margin-bottom:.4rem;">🔬</div>
+            <div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem;">Deep Marker Analysis</div>
+            <div style="font-size:.8rem;opacity:.7;">What each flagged value means for your health, energy, hormones, and longevity</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:1rem;">
+            <div style="font-size:1.2rem;margin-bottom:.4rem;">🧩</div>
+            <div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem;">Pattern Recognition</div>
+            <div style="font-size:.8rem;opacity:.7;">Weatherby methodology detects hidden patterns — metabolic syndrome, thyroid patterns, iron deficiency, and more</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:1rem;">
+            <div style="font-size:1.2rem;margin-bottom:.4rem;">📋</div>
+            <div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem;">Priority Action Plan</div>
+            <div style="font-size:.8rem;opacity:.7;">Ranked list of what to address first, and why — based on your specific results</div>
+          </div>
+          <div style="background:rgba(255,255,255,.07);border-radius:8px;padding:1rem;">
+            <div style="font-size:1.2rem;margin-bottom:.4rem;">🧪</div>
+            <div style="font-size:.875rem;font-weight:600;margin-bottom:.2rem;">Follow-Up Lab Recommendations</div>
+            <div style="font-size:.8rem;opacity:.7;">What's missing from your panel and why it matters</div>
+          </div>
+        </div>
+        <div style="margin-bottom:1rem;">
+          <div style="font-size:2.5rem;font-weight:700;color:white;">$29</div>
+          <div style="font-size:.85rem;opacity:.6;">One-time · Instant delivery</div>
+        </div>
+        <button onclick="handleCheckout()" id="checkout-btn" style="background:#e07b6a;color:white;border:none;padding:1.1rem 3rem;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;letter-spacing:.03em;transition:all .2s;">
+          Get My Full AI Report →
+        </button>
+        <p style="margin-top:1rem;font-size:.75rem;opacity:.5;">Secured by Stripe · No subscription · Instant results</p>
+        <div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1.5rem;opacity:.5;font-size:.8rem;">
+          <span>🔒 256-bit SSL</span>
+          <span>💳 All major cards</span>
+          <span>✅ Instant delivery</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI REPORT OUTPUT -->
+    <div id="ai-report" style="display:none;">
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:2.5rem;margin-bottom:1.5rem;">
+        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);">
+          <div style="width:40px;height:40px;background:linear-gradient(135deg,#0096c7,#023e8a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🔬</div>
+          <div>
+            <div style="font-weight:700;font-size:1rem;">Your Functional Health Report</div>
+            <div style="font-size:.8rem;color:var(--muted);">Generated using Weatherby functional blood chemistry methodology</div>
+          </div>
+        </div>
+        <div id="report-content" style="font-size:.95rem;line-height:1.85;color:#2d2d2d;white-space:pre-wrap;"></div>
+      </div>
+      <div class="cta-box">
+        <h2>Ready to go deeper?</h2>
+        <p>Your report gives you the full picture. A 1:1 session with Sara turns that picture into a personalized protocol — what to actually do, in what order, for your specific biology.</p>
+        <a href="mailto:sara@functionagainhealth.com" class="btn-white">Book a Session with Sara</a>
+        <a href="https://www.ultalabtests.com" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
+      </div>
+    </div>
+
+    <div class="cta-box" id="bottom-cta" style="display:none;">
+      <h2>Want Sara to walk you through this?</h2>
+      <p>Book a 1:1 lab review session for a personalized deep dive and action plan.</p>
       <a href="mailto:sara@functionagainhealth.com" class="btn-white">Book a Lab Review Session</a>
       <a href="https://www.ultalabtests.com" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
     </div>
@@ -848,6 +913,76 @@ const MARKERS = {
   }
 };
 
+// ── GLOBAL STATE ────────────────────────────────────────────────────────────
+let _currentLabs = {};
+
+// ── STRIPE CHECKOUT ──────────────────────────────────────────────────────────
+async function handleCheckout() {
+  const btn = document.getElementById('checkout-btn');
+  btn.textContent = 'Redirecting to secure checkout...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch('/.netlify/functions/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ labs: _currentLabs }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      btn.textContent = 'Error — please try again';
+      btn.disabled = false;
+    }
+  } catch (e) {
+    btn.textContent = 'Connection error — please try again';
+    btn.disabled = false;
+  }
+}
+
+// ── FETCH AI REPORT (after successful payment) ────────────────────────────────
+async function fetchAIReport(sessionId, labs) {
+  document.getElementById('ai-report').style.display = 'block';
+  document.getElementById('report-content').textContent = '⏳ Generating your personalized report... this takes 20-30 seconds.';
+
+  try {
+    const res = await fetch('/.netlify/functions/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, labs }),
+    });
+    const data = await res.json();
+    if (data.report) {
+      document.getElementById('report-content').textContent = data.report;
+    } else {
+      document.getElementById('report-content').textContent = 'Report generation failed. Please contact sara@functionagainhealth.com with your session ID: ' + sessionId;
+    }
+  } catch (e) {
+    document.getElementById('report-content').textContent = 'Connection error. Please email sara@functionagainhealth.com with your session ID: ' + sessionId;
+  }
+}
+
+// ── CHECK FOR PAID RETURN ─────────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  const labsParam = params.get('labs');
+  if (sessionId && labsParam) {
+    try {
+      const labs = JSON.parse(decodeURIComponent(labsParam));
+      // Show the results section and fetch report
+      document.getElementById('results').style.display = 'block';
+      document.getElementById('ai-report').style.display = 'block';
+      fetchAIReport(sessionId, labs);
+      // Smooth scroll
+      setTimeout(() => document.getElementById('ai-report').scrollIntoView({ behavior: 'smooth' }), 500);
+    } catch (e) {
+      console.error('Could not parse labs from URL', e);
+    }
+  }
+});
+
 // ── PANEL TOGGLE ────────────────────────────────────────────────────────────
 function togglePanel(header) {
   header.classList.toggle('open');
@@ -923,9 +1058,19 @@ function analyzeBloodwork() {
   document.getElementById('score-text').textContent = `${score}% of entered markers in functional optimal range`;
   setTimeout(() => { document.getElementById('score-fill').style.width = score + '%'; }, 100);
 
-  // Render cards
+  // Save labs globally for checkout
+  const formData = new FormData(document.getElementById('quiz-form'));
+  _currentLabs = {};
+  for (const [k, v] of formData.entries()) { if (v && v.trim() !== '') _currentLabs[k] = parseFloat(v); }
+
+  // Separate: show 3 flags free, blur the rest
+  const flagged = results.filter(r => r.status !== 'optimal');
+  const optimal_results = results.filter(r => r.status === 'optimal');
+  const freeResults = results.slice(0, 3); // first 3 shown free
+  const lockedCount = Math.max(0, results.length - 3);
+
   const cardsEl = document.getElementById('result-cards');
-  cardsEl.innerHTML = results.map(r => `
+  cardsEl.innerHTML = freeResults.map(r => `
     <div class="result-card ${r.status}">
       <div class="result-icon">${r.icon}</div>
       <div class="result-info">
@@ -936,7 +1081,35 @@ function analyzeBloodwork() {
     </div>
   `).join('');
 
+  // Locked preview
+  if (lockedCount > 0) {
+    cardsEl.innerHTML += `
+      <div style="position:relative;margin-top:0.5rem;">
+        <div style="filter:blur(4px);pointer-events:none;opacity:0.5;">
+          ${results.slice(3, 6).map(r => `
+            <div class="result-card ${r.status}" style="margin-bottom:0.75rem;">
+              <div class="result-icon">${r.icon}</div>
+              <div class="result-info">
+                <div class="result-name">${r.marker.name}</div>
+                <div class="result-value">Your value: ${r.val} ${r.marker.unit}</div>
+                <div class="result-explain">Unlock to see full analysis...</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+          <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem 2rem;box-shadow:0 8px 32px rgba(0,0,0,0.12);max-width:340px;">
+            <div style="font-size:1.5rem;margin-bottom:.5rem;">🔒</div>
+            <div style="font-weight:700;font-size:1rem;margin-bottom:.4rem;">${lockedCount} more results hidden</div>
+            <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;">Plus pattern analysis, priority action plan, and follow-up lab recommendations</div>
+            <button onclick="handleCheckout()" style="background:#e07b6a;color:white;border:none;padding:.75rem 1.75rem;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;width:100%;">Unlock Full Report — $29</button>
+          </div>
+        </div>
+      </div>`;
+  }
+
   document.getElementById('results').style.display = 'block';
+  document.getElementById('paywall-section').style.display = entered > 3 ? 'block' : 'none';
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
