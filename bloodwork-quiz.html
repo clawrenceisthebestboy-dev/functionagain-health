@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Is Your Bloodwork Optimal? | Function Again Health</title>
+  <meta name="description" content="Enter your lab values and find out if you're truly optimal — not just 'normal'. Free functional blood chemistry analysis tool." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green:    #0077b6;
+      --green-lt: #00b4d8;
+      --green-bg: #e0f4ff;
+      --amber:    #d97706;
+      --amber-bg: #fffbeb;
+      --red:      #dc2626;
+      --red-bg:   #fef2f2;
+      --cream:    #f8fcff;
+      --text:     #1a1a1a;
+      --muted:    #6b7280;
+      --border:   #e5e7eb;
+      --coral:    #ff6b6b;
+      --coral-lt: #ffa07a;
+      --white:    #ffffff;
+      --shadow:   0 4px 24px rgba(0,0,0,0.07);
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }
+
+    nav {
+      background: var(--white); border-bottom: 1px solid var(--border);
+      padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--blue); text-decoration: none; }
+    .logo span { color: var(--coral); }
+    .back-link { font-size: 0.875rem; color: var(--muted); text-decoration: none; font-weight: 500; }
+    .back-link:hover { color: var(--blue); }
+
+    .hero {
+      background: linear-gradient(135deg, #0077b6, #023e8a);
+      color: white; text-align: center; padding: 4rem 5% 3rem;
+    }
+    .hero-badge {
+      display: inline-block; background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
+      padding: 0.3rem 1rem; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.2rem;
+    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; margin-bottom: 1rem; }
+    .hero p { opacity: 0.85; font-size: 1rem; max-width: 580px; margin: 0 auto; font-weight: 300; }
+
+    .disclaimer {
+      background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
+      padding: 0.9rem 1.2rem; font-size: 0.82rem; color: #92400e;
+      max-width: 780px; margin: 1.5rem auto 0; text-align: left;
+    }
+
+    .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 5%; }
+
+    /* ── PANEL ── */
+    .panel {
+      background: var(--white); border-radius: 14px; border: 1px solid var(--border);
+      box-shadow: var(--shadow); margin-bottom: 1.5rem; overflow: hidden;
+    }
+    .panel-header {
+      padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 0.75rem; cursor: pointer;
+      user-select: none;
+    }
+    .panel-icon { font-size: 1.3rem; }
+    .panel-header h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; flex: 1; }
+    .panel-toggle { font-size: 1rem; color: var(--muted); transition: transform 0.2s; }
+    .panel-header.open .panel-toggle { transform: rotate(180deg); }
+    .panel-body { padding: 1.5rem; display: none; }
+    .panel-body.open { display: block; }
+
+    /* ── INPUTS ── */
+    .marker-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;
+    }
+    .marker-field label {
+      display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted);
+      margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .marker-field .field-name { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+    .marker-field .field-unit { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .marker-field input {
+      width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border);
+      border-radius: 7px; font-size: 0.95rem; font-family: 'Inter', sans-serif;
+      background: var(--cream); color: var(--text); transition: border-color 0.2s;
+    }
+    .marker-field input:focus { outline: none; border-color: var(--blue-lt); background: var(--white); }
+
+    /* ── SUBMIT ── */
+    .submit-wrap { text-align: center; margin: 2rem 0 1rem; }
+    .btn-analyze {
+      background: var(--coral); color: white; border: none;
+      padding: 1rem 3rem; border-radius: 10px; font-size: 1rem;
+      font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-analyze:hover { background: #e55a5a; transform: translateY(-2px); }
+
+    /* ── RESULTS ── */
+    #results { display: none; }
+    .results-summary {
+      background: var(--blue); color: white; border-radius: 14px;
+      padding: 2rem; text-align: center; margin-bottom: 1.5rem;
+    }
+    .results-summary h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
+    .score-bar {
+      height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px;
+      margin: 1rem auto; max-width: 400px; overflow: hidden;
+    }
+    .score-fill { height: 100%; background: var(--blue-lt); border-radius: 5px; transition: width 1s ease; }
+
+    .result-cards { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .result-card {
+      border-radius: 10px; padding: 1rem 1.25rem;
+      border: 1px solid; display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .result-card.optimal { background: var(--blue-bg); border-color: #86efac; }
+    .result-card.caution { background: var(--amber-bg); border-color: #fde68a; }
+    .result-card.flag    { background: var(--red-bg);   border-color: #fca5a5; }
+    .result-icon { font-size: 1.3rem; margin-top: 0.1rem; }
+    .result-info { flex: 1; }
+    .result-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
+    .result-value { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .result-explain { font-size: 0.85rem; line-height: 1.5; }
+    .result-card.optimal .result-explain { color: #166534; }
+    .result-card.caution .result-explain { color: #92400e; }
+    .result-card.flag .result-explain    { color: #991b1b; }
+
+    /* ── CTA ── */
+    .cta-box {
+      background: linear-gradient(135deg, #0077b6, #023e8a);
+      color: white; border-radius: 14px; padding: 2.5rem 2rem; text-align: center;
+    }
+    .cta-box h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .cta-box p { opacity: 0.85; margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .btn-white {
+      background: white; color: var(--blue); padding: 0.8rem 2rem;
+      border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; display: inline-block; margin: 0.25rem;
+    }
+    .btn-outline-white {
+      border: 2px solid rgba(255,255,255,0.6); color: white;
+      padding: 0.8rem 2rem; border-radius: 8px; font-weight: 500;
+      font-size: 0.95rem; text-decoration: none; display: inline-block; margin: 0.25rem;
+    }
+
+    footer { background: #1a1a1a; color: #9ca3af; padding: 2rem 5%; text-align: center; font-size: 0.82rem; }
+    .footer-disc { max-width: 600px; margin: 0.5rem auto; color: #6b7280; font-size: 0.75rem; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Function<span>Again</span> Health</a>
+  <a href="index.html" class="back-link">← Back to Home</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-badge">🔬 Free Tool</div>
+  <h1>Is Your Bloodwork Actually Optimal?</h1>
+  <p>Enter your lab values below. We'll compare them against functional optimal ranges — not just the standard "you're not sick yet" reference ranges.</p>
+  <div class="disclaimer">
+    ⚠️ <strong>Disclaimer:</strong> This tool is for educational purposes only and does not constitute medical advice. Results should be discussed with a qualified healthcare provider. Functional ranges represent optimal health patterns, not diagnostic criteria.
+  </div>
+</div>
+
+<div class="container">
+  <form id="quiz-form">
+
+    <!-- COMPLETE BLOOD COUNT -->
+    <div class="panel">
+      <div class="panel-header open" onclick="togglePanel(this)">
+        <span class="panel-icon">🩸</span>
+        <h2>Complete Blood Count (CBC)</h2>
+        <span class="panel-toggle">▼</span>
+      </div>
+      <div class="panel-body open">
+        <div class="marker-grid">
+          <div class="marker-field">
+            <div class="field-name">White Blood Cells (WBC)</div>
+            <div class="field-unit">10³/μL</div>
+            <input type="number" step="0.1" name="wbc" placeholder="e.g. 6.2">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Red Blood Cells (RBC)</div>
+            <div class="field-unit">M/μL</div>
+            <input type="number" step="0.01" name="rbc" placeholder="e.g. 4.8">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Hemoglobin</div>
+            <div class="field-unit">g/dL</div>
+            <input type="number" step="0.1" name="hemoglobin" placeholder="e.g. 14.5">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Hematocrit</div>
+            <div class="field-unit">%</div>
+            <input type="number" step="0.1" name="hematocrit" placeholder="e.g. 43">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">MCV</div>
+            <div class="field-unit">fL</div>
+            <input type="number" step="0.1" name="mcv" placeholder="e.g. 88">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Platelets</div>
+            <div class="field-unit">10³/μL</div>
+            <input type="number" step="1" name="platelets" placeholder="e.g. 250">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- METABOLIC PANEL -->
+    <div class="panel">
+      <div class="panel-header open" onclick="togglePanel(this)">
+        <span class="panel-icon">⚗️</span>
+        <h2>Comprehensive Metabolic Panel (CMP)</h2>
+        <span class="panel-toggle">▼</span>
+      </div>
+      <div class="panel-body open">
+        <div class="marker-grid">
+          <div class="marker-field">
+            <div class="field-name">Fasting Glucose</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="1" name="glucose" placeholder="e.g. 85">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">BUN (Blood Urea Nitrogen)</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="1" name="bun" placeholder="e.g. 14">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Creatinine</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="0.01" name="creatinine" placeholder="e.g. 0.9">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Sodium</div>
+            <div class="field-unit">mEq/L</div>
+            <input type="number" step="1" name="sodium" placeholder="e.g. 140">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Potassium</div>
+            <div class="field-unit">mEq/L</div>
+            <input type="number" step="0.1" name="potassium" placeholder="e.g. 4.2">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">ALT (Liver)</div>
+            <div class="field-unit">U/L</div>
+            <input type="number" step="1" name="alt" placeholder="e.g. 22">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">AST (Liver)</div>
+            <div class="field-unit">U/L</div>
+            <input type="number" step="1" name="ast" placeholder="e.g. 20">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Total Bilirubin</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="0.1" name="bilirubin" placeholder="e.g. 0.7">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Total Protein</div>
+            <div class="field-unit">g/dL</div>
+            <input type="number" step="0.1" name="total_protein" placeholder="e.g. 7.2">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Albumin</div>
+            <div class="field-unit">g/dL</div>
+            <input type="number" step="0.1" name="albumin" placeholder="e.g. 4.5">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- THYROID -->
+    <div class="panel">
+      <div class="panel-header" onclick="togglePanel(this)">
+        <span class="panel-icon">🦋</span>
+        <h2>Thyroid Panel</h2>
+        <span class="panel-toggle">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="marker-grid">
+          <div class="marker-field">
+            <div class="field-name">TSH</div>
+            <div class="field-unit">mIU/L</div>
+            <input type="number" step="0.01" name="tsh" placeholder="e.g. 1.8">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Free T4</div>
+            <div class="field-unit">ng/dL</div>
+            <input type="number" step="0.01" name="free_t4" placeholder="e.g. 1.1">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Free T3</div>
+            <div class="field-unit">pg/mL</div>
+            <input type="number" step="0.1" name="free_t3" placeholder="e.g. 3.2">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIPIDS -->
+    <div class="panel">
+      <div class="panel-header" onclick="togglePanel(this)">
+        <span class="panel-icon">🫀</span>
+        <h2>Lipid Panel</h2>
+        <span class="panel-toggle">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="marker-grid">
+          <div class="marker-field">
+            <div class="field-name">Total Cholesterol</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="1" name="total_cholesterol" placeholder="e.g. 185">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">LDL</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="1" name="ldl" placeholder="e.g. 105">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">HDL</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="1" name="hdl" placeholder="e.g. 58">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Triglycerides</div>
+            <div class="field-unit">mg/dL</div>
+            <input type="number" step="1" name="triglycerides" placeholder="e.g. 90">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BLOOD SUGAR -->
+    <div class="panel">
+      <div class="panel-header" onclick="togglePanel(this)">
+        <span class="panel-icon">📊</span>
+        <h2>Blood Sugar & Inflammation</h2>
+        <span class="panel-toggle">▼</span>
+      </div>
+      <div class="panel-body">
+        <div class="marker-grid">
+          <div class="marker-field">
+            <div class="field-name">HbA1c</div>
+            <div class="field-unit">%</div>
+            <input type="number" step="0.1" name="hba1c" placeholder="e.g. 5.2">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">hsCRP</div>
+            <div class="field-unit">mg/L</div>
+            <input type="number" step="0.1" name="hscrp" placeholder="e.g. 0.8">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Insulin (fasting)</div>
+            <div class="field-unit">μIU/mL</div>
+            <input type="number" step="0.1" name="insulin" placeholder="e.g. 5.5">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Ferritin</div>
+            <div class="field-unit">ng/mL</div>
+            <input type="number" step="1" name="ferritin" placeholder="e.g. 75">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Vitamin D (25-OH)</div>
+            <div class="field-unit">ng/mL</div>
+            <input type="number" step="1" name="vitamin_d" placeholder="e.g. 52">
+          </div>
+          <div class="marker-field">
+            <div class="field-name">Homocysteine</div>
+            <div class="field-unit">μmol/L</div>
+            <input type="number" step="0.1" name="homocysteine" placeholder="e.g. 7.5">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button type="button" class="btn-analyze" onclick="analyzeBloodwork()">
+        🔍 Analyze My Results
+      </button>
+      <p style="margin-top:0.75rem; font-size:0.82rem; color:var(--muted);">Fill in as many or as few values as you have. Leave blank to skip.</p>
+    </div>
+  </form>
+
+  <!-- RESULTS -->
+  <div id="results">
+    <div class="results-summary">
+      <h2 id="results-headline">Your Functional Analysis</h2>
+      <p id="results-subhead"></p>
+      <div class="score-bar"><div class="score-fill" id="score-fill" style="width:0%"></div></div>
+      <p id="score-text" style="font-size:0.9rem; opacity:0.85;"></p>
+    </div>
+    <div class="result-cards" id="result-cards"></div>
+    <div class="cta-box">
+      <h2>Want a Full Analysis?</h2>
+      <p>This tool gives you a starting point. For a complete functional blood chemistry review — including pattern analysis, root cause identification, and a personalized protocol — book a session with Sara.</p>
+      <a href="mailto:sara@functionagainhealth.com" class="btn-white">Book a Lab Review Session</a>
+      <a href="https://www.ultalabtests.com" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 Function Again Health · functionagainhealth.com</p>
+  <p class="footer-disc">This tool is for educational purposes only and does not constitute medical advice. Functional ranges are based on published functional medicine literature and do not replace clinical diagnosis by a licensed healthcare provider.</p>
+</footer>
+
+<script>
+// ── FUNCTIONAL RANGES DATABASE ──────────────────────────────────────────────
+// Based on Weatherby & Ferguson functional blood chemistry analysis
+// Format: { optimal: [min, max], caution_low: min, caution_high: max, unit, explain_low, explain_high, explain_optimal }
+const MARKERS = {
+  wbc: {
+    name: 'White Blood Cells (WBC)',
+    unit: '10³/μL',
+    optimal: [5.5, 7.5],
+    standard: [4.5, 11.0],
+    explain_low: 'Low WBC can suggest immune suppression, chronic viral infection, nutritional deficiencies (B12, folate, zinc), or bone marrow stress.',
+    explain_high: 'Elevated WBC suggests active infection, inflammation, immune activation, or chronic stress. Even in the "normal" range, trending high warrants investigation.',
+    explain_optimal: 'Your WBC is in the functional optimal range — suggests a well-regulated immune system.'
+  },
+  rbc: {
+    name: 'Red Blood Cells (RBC)',
+    unit: 'M/μL',
+    optimal: [4.2, 4.9],
+    standard: [4.0, 5.5],
+    explain_low: 'Low RBC can indicate iron, B12, or folate deficiency, anemia, or poor bone marrow output. Even "normal low" warrants checking ferritin, B12, and folate.',
+    explain_high: 'High RBC can indicate dehydration, high altitude adaptation, or in some cases polycythemia — worth monitoring.',
+    explain_optimal: 'Your RBC count looks optimal for healthy oxygen transport.'
+  },
+  hemoglobin: {
+    name: 'Hemoglobin',
+    unit: 'g/dL',
+    optimal: [13.5, 15.0],
+    standard: [12.0, 17.5],
+    explain_low: 'Low hemoglobin is a classic sign of anemia. Most common causes: iron deficiency, B12/folate deficiency, chronic inflammation. Even slightly low can cause fatigue and brain fog.',
+    explain_high: 'High hemoglobin can suggest dehydration or polycythemia. Can increase blood viscosity.',
+    explain_optimal: 'Hemoglobin looks good — adequate oxygen-carrying capacity.'
+  },
+  hematocrit: {
+    name: 'Hematocrit',
+    unit: '%',
+    optimal: [40, 47],
+    standard: [36, 52],
+    explain_low: 'Low hematocrit follows low hemoglobin — suggests anemia pattern. Check iron, B12, folate.',
+    explain_high: 'High hematocrit can indicate dehydration or polycythemia. Increases clotting risk.',
+    explain_optimal: 'Hematocrit is in a healthy functional range.'
+  },
+  mcv: {
+    name: 'MCV (Mean Corpuscular Volume)',
+    unit: 'fL',
+    optimal: [85, 95],
+    standard: [80, 100],
+    explain_low: 'Low MCV (microcytic) suggests iron deficiency anemia or thalassemia trait. Cells are smaller than they should be — often from low iron stores.',
+    explain_high: 'High MCV (macrocytic) suggests B12 or folate deficiency. Cells are too large. Can also be seen with thyroid dysfunction or alcohol use.',
+    explain_optimal: 'MCV is in the optimal range — red cell size looks healthy.'
+  },
+  platelets: {
+    name: 'Platelets',
+    unit: '10³/μL',
+    optimal: [175, 350],
+    standard: [150, 400],
+    explain_low: 'Low platelets can indicate immune dysfunction, nutritional deficiency, or bone marrow issues. Worth investigating if trending down.',
+    explain_high: 'Elevated platelets can suggest inflammation, infection, or iron deficiency. Can increase clotting risk.',
+    explain_optimal: 'Platelet count looks good for healthy clotting function.'
+  },
+  glucose: {
+    name: 'Fasting Glucose',
+    unit: 'mg/dL',
+    optimal: [75, 86],
+    standard: [70, 99],
+    explain_low: 'Fasting glucose below 75 can suggest hypoglycemia tendency, adrenal fatigue, or poor glycogen storage. Often associated with fatigue between meals.',
+    explain_high: 'Fasting glucose 87-99 is "normal" but functionally is early blood sugar dysregulation. Above 90 fasting is a meaningful early signal worth addressing through diet and lifestyle before it becomes prediabetes.',
+    explain_optimal: 'Optimal fasting glucose — excellent insulin sensitivity.'
+  },
+  bun: {
+    name: 'BUN (Blood Urea Nitrogen)',
+    unit: 'mg/dL',
+    optimal: [13, 18],
+    standard: [7, 25],
+    explain_low: 'Low BUN can suggest low protein intake, malabsorption, or liver dysfunction. The liver needs protein to make urea.',
+    explain_high: 'High BUN suggests high protein intake, dehydration, kidney stress, or poor hydration. Often benign but worth monitoring with creatinine.',
+    explain_optimal: 'BUN looks balanced — good protein metabolism and kidney function.'
+  },
+  creatinine: {
+    name: 'Creatinine',
+    unit: 'mg/dL',
+    optimal: [0.8, 1.1],
+    standard: [0.6, 1.3],
+    explain_low: 'Low creatinine often reflects low muscle mass or a very low protein diet. Can also be seen with severe liver disease.',
+    explain_high: 'Elevated creatinine suggests kidney filtration is reduced. Even at the upper end of "normal," this is worth monitoring alongside BUN.',
+    explain_optimal: 'Creatinine looks healthy — kidney filtration appears to be working well.'
+  },
+  sodium: {
+    name: 'Sodium',
+    unit: 'mEq/L',
+    optimal: [135, 142],
+    standard: [136, 145],
+    explain_low: 'Low sodium (hyponatremia) can reflect overhydration, adrenal insufficiency, or SIADH. Even mild functional low sodium can cause fatigue and brain fog.',
+    explain_high: 'High sodium suggests dehydration. Easy fix — increase water intake.',
+    explain_optimal: 'Sodium is well-balanced — hydration and electrolytes look good.'
+  },
+  potassium: {
+    name: 'Potassium',
+    unit: 'mEq/L',
+    optimal: [4.0, 4.5],
+    standard: [3.5, 5.1],
+    explain_low: 'Low potassium can cause muscle cramps, fatigue, and heart rhythm irregularities. Common with poor diet, diuretic use, or high stress (cortisol depletes potassium).',
+    explain_high: 'High potassium can indicate kidney issues, adrenal dysfunction (Addison\'s), or cell breakdown. Requires investigation.',
+    explain_optimal: 'Potassium is in the optimal functional range — good electrolyte balance.'
+  },
+  alt: {
+    name: 'ALT (Liver Enzyme)',
+    unit: 'U/L',
+    optimal: [10, 26],
+    standard: [7, 56],
+    explain_low: 'Very low ALT is rarely concerning but can be seen with B6 deficiency.',
+    explain_high: 'Elevated ALT signals liver stress. The functional ceiling (26) is much lower than standard reference ranges. Even ALT of 30-40 suggests early liver inflammation from diet, alcohol, medications, or fatty liver beginning.',
+    explain_optimal: 'ALT is functionally optimal — liver appears to be handling its load well.'
+  },
+  ast: {
+    name: 'AST (Liver Enzyme)',
+    unit: 'U/L',
+    optimal: [10, 26],
+    standard: [10, 40],
+    explain_low: 'Very low AST is rarely significant.',
+    explain_high: 'Elevated AST, especially alongside ALT, indicates liver stress or muscle damage. The ratio of AST:ALT can help distinguish the cause.',
+    explain_optimal: 'AST looks healthy — no signs of liver or muscle stress.'
+  },
+  albumin: {
+    name: 'Albumin',
+    unit: 'g/dL',
+    optimal: [4.0, 5.0],
+    standard: [3.5, 5.5],
+    explain_low: 'Low albumin is a significant finding — indicates liver dysfunction, malnutrition, chronic inflammation, or malabsorption. Albumin carries hormones, medications, and nutrients through the blood.',
+    explain_high: 'High albumin typically reflects dehydration.',
+    explain_optimal: 'Albumin is in an excellent range — good liver function and protein status.'
+  },
+  tsh: {
+    name: 'TSH (Thyroid Stimulating Hormone)',
+    unit: 'mIU/L',
+    optimal: [1.0, 2.0],
+    standard: [0.4, 4.5],
+    explain_low: 'TSH below 1.0 suggests the thyroid may be overactive or you may be over-supplementing. Can cause anxiety, heart palpitations, and bone loss.',
+    explain_high: 'TSH above 2.0 functionally suggests the thyroid is being pushed hard to maintain output. Classic symptoms: fatigue, weight gain, cold hands/feet, hair loss, brain fog. The standard cutoff of 4.5 misses years of suboptimal thyroid function.',
+    explain_optimal: 'TSH is in the functional sweet spot — thyroid is working efficiently without being overdriven.'
+  },
+  free_t4: {
+    name: 'Free T4',
+    unit: 'ng/dL',
+    optimal: [1.0, 1.5],
+    standard: [0.8, 1.8],
+    explain_low: 'Low Free T4 suggests the thyroid isn\'t producing enough hormone. This is the inactive form that gets converted to T3.',
+    explain_high: 'High Free T4 can suggest hyperthyroidism or conversion issues (T4 building up because it\'s not converting to T3).',
+    explain_optimal: 'Free T4 looks good — adequate thyroid hormone production.'
+  },
+  free_t3: {
+    name: 'Free T3',
+    unit: 'pg/mL',
+    optimal: [3.0, 3.5],
+    standard: [2.3, 4.2],
+    explain_low: 'Low Free T3 is the most functionally significant thyroid marker. T3 is the active form — it enters cells and drives metabolism. Low T3 with normal TSH is extremely common and almost always missed by standard screening.',
+    explain_high: 'High Free T3 suggests hyperthyroid or over-supplementation.',
+    explain_optimal: 'Free T3 is in the optimal range — active thyroid hormone looks good.'
+  },
+  total_cholesterol: {
+    name: 'Total Cholesterol',
+    unit: 'mg/dL',
+    optimal: [160, 220],
+    standard: [0, 200],
+    explain_low: 'Very low cholesterol (<160) is associated with increased risk of depression, hormonal issues, and immune dysfunction. Cholesterol is the precursor to all steroid hormones and vitamin D.',
+    explain_high: 'Elevated total cholesterol should be evaluated in context of LDL particle size, HDL, triglycerides, and inflammation markers. Total cholesterol alone is a poor predictor of cardiovascular risk.',
+    explain_optimal: 'Total cholesterol is in a functional range — enough for hormone production without excess.'
+  },
+  ldl: {
+    name: 'LDL Cholesterol',
+    unit: 'mg/dL',
+    optimal: [80, 130],
+    standard: [0, 100],
+    explain_low: 'Very low LDL can suggest malnutrition, thyroid issues, or liver dysfunction. Cholesterol is essential for cell membrane integrity and hormone production.',
+    explain_high: 'Elevated LDL warrants investigation — particularly LDL particle number and size, which are more predictive of risk than LDL-C alone.',
+    explain_optimal: 'LDL is in a reasonable functional range.'
+  },
+  hdl: {
+    name: 'HDL Cholesterol',
+    unit: 'mg/dL',
+    optimal: [55, 75],
+    standard: [40, 999],
+    explain_low: 'Low HDL is one of the strongest independent cardiovascular risk factors. Key drivers: sedentary lifestyle, high triglycerides, insulin resistance, smoking.',
+    explain_high: 'Very high HDL (>80) can sometimes paradoxically increase risk — worth noting but rarely actionable.',
+    explain_optimal: 'HDL is in an excellent functional range — strong cardiovascular protective factor.'
+  },
+  triglycerides: {
+    name: 'Triglycerides',
+    unit: 'mg/dL',
+    optimal: [60, 100],
+    standard: [0, 150],
+    explain_low: 'Very low triglycerides are generally positive — suggests low carb intake and good fat metabolism.',
+    explain_high: 'Elevated triglycerides (even 101-150, which is "normal") are a strong signal of carbohydrate excess, insulin resistance, and metabolic dysfunction. The functional threshold is much lower than standard labs.',
+    explain_optimal: 'Triglycerides are in the functional optimal range — excellent metabolic health marker.'
+  },
+  hba1c: {
+    name: 'HbA1c (3-Month Blood Sugar Average)',
+    unit: '%',
+    optimal: [4.8, 5.3],
+    standard: [4.0, 5.6],
+    explain_low: 'Very low HbA1c can occasionally indicate certain anemias or hemolytic conditions affecting the test accuracy.',
+    explain_high: 'HbA1c above 5.3 functionally suggests chronic blood sugar elevation is beginning to glycate proteins. By the time it reaches 5.7 (prediabetes), years of damage have already occurred. Even 5.4-5.6 is worth addressing through diet.',
+    explain_optimal: 'HbA1c is in an excellent functional range — blood sugar has been well-controlled over the past 3 months.'
+  },
+  hscrp: {
+    name: 'hsCRP (High-Sensitivity C-Reactive Protein)',
+    unit: 'mg/L',
+    optimal: [0, 1.0],
+    standard: [0, 3.0],
+    explain_low: 'Low hsCRP is excellent — indicates minimal systemic inflammation.',
+    explain_high: 'Elevated hsCRP is one of the most important markers to address. Chronic low-grade inflammation drives cardiovascular disease, autoimmune conditions, cancer risk, and accelerated aging. Even 1-3 mg/L (standard "normal") is functionally significant.',
+    explain_optimal: 'hsCRP is in an excellent range — inflammation appears well-controlled.'
+  },
+  insulin: {
+    name: 'Fasting Insulin',
+    unit: 'μIU/mL',
+    optimal: [2, 8],
+    standard: [0, 25],
+    explain_low: 'Very low fasting insulin is generally positive. In rare cases extreme lows can suggest type 1 diabetes risk.',
+    explain_high: 'Elevated fasting insulin is the earliest sign of insulin resistance — often present for a decade before glucose or HbA1c rise. This is the most underordered and underinterpreted metabolic marker. If yours is high and your glucose looks "normal," you\'re in the insulin resistance window.',
+    explain_optimal: 'Fasting insulin is in an excellent range — strong insulin sensitivity.'
+  },
+  ferritin: {
+    name: 'Ferritin (Iron Storage)',
+    unit: 'ng/mL',
+    optimal: [50, 150],
+    standard: [12, 300],
+    explain_low: 'Low ferritin is the earliest sign of iron depletion — long before anemia shows up in CBC. Classic symptoms: fatigue, hair loss, poor exercise recovery, restless legs. Standard reference ranges allow ferritin as low as 12, but functional deficiency begins below 50.',
+    explain_high: 'Elevated ferritin above 150 can indicate iron overload, inflammation (ferritin is an acute phase reactant), or liver stress. Very high ferritin (>300) requires further investigation.',
+    explain_optimal: 'Ferritin is in an excellent functional range — iron stores look adequate.'
+  },
+  vitamin_d: {
+    name: 'Vitamin D (25-OH)',
+    unit: 'ng/mL',
+    optimal: [50, 80],
+    standard: [30, 100],
+    explain_low: 'Vitamin D below 50 ng/mL is functionally deficient even if labs say "normal." Vitamin D functions as a hormone — it regulates immune function, mood, bone density, insulin sensitivity, and inflammation. Most people are severely under-optimized.',
+    explain_high: 'Vitamin D above 100 warrants checking calcium levels. Toxicity is rare but possible with excessive supplementation.',
+    explain_optimal: 'Vitamin D is in an excellent functional range — well-optimized for immune and hormonal support.'
+  },
+  homocysteine: {
+    name: 'Homocysteine',
+    unit: 'μmol/L',
+    optimal: [5, 8],
+    standard: [0, 15],
+    explain_low: 'Very low homocysteine is generally positive.',
+    explain_high: 'Elevated homocysteine is a significant cardiovascular and neurological risk marker. It damages blood vessel walls and increases stroke risk. Standard reference ranges are far too permissive. Even 8-12 μmol/L is functionally elevated. Usually responsive to B12, B6, and folate.',
+    explain_optimal: 'Homocysteine is in an excellent functional range — methylation and B-vitamin status looks good.'
+  }
+};
+
+// ── PANEL TOGGLE ────────────────────────────────────────────────────────────
+function togglePanel(header) {
+  header.classList.toggle('open');
+  header.nextElementSibling.classList.toggle('open');
+}
+
+// ── ANALYSIS ENGINE ─────────────────────────────────────────────────────────
+function analyzeBloodwork() {
+  const form = document.getElementById('quiz-form');
+  const data = new FormData(form);
+  const results = [];
+  let entered = 0;
+  let optimal = 0;
+
+  for (const [key, marker] of Object.entries(MARKERS)) {
+    const raw = data.get(key);
+    if (!raw || raw.trim() === '') continue;
+    const val = parseFloat(raw);
+    if (isNaN(val)) continue;
+    entered++;
+
+    const [lo, hi] = marker.optimal;
+    const [slo, shi] = marker.standard || [lo * 0.8, hi * 1.3];
+
+    let status, icon, explain, label;
+    const pct = 0.1; // 10% caution band outside optimal
+    const cautLo = lo * (1 - pct);
+    const cautHi = hi * (1 + pct);
+
+    if (val >= lo && val <= hi) {
+      status = 'optimal'; icon = '✅'; label = 'Optimal';
+      explain = marker.explain_optimal;
+      optimal++;
+    } else if (val < lo) {
+      if (val >= cautLo) {
+        status = 'caution'; icon = '⚠️'; label = 'Low — Caution Zone';
+      } else {
+        status = 'flag'; icon = '🚩'; label = 'Below Optimal';
+      }
+      explain = marker.explain_low;
+    } else {
+      if (val <= cautHi) {
+        status = 'caution'; icon = '⚠️'; label = 'High — Caution Zone';
+      } else {
+        status = 'flag'; icon = '🚩'; label = 'Above Optimal';
+      }
+      explain = marker.explain_high;
+    }
+
+    results.push({ key, marker, val, status, icon, label, explain, lo, hi });
+  }
+
+  if (entered === 0) {
+    alert('Please enter at least one lab value to analyze.');
+    return;
+  }
+
+  // Sort: flags first, then caution, then optimal
+  results.sort((a, b) => {
+    const order = { flag: 0, caution: 1, optimal: 2 };
+    return order[a.status] - order[b.status];
+  });
+
+  // Score
+  const score = Math.round((optimal / entered) * 100);
+  let headline, subhead;
+  if (score >= 80) { headline = '🌟 Looking Strong!'; subhead = `${optimal} of ${entered} markers are in the functional optimal range.`; }
+  else if (score >= 50) { headline = '⚠️ Some Areas to Address'; subhead = `${optimal} of ${entered} markers are optimal. A few patterns worth exploring.`; }
+  else { headline = '🚩 Patterns Detected'; subhead = `${optimal} of ${entered} markers are optimal. These findings are worth a deeper look with a practitioner.`; }
+
+  document.getElementById('results-headline').textContent = headline;
+  document.getElementById('results-subhead').textContent = subhead;
+  document.getElementById('score-text').textContent = `${score}% of entered markers in functional optimal range`;
+  setTimeout(() => { document.getElementById('score-fill').style.width = score + '%'; }, 100);
+
+  // Render cards
+  const cardsEl = document.getElementById('result-cards');
+  cardsEl.innerHTML = results.map(r => `
+    <div class="result-card ${r.status}">
+      <div class="result-icon">${r.icon}</div>
+      <div class="result-info">
+        <div class="result-name">${r.marker.name} <span style="font-weight:400; font-size:0.8rem;">(${r.label})</span></div>
+        <div class="result-value">Your value: <strong>${r.val} ${r.marker.unit}</strong> · Functional optimal: ${r.lo}–${r.hi} ${r.marker.unit}</div>
+        <div class="result-explain">${r.explain}</div>
+      </div>
+    </div>
+  `).join('');
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
