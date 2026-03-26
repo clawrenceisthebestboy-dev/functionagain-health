@@ -26,6 +26,16 @@ exports.handler = async (event) => {
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   const siteUrl = process.env.URL || 'https://functionagain-health.netlify.app';
 
+  // ── DEMO MODE: bypass Stripe, redirect directly to report ─────────────────
+  if (!stripeKey || stripeKey.includes('demo_mode')) {
+    const demoUrl = `${siteUrl}/bloodwork-quiz.html?session_id=demo_${Date.now()}&tier=${tier}&labs=${encodeURIComponent(JSON.stringify(labs))}`;
+    return {
+      statusCode: 200,
+      headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({ url: demoUrl }),
+    };
+  }
+
   const TIERS = {
     basic:   { price: 2900,  name: 'Functional Blood Analysis — Basic',   desc: 'Full marker analysis, pattern detection, priority action plan. Instant delivery.' },
     premium: { price: 4999,  name: 'Functional Blood Analysis — Premium', desc: 'Extended AI analysis + supplement recommendations + PDF report. Instant delivery.' },
