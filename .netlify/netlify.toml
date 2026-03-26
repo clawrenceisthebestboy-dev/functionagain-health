@@ -25,7 +25,11 @@ functions = "/Users/jutes/.openclaw/workspace/sara-site/netlify/functions"
 
 [functions]
 
+[functions.analyze]
+timeout = 26.0
+
 [functions."*"]
+node_bundler = "esbuild"
 
 [[redirects]]
 from = "/api/*"

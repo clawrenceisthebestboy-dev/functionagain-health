@@ -29,7 +29,7 @@ function get(hostname, path, headers) {
   });
 }
 
-// ── Weatherby Functional Ranges ──────────────────────────────────────────────
+// ── Functional Medicine Optimal Ranges ──────────────────────────────────────────────
 const FUNCTIONAL_RANGES = {
   glucose:        { name: 'Fasting Glucose',     unit: 'mg/dL', lo: 75, hi: 86 },
   hba1c:          { name: 'HbA1c',               unit: '%',     lo: 4.8, hi: 5.3 },
@@ -86,7 +86,7 @@ const FUNCTIONAL_RANGES = {
   igf1:           { name: 'IGF-1',                unit: 'ng/mL', lo: 150, hi: 300 },
 };
 
-// ── Pattern Detection (Weatherby) ─────────────────────────────────────────────
+// ── Pattern Detection ─────────────────────────────────────────────
 function detectPatterns(labs) {
   const patterns = [];
   const hi = (key, thresh) => labs[key] !== undefined && labs[key] > thresh;
