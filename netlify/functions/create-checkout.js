@@ -22,23 +22,31 @@ function post(hostname, path, headers, body) {
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return { statusCode: 405, body: 'Method Not Allowed' };
 
-  const { labs } = JSON.parse(event.body || '{}');
+  const { labs, tier = 'premium' } = JSON.parse(event.body || '{}');
   const stripeKey = process.env.STRIPE_SECRET_KEY;
   const siteUrl = process.env.URL || 'https://functionagain-health.netlify.app';
+
+  const TIERS = {
+    basic:   { price: 2900,  name: 'Functional Blood Analysis — Basic',   desc: 'Full marker analysis, pattern detection, priority action plan. Instant delivery.' },
+    premium: { price: 4999,  name: 'Functional Blood Analysis — Premium', desc: 'Extended AI analysis + supplement recommendations + PDF report. Instant delivery.' },
+    consult: { price: 14900, name: 'Consultation + Premium Report',        desc: '1-hour phone call with Sara Knight + full premium AI report + 7-day email follow-up.' },
+  };
+
+  const t = TIERS[tier] || TIERS.premium;
 
   const session = await post('api.stripe.com', '/v1/checkout/sessions', {
     Authorization: `Bearer ${stripeKey}`,
   }, {
     'payment_method_types[]': 'card',
     'line_items[0][price_data][currency]': 'usd',
-    'line_items[0][price_data][unit_amount]': '2900',
-    'line_items[0][price_data][product_data][name]': 'Functional Blood Chemistry Report',
-    'line_items[0][price_data][product_data][description]': 'AI-powered functional analysis of your bloodwork using Weatherby methodology',
+    'line_items[0][price_data][unit_amount]': String(t.price),
+    'line_items[0][price_data][product_data][name]': t.name,
+    'line_items[0][price_data][product_data][description]': t.desc,
     'line_items[0][quantity]': '1',
     mode: 'payment',
-    'success_url': `${siteUrl}/bloodwork-quiz.html?session_id={CHECKOUT_SESSION_ID}&labs=${encodeURIComponent(JSON.stringify(labs))}`,
+    'success_url': `${siteUrl}/bloodwork-quiz.html?session_id={CHECKOUT_SESSION_ID}&tier=${tier}&labs=${encodeURIComponent(JSON.stringify(labs))}`,
     'cancel_url': `${siteUrl}/bloodwork-quiz.html`,
-    'payment_intent_data[description]': 'Function Again Health — Functional Blood Analysis',
+    'payment_intent_data[description]': `Function Again Health — ${t.name}`,
   });
 
   return {
