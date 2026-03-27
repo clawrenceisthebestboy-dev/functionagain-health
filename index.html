@@ -392,6 +392,13 @@
   <select name="concern"></select>
   <textarea name="message"></textarea>
 </form>
+<form name="session-request" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <select name="labs_ready"></select>
+  <textarea name="notes"></textarea>
+</form>
 
 <!-- ANNOUNCE -->
 <div class="announce">
@@ -546,15 +553,21 @@
           <li style="font-size:0.85rem;color:var(--mid);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Written summary + action plan after</li>
           <li style="font-size:0.85rem;color:var(--mid);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> No ongoing commitment required</li>
         </ul>
-        <!-- Cal.com inline embed — swap YOUR_CAL_USERNAME with Sara's username -->
-        <div id="cal-session" style="min-height:200px;border:1.5px solid var(--border);border-radius:4px;overflow:hidden;background:var(--warm);display:flex;align-items:center;justify-content:center;">
-          <div style="text-align:center;padding:2rem;color:var(--muted);">
-            <div style="font-size:2rem;margin-bottom:0.5rem;">📅</div>
-            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.25rem;">Booking calendar coming soon</div>
-            <div style="font-size:0.78rem;">Sara is setting up her scheduling link</div>
-          </div>
-        </div>
-        <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;text-align:center;">Powered by Cal.com · Secure booking</p>
+        <form onsubmit="handleSessionRequest(event)" style="display:flex;flex-direction:column;gap:0.65rem;">
+          <input type="text" name="name" placeholder="Your first name" required style="padding:0.8rem 1rem;border:1.5px solid var(--border);border-radius:4px;font-size:0.875rem;font-family:inherit;background:var(--warm);" />
+          <input type="email" name="email" placeholder="Email address" required style="padding:0.8rem 1rem;border:1.5px solid var(--border);border-radius:4px;font-size:0.875rem;font-family:inherit;background:var(--warm);" />
+          <input type="tel" name="phone" placeholder="Phone number (Sara will call you to confirm)" required style="padding:0.8rem 1rem;border:1.5px solid var(--border);border-radius:4px;font-size:0.875rem;font-family:inherit;background:var(--warm);" />
+          <select name="labs_ready" required style="padding:0.8rem 1rem;border:1.5px solid var(--border);border-radius:4px;font-size:0.875rem;font-family:inherit;background:var(--warm);color:#555;">
+            <option value="" disabled selected>Do you have your lab results ready?</option>
+            <option value="yes_recent">Yes — recent results (last 12 months)</option>
+            <option value="yes_older">Yes — older results</option>
+            <option value="no_need_help">No — I need help ordering labs first</option>
+            <option value="no_general">No — looking for general guidance</option>
+          </select>
+          <textarea name="notes" placeholder="Anything specific you want Sara to focus on? (optional)" rows="2" style="padding:0.8rem 1rem;border:1.5px solid var(--border);border-radius:4px;font-size:0.875rem;font-family:inherit;background:var(--warm);resize:vertical;"></textarea>
+          <button type="submit" style="padding:0.9rem;background:var(--navy);color:white;border:none;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer;letter-spacing:0.03em;">Request a Session →</button>
+        </form>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;text-align:center;">Sara will reach out within 24 hours to confirm your time.</p>
       </div>
 
       <!-- TRACK 2: COACHING APPLICATION -->
@@ -849,13 +862,37 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Email capture (legacy — kept in case still referenced)
+  // Email capture (legacy)
   function handleCapture(e) {
     e.preventDefault();
     const btn = e.target.querySelector('button');
     btn.textContent = '✓ Submitted';
     btn.style.background = '#16a34a';
     btn.disabled = true;
+  }
+
+  // Session request form
+  function handleSessionRequest(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button');
+    const data = new FormData(form);
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams([
+        ['form-name', 'session-request'],
+        ...Array.from(data.entries())
+      ]).toString()
+    }).then(() => {
+      btn.textContent = '✓ Request received';
+      btn.style.background = '#16a34a';
+      form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
+    }).catch(() => {
+      btn.textContent = '✓ Request received';
+      btn.style.background = '#16a34a';
+      btn.disabled = true;
+    });
   }
 
   // Coaching application form
