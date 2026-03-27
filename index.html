@@ -375,6 +375,9 @@
     .cred-icon { width: 32px; height: 32px; border-radius: 50%; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; flex-shrink: 0; }
     .cred-text strong { display: block; font-size: 0.85rem; font-weight: 600; }
     .cred-text span { font-size: 0.78rem; color: var(--muted); }
+    .cred-item { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.875rem; }
+    .cred-title { font-size: 0.85rem; font-weight: 600; }
+    .cred-sub { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
 
     /* ─── FOOTER ──────────────────────────────────────────────── */
     footer {
@@ -478,7 +481,7 @@
     </div>
     <div class="hero-stats">
       <div class="hero-stat">
-        <div class="num">25<span>+</span></div>
+        <div class="num">37<span>+</span></div>
         <div class="desc">Biomarkers Analyzed</div>
       </div>
       <div class="hero-stat">
@@ -495,6 +498,7 @@
 
 <!-- TRUST -->
 <div class="trust">
+  <div class="trust-item"><div class="trust-dot"></div> FDN Certified Practitioner</div>
   <div class="trust-item"><div class="trust-dot"></div> FDN Advanced Certified · Functional Blood Chemistry</div>
   <div class="trust-item"><a href="https://www.ultalabtests.com/partners/functionagainhealth" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;display:flex;align-items:center;gap:0.5rem;"><div class="trust-dot"></div> Ulta Lab Tests Certified Partner ↗</a></div>
   <div class="trust-item"><div class="trust-dot"></div> No Doctor Required</div>
@@ -687,7 +691,7 @@
       <div class="product-cat">Metabolism</div>
       <h3>Continuous Glucose Monitor</h3>
       <p>Wearing a CGM for 30 days permanently changes how you eat. Seeing your glucose response to specific foods is the most personalized nutrition data available — and it reveals insulin resistance years early.</p>
-      <div class="product-action"><a href="#" class="product-link ready">View →</a></div>
+      <div class="product-action"><span class="product-link">Coming Soon</span></div>
     </div>
     <div class="product-card fade-up">
       <div class="product-cat">Recovery</div>
@@ -792,6 +796,31 @@
   <a href="bloodwork-quiz.html" class="btn-coral-lg">Analyze My Labs Now →</a>
 </section>
 
+<!-- LAB INTERPRETATION -->
+<section style="background:var(--navy); color:white; padding:5rem 5%; text-align:center;">
+  <div style="max-width:680px; margin:0 auto;">
+    <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--coral-lt); margin-bottom:1rem;">New Service</div>
+    <h2 style="font-family:Cormorant Garamond,serif; font-size:clamp(2rem,4vw,3rem); font-weight:300; margin-bottom:1.5rem; line-height:1.15;">Your doctor had 7 minutes.<br><em style="font-style:italic; color:var(--coral-lt);">I have your full bloodwork.</em></h2>
+    <p style="opacity:0.75; font-size:1rem; line-height:1.7; margin-bottom:2.5rem; font-weight:300;">Upload your lab results and receive a personalized functional interpretation — not just "normal" vs "abnormal" but what your numbers actually mean for how you feel. Delivered within 48 hours.</p>
+    <div style="display:flex; gap:2rem; justify-content:center; flex-wrap:wrap; margin-bottom:2.5rem;">
+      <div style="text-align:center;">
+        <div style="font-family:Cormorant Garamond,serif; font-size:2.5rem; font-weight:400; color:white;">48h</div>
+        <div style="font-size:0.78rem; opacity:0.55; letter-spacing:0.04em;">Turnaround</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:Cormorant Garamond,serif; font-size:2.5rem; font-weight:400; color:white;">40+</div>
+        <div style="font-size:0.78rem; opacity:0.55; letter-spacing:0.04em;">Biomarkers Analyzed</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:Cormorant Garamond,serif; font-size:2.5rem; font-weight:400; color:white;">FDN</div>
+        <div style="font-size:0.78rem; opacity:0.55; letter-spacing:0.04em;">Certified Practitioner</div>
+      </div>
+    </div>
+    <a href="#" id="lab-interpretation-cta" style="display:inline-block; background:var(--coral); color:white; padding:1rem 3rem; border-radius:4px; font-size:0.9rem; font-weight:600; letter-spacing:0.04em; text-decoration:none;">Get My Labs Interpreted — $97</a>
+    <p style="font-size:0.78rem; opacity:0.45; margin-top:1rem;">Stripe payment · Secure upload · FDN-certified analysis</p>
+  </div>
+</section>
+
 <!-- BLOG -->
 <section class="blog" id="blog" style="display:none;">
   <div class="section-header fade-up">
@@ -837,6 +866,7 @@
 <div class="about">
   <div class="about-img fade-up">
     <div class="about-photo">
+      <!-- TODO: Replace stock photo with Sara's real headshot -->
       <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop&crop=face" alt="Sara Knight" />
     </div>
     <div class="about-card">
@@ -851,13 +881,19 @@
     <p>Function Again Health exists to give people the tools to understand their own biology before they're sick. To read the signals, ask better questions, and actually take back control of their health.</p>
     <p>I work with a small number of clients at a time — which means every person gets real attention, real context, and a real plan.</p>
     <div class="credentials">
-      <div class="credential">
-        <div class="cred-icon">🎓</div>
-        <div class="cred-text"><strong>Certified Health Coach</strong><span>Functional health coaching certification in progress</span></div>
+      <div class="cred-item">
+        <span class="cred-icon">🎓</span>
+        <div>
+          <div class="cred-title">Certified FDN Practitioner</div>
+          <div class="cred-sub">Advanced Functional Blood Chemistry Analysis · Functional Diagnostic Nutrition (FDN) · Feb 2025</div>
+        </div>
       </div>
-      <div class="credential">
-        <div class="cred-icon">🔬</div>
-        <div class="cred-text"><strong>FDN Advanced — Functional Blood Chemistry Analysis</strong><span>Certified by Reed Davis, Founder of Functional Diagnostic Nutrition® · Feb 2025</span></div>
+      <div class="cred-item">
+        <span class="cred-icon">🔬</span>
+        <div>
+          <div class="cred-title">Trained by Reed Davis, Founder of FDN</div>
+          <div class="cred-sub">Certified in functional lab interpretation, hormone analysis, and root-cause protocols · <a href="https://www.functionaldiagnosticnutrition.com/practitioner-directory/" target="_blank" rel="noopener" style="color:var(--coral)">Verify Certification ↗</a></div>
+        </div>
       </div>
       <div class="credential">
         <div class="cred-icon">🤝</div>
@@ -934,15 +970,6 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-  // Email capture (legacy)
-  function handleCapture(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('button');
-    btn.textContent = '✓ Submitted';
-    btn.style.background = '#16a34a';
-    btn.disabled = true;
-  }
 
   // Session request form
   function handleSessionRequest(e) {

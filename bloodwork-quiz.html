@@ -468,8 +468,21 @@
     </div>
   </form>
 
+  <!-- EMAIL GATE -->
+  <div id="email-gate" style="display:none; padding:3rem 0;">
+    <div style="text-align:center; padding: 2.5rem; background:white; border-radius:12px; max-width:480px; margin:0 auto; box-shadow: 0 8px 40px rgba(0,0,0,0.12);">
+      <div style="font-size:2rem; margin-bottom:1rem;">🔬</div>
+      <h3 style="font-family:Cormorant Garamond,serif; font-size:1.8rem; font-weight:400; margin-bottom:0.75rem; color:#05152e;">Your Results Are Ready</h3>
+      <p style="color:#6b7280; font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">Enter your email to see your personalized analysis and get Sara's free guide: <em>"5 Blood Markers Your Doctor Isn't Checking"</em></p>
+      <input type="email" id="gate-email" placeholder="your@email.com" style="width:100%; padding:0.75rem 1rem; border:1.5px solid #e5e0d8; border-radius:6px; font-size:1rem; margin-bottom:1rem; font-family:Inter,sans-serif;">
+      <button onclick="submitEmailGate()" style="width:100%; background:#e07b6a; color:white; border:none; padding:0.9rem; border-radius:6px; font-size:0.95rem; font-weight:600; cursor:pointer; letter-spacing:0.03em;">See My Results →</button>
+      <p style="font-size:0.75rem; color:#9ca3af; margin-top:0.75rem;">No spam. Unsubscribe anytime.</p>
+    </div>
+  </div>
+
   <!-- RESULTS -->
   <div id="results">
+    <div id="results-section" style="display:none;">
     <div class="results-summary">
       <h2 id="results-headline">Your Functional Analysis</h2>
       <p id="results-subhead"></p>
@@ -562,6 +575,7 @@
       <a href="mailto:sara@functionagainhealth.com" class="btn-white">Book a Lab Review Session</a>
       <a href="https://www.ultalabtests.com" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
     </div>
+    </div><!-- /results-section -->
   </div>
 </div>
 
@@ -1364,9 +1378,28 @@ function analyzeBloodwork() {
   }
 
   document.getElementById('results').style.display = 'block';
+  document.getElementById('results-section').style.display = 'none';
   document.getElementById('paywall-section').style.display = lockedCount > 0 ? 'block' : 'none';
   document.getElementById('ai-report').style.display = 'none';
-  document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // Show email gate (skip if already captured)
+  if (localStorage.getItem('sara_lead_email')) {
+    document.getElementById('email-gate').style.display = 'none';
+    document.getElementById('results-section').style.display = 'block';
+  } else {
+    document.getElementById('email-gate').style.display = 'block';
+  }
+  document.getElementById('email-gate').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function submitEmailGate() {
+  const email = document.getElementById("gate-email").value;
+  if (!email || !email.includes("@")) { alert("Please enter a valid email."); return; }
+  console.log("Lead captured:", email);
+  localStorage.setItem("sara_lead_email", email);
+  document.getElementById("email-gate").style.display = "none";
+  document.getElementById("results-section").style.display = "block";
+  document.getElementById("results-section").scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
 </body>
