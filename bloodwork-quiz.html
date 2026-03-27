@@ -508,21 +508,51 @@
 
     <!-- AI REPORT OUTPUT -->
     <div id="ai-report" style="display:none;">
-      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:2.5rem;margin-bottom:1.5rem;">
+
+      <!-- Ephemeral notice -->
+      <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:.875rem 1.25rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.75rem;">
+        <span style="font-size:1.1rem;flex-shrink:0;">⚠️</span>
+        <div style="font-size:.82rem;color:#78350f;line-height:1.6;">
+          <strong>Your report is only visible in this browser tab.</strong> It is not stored on any server. When you close or refresh this page, it's gone. Download or email it to yourself now to keep a copy.
+        </div>
+      </div>
+
+      <!-- Action bar -->
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem;">
+        <button onclick="downloadReport()" style="display:flex;align-items:center;gap:.5rem;padding:.7rem 1.25rem;background:var(--navy);color:white;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;">
+          ⬇️ Download PDF
+        </button>
+        <button onclick="document.getElementById('email-send-panel').style.display=document.getElementById('email-send-panel').style.display==='none'?'flex':'none'" style="display:flex;align-items:center;gap:.5rem;padding:.7rem 1.25rem;background:white;color:var(--navy);border:1.5px solid var(--border);border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;">
+          ✉️ Email to Myself
+        </button>
+        <button onclick="clearReport()" style="display:flex;align-items:center;gap:.5rem;padding:.7rem 1.25rem;background:white;color:#dc2626;border:1.5px solid #fecaca;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;">
+          🗑 Clear Report
+        </button>
+      </div>
+
+      <!-- Email panel -->
+      <div id="email-send-panel" style="display:none;align-items:center;gap:.75rem;flex-wrap:wrap;background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.25rem;">
+        <input id="email-dest" type="email" placeholder="your@email.com" style="flex:1;min-width:220px;padding:.7rem 1rem;border:1.5px solid var(--border);border-radius:6px;font-size:.875rem;font-family:inherit;" />
+        <button onclick="emailReport()" style="padding:.7rem 1.25rem;background:#e07b6a;color:white;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;white-space:nowrap;">Send Report →</button>
+        <div id="email-status" style="font-size:.8rem;color:var(--muted);width:100%;display:none;"></div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:2.5rem;margin-bottom:1.5rem;" id="report-printable">
         <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);">
           <div style="width:40px;height:40px;background:linear-gradient(135deg,#0096c7,#023e8a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🔬</div>
           <div>
             <div style="font-weight:700;font-size:1rem;">Your Functional Health Report</div>
-            <div style="font-size:.8rem;color:var(--muted);">Functional Medicine Optimal Ranges Analysis</div>
+            <div style="font-size:.8rem;color:var(--muted);">FunctionAgain Health · Functional Medicine Optimal Ranges Analysis</div>
           </div>
         </div>
         <div id="report-content" style="font-size:.95rem;line-height:1.85;color:#2d2d2d;"></div>
       </div>
+
       <div class="cta-box">
         <h2>Ready to go deeper?</h2>
         <p>Your report gives you the full picture. A 1:1 session with Sara turns that picture into a personalized protocol — what to actually do, in what order, for your specific biology.</p>
-        <a href="mailto:sara@functionagainhealth.com" class="btn-white">Book a Session with Sara</a>
-        <a href="https://www.ultalabtests.com" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
+        <a href="https://functionagain-health.netlify.app/#contact" class="btn-white">Book a Session with Sara</a>
+        <a href="https://www.ultalabtests.com/partners/functionagainhealth" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
       </div>
     </div>
 
@@ -1070,6 +1100,79 @@ function generateReport(results, labs) {
 
   html += `</div>`;
   return html;
+}
+
+// ── REPORT ACTIONS ────────────────────────────────────────────────────────────
+
+function downloadReport() {
+  const printable = document.getElementById('report-printable');
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head>
+    <meta charset="UTF-8"/>
+    <title>Functional Health Report — FunctionAgain Health</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <style>
+      body { font-family: 'Inter', sans-serif; color: #111827; padding: 2.5rem; max-width: 800px; margin: 0 auto; font-size: 14px; line-height: 1.75; }
+      @media print { body { padding: 1rem; } button { display: none !important; } }
+    </style>
+  </head><body>
+    <div style="border-bottom:2px solid #05152e;padding-bottom:1rem;margin-bottom:2rem;display:flex;justify-content:space-between;align-items:flex-end;">
+      <div>
+        <div style="font-family:serif;font-size:1.4rem;font-weight:400;color:#05152e;">FunctionAgain Health</div>
+        <div style="font-size:.8rem;color:#6b7280;margin-top:.2rem;">Functional Blood Chemistry Analysis</div>
+      </div>
+      <div style="font-size:.8rem;color:#6b7280;">Generated: ${new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}</div>
+    </div>
+    ${printable.innerHTML}
+    <div style="border-top:1px solid #e5e7eb;margin-top:2rem;padding-top:1rem;font-size:.75rem;color:#9ca3af;">
+      This report was generated by FunctionAgain Health's functional blood chemistry analysis tool. It is for educational purposes only and does not constitute medical advice. functionagain-health.netlify.app
+    </div>
+    <script>window.onload = function() { window.print(); }<\/script>
+  </body></html>`);
+  win.document.close();
+}
+
+async function emailReport() {
+  const email = document.getElementById('email-dest').value.trim();
+  const status = document.getElementById('email-status');
+  if (!email || !email.includes('@')) {
+    status.style.display = 'block';
+    status.style.color = '#dc2626';
+    status.textContent = 'Please enter a valid email address.';
+    return;
+  }
+  const reportHtml = document.getElementById('report-printable').innerHTML;
+  status.style.display = 'block';
+  status.style.color = '#6b7280';
+  status.textContent = 'Sending...';
+  try {
+    const res = await fetch('/.netlify/functions/send-report', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, reportHtml, date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }) }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      status.style.color = '#16a34a';
+      status.textContent = '✓ Report sent. Check your inbox (and spam folder if needed).';
+      document.getElementById('email-dest').value = '';
+    } else {
+      status.style.color = '#dc2626';
+      status.textContent = 'Failed to send. Please use the Download PDF option instead.';
+    }
+  } catch (e) {
+    status.style.color = '#dc2626';
+    status.textContent = 'Connection error. Please use the Download PDF option instead.';
+  }
+}
+
+function clearReport() {
+  if (!confirm('Are you sure? This will permanently delete your report from this browser. It is not stored anywhere else.')) return;
+  document.getElementById('ai-report').style.display = 'none';
+  document.getElementById('report-content').innerHTML = '';
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('quiz-form').reset();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // ── STRIPE CHECKOUT (single $49 tier) ────────────────────────────────────────
