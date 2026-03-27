@@ -557,10 +557,10 @@
           <div style="width:40px;height:40px;background:linear-gradient(135deg,#0096c7,#023e8a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🔬</div>
           <div>
             <div style="font-weight:700;font-size:1rem;">Your Functional Health Report</div>
-            <div style="font-size:.8rem;color:var(--muted);">AI-Powered Functional Health Analysis</div>
+            <div style="font-size:.8rem;color:var(--muted);">Functional Medicine Optimal Ranges Analysis</div>
           </div>
         </div>
-        <div id="report-content" style="font-size:.95rem;line-height:1.85;color:#2d2d2d;white-space:pre-wrap;"></div>
+        <div id="report-content" style="font-size:.95rem;line-height:1.85;color:#2d2d2d;"></div>
       </div>
       <div class="cta-box">
         <h2>Ready to go deeper?</h2>
@@ -947,62 +947,176 @@ const MARKERS = {
 // ── GLOBAL STATE ────────────────────────────────────────────────────────────
 let _currentLabs = {};
 
-// ── STRIPE CHECKOUT ──────────────────────────────────────────────────────────
-const TIERS = {
-  basic:   { price: 2900,  label: 'AI Blood Analysis Report — Basic',   desc: 'Full functional analysis, pattern detection, priority action plan' },
-  premium: { price: 4999,  label: 'AI Blood Analysis Report — Premium', desc: 'Extended AI analysis + supplement recommendations + PDF report' },
-  consult: { price: 14900, label: 'Consultation + Premium Report',       desc: '1-hour phone call with Sara Knight + full premium AI report + 7-day email follow-up' },
+// ── PATTERN DETECTION ENGINE (mirrors analyze.js) ────────────────────────────
+const FUNCTIONAL_RANGES_REPORT = {
+  glucose: { name: 'Fasting Glucose', unit: 'mg/dL', lo: 75, hi: 86 },
+  hba1c: { name: 'HbA1c', unit: '%', lo: 4.8, hi: 5.3 },
+  insulin: { name: 'Fasting Insulin', unit: 'μIU/mL', lo: 2, hi: 8 },
+  triglycerides: { name: 'Triglycerides', unit: 'mg/dL', lo: 60, hi: 100 },
+  total_chol: { name: 'Total Cholesterol', unit: 'mg/dL', lo: 160, hi: 220 },
+  ldl: { name: 'LDL', unit: 'mg/dL', lo: 80, hi: 120 },
+  hdl: { name: 'HDL', unit: 'mg/dL', lo: 55, hi: 75 },
+  tsh: { name: 'TSH', unit: 'mIU/L', lo: 1.0, hi: 2.0 },
+  free_t3: { name: 'Free T3', unit: 'pg/mL', lo: 3.0, hi: 3.5 },
+  free_t4: { name: 'Free T4', unit: 'ng/dL', lo: 1.0, hi: 1.5 },
+  ferritin: { name: 'Ferritin', unit: 'ng/mL', lo: 50, hi: 150 },
+  serum_iron: { name: 'Serum Iron', unit: 'μg/dL', lo: 85, hi: 130 },
+  tibc: { name: 'TIBC', unit: 'μg/dL', lo: 250, hi: 370 },
+  vitamin_d: { name: 'Vitamin D (25-OH)', unit: 'ng/mL', lo: 50, hi: 80 },
+  b12: { name: 'Vitamin B12', unit: 'pg/mL', lo: 450, hi: 900 },
+  homocysteine: { name: 'Homocysteine', unit: 'μmol/L', lo: 5, hi: 8 },
+  hscrp: { name: 'hsCRP', unit: 'mg/L', lo: 0, hi: 1.0 },
+  wbc: { name: 'WBC', unit: '10³/μL', lo: 5.5, hi: 7.5 },
+  rbc: { name: 'RBC', unit: 'M/μL', lo: 4.2, hi: 4.9 },
+  hemoglobin: { name: 'Hemoglobin', unit: 'g/dL', lo: 13.5, hi: 15.0 },
+  hematocrit: { name: 'Hematocrit', unit: '%', lo: 40, hi: 47 },
+  mcv: { name: 'MCV', unit: 'fL', lo: 85, hi: 95 },
+  ferritin: { name: 'Ferritin', unit: 'ng/mL', lo: 50, hi: 150 },
+  alt: { name: 'ALT', unit: 'U/L', lo: 10, hi: 26 },
+  ast: { name: 'AST', unit: 'U/L', lo: 10, hi: 26 },
+  vitamin_d: { name: 'Vitamin D', unit: 'ng/mL', lo: 50, hi: 80 },
+  cortisol: { name: 'Cortisol (AM)', unit: 'μg/dL', lo: 10, hi: 18 },
+  dheas: { name: 'DHEA-S', unit: 'μg/dL', lo: 150, hi: 380 },
+  testosterone_m: { name: 'Testosterone (Male)', unit: 'ng/dL', lo: 500, hi: 900 },
+  testosterone_f: { name: 'Testosterone (Female)', unit: 'ng/dL', lo: 25, hi: 70 },
+  estradiol: { name: 'Estradiol (E2)', unit: 'pg/mL', lo: 60, hi: 150 },
+  magnesium: { name: 'Magnesium', unit: 'mg/dL', lo: 2.0, hi: 2.5 },
+  hscrp: { name: 'hsCRP', unit: 'mg/L', lo: 0, hi: 1.0 },
 };
 
-async function handleCheckout(tier = 'premium') {
-  const buttons = document.querySelectorAll('[onclick^="handleCheckout"]');
-  buttons.forEach(b => { b.disabled = true; b.style.opacity = '.6'; });
-  const btn = event.currentTarget;
-  const origText = btn.textContent;
-  btn.textContent = 'Redirecting...';
+const PATTERN_DEFS = [
+  { name: 'Metabolic Syndrome', keys: ['glucose','hba1c','triglycerides','hdl','insulin'], description: 'A cluster of metabolic disruptions that dramatically increase cardiovascular and diabetes risk. The underlying driver is typically insulin resistance — your cells aren\'t responding properly to insulin, forcing the pancreas to produce more. This creates a cascade of downstream effects across blood sugar, lipids, and inflammation.' },
+  { name: 'Iron Deficiency', keys: ['ferritin','serum_iron','tibc','mcv','hemoglobin'], description: 'Your body\'s iron stores appear depleted. Iron is essential for oxygen transport, cellular energy production, thyroid function, and neurotransmitter synthesis. This pattern commonly presents as fatigue, brain fog, poor exercise tolerance, and cold hands/feet — often years before anemia develops.' },
+  { name: 'Thyroid Dysfunction', keys: ['tsh','free_t3','free_t4'], description: 'Your thyroid markers suggest suboptimal thyroid function. The thyroid regulates metabolism, body temperature, heart rate, mood, and energy. Even subtle dysfunction outside functional ranges can cause persistent fatigue, weight changes, brain fog, constipation, hair thinning, and depression — often dismissed as "normal" by standard reference ranges.' },
+  { name: 'Chronic Inflammation', keys: ['hscrp','wbc','homocysteine'], description: 'Elevated inflammatory markers suggest systemic low-grade inflammation. This is a root driver of cardiovascular disease, metabolic dysfunction, autoimmunity, accelerated aging, and cognitive decline. Common triggers include poor sleep, processed food, gut dysbiosis, hidden infections, excess body fat, and chronic stress.' },
+  { name: 'Insulin Resistance', keys: ['glucose','hba1c','insulin','hdl','triglycerides'], description: 'Your markers suggest your cells are becoming less responsive to insulin. This is the earliest stage of metabolic dysfunction — often present a decade before a diabetes diagnosis. Insulin resistance drives fat storage, inflammation, hormonal disruption, and cognitive decline.' },
+  { name: 'B12/Folate Deficiency', keys: ['b12','homocysteine','mcv'], description: 'Your markers suggest B12 or folate insufficiency. These nutrients are essential for DNA synthesis, red blood cell formation, nerve function, and methylation — the biochemical process that regulates gene expression, detoxification, and neurotransmitter production. Deficiency is common in people taking metformin, PPIs, or who eat low-animal-protein diets.' },
+  { name: 'Vitamin D Deficiency', keys: ['vitamin_d'], description: 'Low vitamin D affects immune regulation, calcium absorption, mood, thyroid function, and cardiovascular health. It functions more like a hormone than a vitamin — receptors for it exist in virtually every tissue in the body. Deficiency is extremely common and dramatically underdiagnosed.' },
+  { name: 'Adrenal Stress Pattern', keys: ['cortisol','dheas'], description: 'Your cortisol and/or DHEA-S values suggest adrenal stress. Chronic stress dysregulates the HPA axis — the communication system between your brain and adrenal glands — leading to disrupted energy, sleep, immunity, and sex hormone production. This pattern often presents as wired-but-tired, poor stress resilience, and morning fatigue.' },
+];
 
-  try {
-    const res = await fetch('/.netlify/functions/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ labs: _currentLabs, tier }),
-    });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      buttons.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
-      btn.textContent = 'Error — try again';
-    }
-  } catch (e) {
-    buttons.forEach(b => { b.disabled = false; b.style.opacity = '1'; });
-    btn.textContent = origText;
-  }
+function detectPatternsLocal(labs, results) {
+  const flaggedKeys = new Set(results.filter(r => r.status !== 'optimal').map(r => r.key));
+  return PATTERN_DEFS.filter(p => p.keys.some(k => flaggedKeys.has(k))).slice(0, 4);
 }
 
-// ── FETCH AI REPORT (after successful payment) ────────────────────────────────
-async function fetchAIReport(sessionId, labs) {
-  document.getElementById('ai-report').style.display = 'block';
-  document.getElementById('report-content').textContent = '⏳ Generating your personalized report... this takes 20-30 seconds.';
-
-  try {
-    const res = await fetch('/.netlify/functions/analyze', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ sessionId, labs }),
-    });
-    const data = await res.json();
-    if (data.report) {
-      document.getElementById('report-content').textContent = data.report;
-    } else {
-      document.getElementById('report-content').textContent = 'Report generation failed. Please contact sara@functionagainhealth.com with your session ID: ' + sessionId;
-    }
-  } catch (e) {
-    document.getElementById('report-content').textContent = 'Connection error. Please email sara@functionagainhealth.com with your session ID: ' + sessionId;
-  }
+function getFollowUpLabs(labs, results) {
+  const flaggedKeys = new Set(results.filter(r => r.status !== 'optimal').map(r => r.key));
+  const suggestions = [];
+  if ((flaggedKeys.has('tsh') || flaggedKeys.has('free_t3')) && !labs.tpo_ab) suggestions.push({ lab: 'TPO Antibodies', reason: 'Rule out Hashimoto\'s autoimmune thyroid disease' });
+  if (flaggedKeys.has('glucose') || flaggedKeys.has('hba1c')) suggestions.push({ lab: 'Fasting Insulin', reason: 'Quantify insulin resistance beyond blood sugar levels' });
+  if (flaggedKeys.has('ferritin') || flaggedKeys.has('hemoglobin')) suggestions.push({ lab: 'Iron Panel (serum iron, TIBC, transferrin saturation)', reason: 'Complete the iron deficiency picture' });
+  if (flaggedKeys.has('hscrp') || flaggedKeys.has('homocysteine')) suggestions.push({ lab: 'Oxidized LDL + Lp(a)', reason: 'Assess true cardiovascular risk beyond standard lipid panel' });
+  if (!labs.vitamin_d) suggestions.push({ lab: '25-OH Vitamin D', reason: 'Foundational marker — affects immunity, mood, thyroid, and calcium metabolism' });
+  if (!labs.magnesium) suggestions.push({ lab: 'RBC Magnesium (not serum)', reason: 'Serum magnesium misses intracellular deficiency. RBC magnesium is accurate.' });
+  if (flaggedKeys.has('cortisol') || flaggedKeys.has('dheas')) suggestions.push({ lab: '4-point salivary cortisol', reason: 'Map the full daily cortisol curve — a single AM draw misses the pattern' });
+  return suggestions.slice(0, 5);
 }
 
-// ── CHECK FOR PAID RETURN ─────────────────────────────────────────────────────
+function generateReport(results, labs) {
+  const flagged = results.filter(r => r.status === 'flag');
+  const caution = results.filter(r => r.status === 'caution');
+  const optimal = results.filter(r => r.status === 'optimal');
+  const patterns = detectPatternsLocal(labs, results);
+  const followUp = getFollowUpLabs(labs, results);
+  const score = Math.round((optimal.length / results.length) * 100);
+
+  const priorityList = [...flagged, ...caution].slice(0, 7);
+
+  let html = `<div style="font-family:'Inter',sans-serif;color:#111827;line-height:1.75;">`;
+
+  // Executive Summary
+  html += `<div style="background:linear-gradient(135deg,#05152e,#0a2a52);color:white;border-radius:10px;padding:1.75rem 2rem;margin-bottom:1.75rem;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f4a0a0;margin-bottom:.5rem;">Executive Summary</div>
+    <p style="font-size:1rem;line-height:1.7;opacity:.9;">`;
+
+  if (flagged.length === 0 && caution.length === 0) {
+    html += `All ${results.length} markers entered are in the functional optimal range. Your biology is running well. Focus on maintaining these levels through consistent habits.`;
+  } else if (flagged.length >= 3) {
+    html += `${flagged.length} markers are significantly outside functional optimal ranges, with ${caution.length} additional markers in caution zones. ${patterns.length > 0 ? `The pattern analysis points to ${patterns.map(p => p.name).join(' and ')} as likely root drivers.` : ''} These findings warrant attention — but they\'re also actionable.`;
+  } else {
+    html += `${flagged.length + caution.length} of ${results.length} markers show room for optimization. ${optimal.length > 0 ? `${optimal.length} markers look strong. ` : ''}${patterns.length > 0 ? `The pattern data points toward ${patterns[0].name} as the most significant area to address.` : 'No strong patterns detected — individual markers are the focus.'}`;
+  }
+  html += `</p></div>`;
+
+  // All Marker Results
+  html += `<div style="margin-bottom:1.75rem;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Full Marker Analysis</div>`;
+
+  results.forEach(r => {
+    const borderColor = r.status === 'flag' ? '#fecaca' : r.status === 'caution' ? '#fde68a' : '#bbf7d0';
+    const bgColor = r.status === 'flag' ? '#fef2f2' : r.status === 'caution' ? '#fffbeb' : '#f0fdf4';
+    html += `<div style="background:${bgColor};border-left:4px solid ${borderColor};border-radius:6px;padding:1rem 1.25rem;margin-bottom:.75rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem;">
+        <strong style="font-size:.9rem;">${r.icon} ${r.marker.name}</strong>
+        <span style="font-size:.78rem;font-weight:600;opacity:.7;">${r.label}</span>
+      </div>
+      <div style="font-size:.82rem;color:#374151;margin-bottom:.4rem;">Your value: <strong>${r.val} ${r.marker.unit}</strong> · Functional optimal: ${r.lo}–${r.hi} ${r.marker.unit}</div>
+      <div style="font-size:.85rem;color:#4b5563;line-height:1.6;">${r.explain}</div>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Patterns
+  if (patterns.length > 0) {
+    html += `<div style="margin-bottom:1.75rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Pattern Analysis</div>`;
+    patterns.forEach(p => {
+      html += `<div style="background:white;border:1px solid #e5e0d8;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:.75rem;">
+        <div style="font-weight:700;font-size:.95rem;margin-bottom:.5rem;">🔗 ${p.name}</div>
+        <div style="font-size:.875rem;color:#4b5563;line-height:1.7;">${p.description}</div>
+        <div style="font-size:.78rem;color:#9ca3af;margin-top:.5rem;">Related markers: ${p.keys.join(', ')}</div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Priority Action Plan
+  if (priorityList.length > 0) {
+    html += `<div style="margin-bottom:1.75rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Priority Action Plan</div>
+      <p style="font-size:.875rem;color:#6b7280;margin-bottom:1rem;">Ranked by functional impact. Address these in order — fixing upstream drivers often resolves downstream markers automatically.</p>`;
+    priorityList.forEach((r, i) => {
+      html += `<div style="display:flex;gap:1rem;padding:.9rem 0;border-bottom:1px solid #f3f4f6;">
+        <div style="flex-shrink:0;width:28px;height:28px;background:#05152e;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;">${i+1}</div>
+        <div><strong style="font-size:.9rem;">${r.marker.name}</strong> <span style="font-size:.8rem;color:#9ca3af;">(${r.label})</span>
+        <div style="font-size:.83rem;color:#4b5563;margin-top:.25rem;">Your value ${r.val} ${r.marker.unit} — functional optimal is ${r.lo}–${r.hi}. ${r.explain.split('.')[0]}.</div></div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Follow-up labs
+  if (followUp.length > 0) {
+    html += `<div style="margin-bottom:1.75rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Recommended Follow-Up Labs</div>`;
+    followUp.forEach(f => {
+      html += `<div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid #f3f4f6;">
+        <span style="color:#e07b6a;font-weight:700;flex-shrink:0;">+</span>
+        <div><strong style="font-size:.875rem;">${f.lab}</strong><div style="font-size:.82rem;color:#6b7280;">${f.reason}</div></div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+
+  // Positives
+  if (optimal.length > 0) {
+    html += `<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#15803d;margin-bottom:.75rem;">What's Working ✅</div>
+      <p style="font-size:.875rem;color:#166534;">${optimal.map(r => r.marker.name).join(', ')} — all in functional optimal range. These are real strengths to protect.</p>
+    </div>`;
+  }
+
+  // Disclaimer
+  html += `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:1rem 1.25rem;font-size:.78rem;color:#6b7280;line-height:1.6;">
+    ⚕️ <strong>Educational use only.</strong> This analysis is based on functional medicine optimal ranges and is intended for educational purposes. It does not constitute medical advice, diagnosis, or treatment. Please discuss your results with a licensed healthcare provider before making any changes to your health regimen.
+  </div>`;
+
+  html += `</div>`;
+  return html;
+}
+
+// ── CHECK FOR PAID RETURN (legacy — no longer used) ───────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('session_id');
@@ -1097,19 +1211,14 @@ function analyzeBloodwork() {
   document.getElementById('score-text').textContent = `${score}% of entered markers in functional optimal range`;
   setTimeout(() => { document.getElementById('score-fill').style.width = score + '%'; }, 100);
 
-  // Save labs globally for checkout
-  const formData = new FormData(document.getElementById('quiz-form'));
+  // Save labs globally
+  const formData2 = new FormData(document.getElementById('quiz-form'));
   _currentLabs = {};
-  for (const [k, v] of formData.entries()) { if (v && v.trim() !== '') _currentLabs[k] = parseFloat(v); }
+  for (const [k, v] of formData2.entries()) { if (v && v.trim() !== '') _currentLabs[k] = parseFloat(v); }
 
-  // Separate: show 3 flags free, blur the rest
-  const flagged = results.filter(r => r.status !== 'optimal');
-  const optimal_results = results.filter(r => r.status === 'optimal');
-  const freeResults = results.slice(0, 3); // first 3 shown free
-  const lockedCount = Math.max(0, results.length - 3);
-
+  // Show all result cards
   const cardsEl = document.getElementById('result-cards');
-  cardsEl.innerHTML = freeResults.map(r => `
+  cardsEl.innerHTML = results.map(r => `
     <div class="result-card ${r.status}">
       <div class="result-icon">${r.icon}</div>
       <div class="result-info">
@@ -1120,35 +1229,13 @@ function analyzeBloodwork() {
     </div>
   `).join('');
 
-  // Locked preview
-  if (lockedCount > 0) {
-    cardsEl.innerHTML += `
-      <div style="position:relative;margin-top:0.5rem;">
-        <div style="filter:blur(4px);pointer-events:none;opacity:0.5;">
-          ${results.slice(3, 6).map(r => `
-            <div class="result-card ${r.status}" style="margin-bottom:0.75rem;">
-              <div class="result-icon">${r.icon}</div>
-              <div class="result-info">
-                <div class="result-name">${r.marker.name}</div>
-                <div class="result-value">Your value: ${r.val} ${r.marker.unit}</div>
-                <div class="result-explain">Unlock to see full analysis...</div>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-          <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem 2rem;box-shadow:0 8px 32px rgba(0,0,0,0.12);max-width:340px;">
-            <div style="font-size:1.5rem;margin-bottom:.5rem;">🔒</div>
-            <div style="font-weight:700;font-size:1rem;margin-bottom:.4rem;">${lockedCount} more results hidden</div>
-            <div style="font-size:.85rem;color:var(--muted);margin-bottom:1rem;">Plus pattern analysis, priority action plan, and follow-up lab recommendations</div>
-            <button onclick="handleCheckout()" style="background:#e07b6a;color:white;border:none;padding:.75rem 1.75rem;border-radius:8px;font-weight:700;font-size:.9rem;cursor:pointer;width:100%;">Unlock Full Report — $29</button>
-          </div>
-        </div>
-      </div>`;
-  }
+  // Generate full report in-browser, no tokens
+  const reportEl = document.getElementById('report-content');
+  reportEl.innerHTML = generateReport(results, _currentLabs);
+  document.getElementById('ai-report').style.display = 'block';
+  document.getElementById('paywall-section').style.display = 'none';
 
   document.getElementById('results').style.display = 'block';
-  document.getElementById('paywall-section').style.display = entered > 3 ? 'block' : 'none';
   document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
