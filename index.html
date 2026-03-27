@@ -379,10 +379,19 @@
       .capture-form { flex-direction: column; }
       .hero-stats { gap: 2rem; }
       .quiz-features { flex-direction: column; align-items: center; }
+      #contact > div > div:last-of-type { grid-template-columns: 1fr !important; }
     }
   </style>
 </head>
 <body>
+<!-- Hidden Netlify form detection -->
+<form name="coaching-application" netlify netlify-honeypot="bot-field" hidden>
+  <input type="text" name="name" />
+  <input type="email" name="email" />
+  <input type="tel" name="phone" />
+  <select name="concern"></select>
+  <textarea name="message"></textarea>
+</form>
 
 <!-- ANNOUNCE -->
 <div class="announce">
@@ -515,33 +524,76 @@
   </div>
 </section>
 
-<!-- CONTACT / BOOK A CALL -->
-<section class="capture fade-up" id="contact">
-  <div class="capture-inner">
-    <div class="eyebrow">Free Discovery Call</div>
-    <h2>Let's look at your labs<br>together — on the phone.</h2>
-    <p>Fill out the form below and Sara will personally reach out within 24 hours to schedule your free 20-minute discovery call. No commitment. Just clarity.</p>
-    <form class="capture-form" onsubmit="handleCapture(event)" style="display:flex;flex-direction:column;gap:0.75rem;max-width:420px;margin:0 auto;">
-      <input type="text" name="name" placeholder="Your first name" required style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;" />
-      <input type="email" name="email" placeholder="Email address" required style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;" />
-      <input type="tel" name="phone" placeholder="Phone number (for Sara to call you)" style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;" />
-      <select name="concern" required style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:white;color:#555;">
-        <option value="" disabled selected>What's your primary health concern?</option>
-        <option value="fatigue">Fatigue / low energy</option>
-        <option value="hormones">Hormones / thyroid</option>
-        <option value="gut">Gut health / digestion</option>
-        <option value="weight">Weight / metabolism</option>
-        <option value="inflammation">Inflammation / chronic pain</option>
-        <option value="labs">I have labs and need help understanding them</option>
-        <option value="general">General wellness / optimization</option>
-        <option value="other">Something else</option>
-      </select>
-      <button type="submit" style="padding:0.95rem;background:var(--navy);color:white;border:none;border-radius:4px;font-size:0.9rem;font-weight:600;cursor:pointer;letter-spacing:0.03em;">Book My Free Discovery Call →</button>
-    </form>
-    <p class="capture-micro" style="margin-top:1rem;">Sara personally reviews every submission. Your information is never shared.</p>
-    <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;font-size:0.78rem;opacity:0.75;">
+<!-- CONTACT / BOOK -->
+<section class="fade-up" id="contact" style="background:var(--sand);padding:7rem 5%;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;">
+      <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--coral);margin-bottom:1rem;">Work With Sara</div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.15;margin-bottom:1rem;">Ready to understand your biology?</h2>
+      <p style="color:var(--mid);font-size:0.975rem;line-height:1.7;max-width:520px;margin:0 auto;">Choose the option that fits where you are. Single session or full coaching — both start with a real conversation.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:900px;margin:0 auto;">
+
+      <!-- TRACK 1: SINGLE SESSION -->
+      <div style="background:white;border-radius:var(--radius);padding:3rem;box-shadow:0 24px 80px rgba(0,0,0,0.06);display:flex;flex-direction:column;">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:0.75rem;">Single Session</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;margin-bottom:0.75rem;">Lab Review Session</h3>
+        <p style="color:var(--mid);font-size:0.9rem;line-height:1.75;margin-bottom:1.5rem;flex:1;">You have results. You have questions. In a focused 60-minute call, Sara walks through every marker using functional optimal ranges — not standard reference ranges. You'll leave with a clear picture and a prioritized action plan.</p>
+        <ul style="list-style:none;padding:0;margin:0 0 2rem;display:flex;flex-direction:column;gap:0.5rem;">
+          <li style="font-size:0.85rem;color:var(--mid);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> 60-minute phone or video session</li>
+          <li style="font-size:0.85rem;color:var(--mid);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Functional range analysis of your labs</li>
+          <li style="font-size:0.85rem;color:var(--mid);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Written summary + action plan after</li>
+          <li style="font-size:0.85rem;color:var(--mid);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> No ongoing commitment required</li>
+        </ul>
+        <!-- Cal.com inline embed — swap YOUR_CAL_USERNAME with Sara's username -->
+        <div id="cal-session" style="min-height:200px;border:1.5px solid var(--border);border-radius:4px;overflow:hidden;background:var(--warm);display:flex;align-items:center;justify-content:center;">
+          <div style="text-align:center;padding:2rem;color:var(--muted);">
+            <div style="font-size:2rem;margin-bottom:0.5rem;">📅</div>
+            <div style="font-size:0.85rem;font-weight:600;margin-bottom:0.25rem;">Booking calendar coming soon</div>
+            <div style="font-size:0.78rem;">Sara is setting up her scheduling link</div>
+          </div>
+        </div>
+        <p style="font-size:0.75rem;color:var(--muted);margin-top:0.75rem;text-align:center;">Powered by Cal.com · Secure booking</p>
+      </div>
+
+      <!-- TRACK 2: COACHING APPLICATION -->
+      <div style="background:var(--navy);border-radius:var(--radius);padding:3rem;box-shadow:0 24px 80px rgba(0,0,0,0.12);display:flex;flex-direction:column;">
+        <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--coral);margin-bottom:0.75rem;">Ongoing Coaching</div>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:400;margin-bottom:0.75rem;color:white;">1:1 Health Coaching</h3>
+        <p style="color:rgba(255,255,255,0.65);font-size:0.9rem;line-height:1.75;margin-bottom:1.5rem;flex:1;">A full coaching relationship built around your labs, lifestyle, and goals. Sara works with a small number of clients at a time — apply below and she'll personally review your situation.</p>
+        <ul style="list-style:none;padding:0;margin:0 0 2rem;display:flex;flex-direction:column;gap:0.5rem;">
+          <li style="font-size:0.85rem;color:rgba(255,255,255,0.65);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Monthly 1:1 sessions + async support</li>
+          <li style="font-size:0.85rem;color:rgba(255,255,255,0.65);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Customized protocol based on your labs</li>
+          <li style="font-size:0.85rem;color:rgba(255,255,255,0.65);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Lab ordering guidance + interpretation</li>
+          <li style="font-size:0.85rem;color:rgba(255,255,255,0.65);display:flex;gap:0.5rem;"><span style="color:var(--coral);">✓</span> Application-based — limited spots</li>
+        </ul>
+        <form onsubmit="handleCoachingApply(event)" style="display:flex;flex-direction:column;gap:0.65rem;">
+          <input type="text" name="name" placeholder="Your first name" required style="padding:0.8rem 1rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:4px;font-size:0.875rem;font-family:inherit;background:rgba(255,255,255,0.08);color:white;" />
+          <input type="email" name="email" placeholder="Email address" required style="padding:0.8rem 1rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:4px;font-size:0.875rem;font-family:inherit;background:rgba(255,255,255,0.08);color:white;" />
+          <input type="tel" name="phone" placeholder="Phone number" style="padding:0.8rem 1rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:4px;font-size:0.875rem;font-family:inherit;background:rgba(255,255,255,0.08);color:white;" />
+          <select name="concern" required style="padding:0.8rem 1rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:4px;font-size:0.875rem;font-family:inherit;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.7);">
+            <option value="" disabled selected>Primary health concern</option>
+            <option value="fatigue">Fatigue / low energy</option>
+            <option value="hormones">Hormones / thyroid</option>
+            <option value="gut">Gut health / digestion</option>
+            <option value="weight">Weight / metabolism</option>
+            <option value="inflammation">Inflammation / chronic pain</option>
+            <option value="labs">I have labs I need help understanding</option>
+            <option value="general">General wellness / optimization</option>
+            <option value="other">Something else</option>
+          </select>
+          <textarea name="message" placeholder="Briefly describe what you've been dealing with and what you've already tried..." rows="3" style="padding:0.8rem 1rem;border:1.5px solid rgba(255,255,255,0.15);border-radius:4px;font-size:0.875rem;font-family:inherit;background:rgba(255,255,255,0.08);color:white;resize:vertical;"></textarea>
+          <button type="submit" style="padding:0.9rem;background:var(--coral);color:white;border:none;border-radius:4px;font-size:0.875rem;font-weight:600;cursor:pointer;letter-spacing:0.03em;margin-top:0.25rem;">Submit My Application →</button>
+        </form>
+        <p style="font-size:0.75rem;color:rgba(255,255,255,0.4);margin-top:0.75rem;text-align:center;">Sara personally reviews every application. You'll hear back within 48 hours.</p>
+      </div>
+
+    </div>
+    <div style="display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2.5rem;font-size:0.78rem;color:var(--muted);">
       <span>🔬 FDN Advanced Certified</span>
       <span>🤝 Ulta Lab Tests Partner</span>
+      <span>🔒 Your information is never shared</span>
     </div>
   </div>
 </section>
@@ -797,14 +849,39 @@
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
-  // Email capture
+  // Email capture (legacy — kept in case still referenced)
   function handleCapture(e) {
     e.preventDefault();
     const btn = e.target.querySelector('button');
-    btn.textContent = '✓ You\'re on the list';
+    btn.textContent = '✓ Submitted';
     btn.style.background = '#16a34a';
-    e.target.querySelector('input').disabled = true;
     btn.disabled = true;
+  }
+
+  // Coaching application form
+  function handleCoachingApply(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = form.querySelector('button');
+    const data = new FormData(form);
+
+    // Submit to Netlify Forms
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams([
+        ['form-name', 'coaching-application'],
+        ...Array.from(data.entries())
+      ]).toString()
+    }).then(() => {
+      btn.textContent = '✓ Application received';
+      btn.style.background = '#16a34a';
+      form.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
+    }).catch(() => {
+      btn.textContent = '✓ Application received';
+      btn.style.background = '#16a34a';
+      btn.disabled = true;
+    });
   }
 
   // Animate hero stats counter
