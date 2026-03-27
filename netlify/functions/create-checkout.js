@@ -37,12 +37,11 @@ exports.handler = async (event) => {
   }
 
   const TIERS = {
-    basic:   { price: 2900,  name: 'Functional Blood Analysis — Basic',   desc: 'Full marker analysis, pattern detection, priority action plan. Instant delivery.' },
-    premium: { price: 4999,  name: 'Functional Blood Analysis — Premium', desc: 'Extended AI analysis + supplement recommendations + PDF report. Instant delivery.' },
-    consult: { price: 14900, name: 'Consultation + Premium Report',        desc: '1-hour phone call with Sara Knight + full premium AI report + 7-day email follow-up.' },
+    report:  { price: 4900,  name: 'Functional Blood Analysis Report',    desc: 'Full marker analysis, pattern detection, priority action plan, follow-up lab recommendations. Instant delivery.' },
+    consult: { price: 14900, name: 'Consultation + Full Report',           desc: '1-hour phone call with Sara Knight + full report + 7-day email follow-up.' },
   };
 
-  const t = TIERS[tier] || TIERS.premium;
+  const t = TIERS[tier] || TIERS.report;
 
   const session = await post('api.stripe.com', '/v1/checkout/sessions', {
     Authorization: `Bearer ${stripeKey}`,
