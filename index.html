@@ -491,14 +491,14 @@
       <h3>Lab Work Interpretation</h3>
       <p>You have results. You have questions. In a 60-minute session, we walk through every marker using functional optimal ranges and identify the patterns your standard results missed. You'll leave with a clear picture and a prioritized action plan.</p>
       <div style="display:flex;align-items:center;gap:0.5rem;margin:0.75rem 0;padding:0.6rem 0.9rem;background:rgba(10,37,64,0.05);border-radius:4px;font-size:0.78rem;color:var(--navy);font-weight:600;">🔬 FDN Advanced Certified — Functional Blood Chemistry Analysis</div>
-      <a href="#contact" class="svc-link">Book a session →</a>
+      <a href="#contact" class="svc-link">Book a free discovery call →</a>
     </div>
     <div class="svc-card fade-up">
       <div class="svc-number">02</div>
       <h3>Functional Health Coaching</h3>
       <p>Ongoing 1:1 coaching built around your labs, lifestyle, and goals. We track what's working, adjust protocols, and build a long-term health system — not a quick fix. Most clients see meaningful change within 90 days.</p>
       <div style="display:flex;align-items:center;gap:0.5rem;margin:0.75rem 0;padding:0.6rem 0.9rem;background:rgba(10,37,64,0.05);border-radius:4px;font-size:0.78rem;color:var(--navy);font-weight:600;">🔬 FDN Advanced Certified — Functional Blood Chemistry Analysis</div>
-      <a href="#contact" class="svc-link">Apply for coaching →</a>
+      <a href="#contact" class="svc-link">Book a free discovery call →</a>
     </div>
     <div class="svc-card fade-up">
       <div class="svc-number">03</div>
@@ -515,26 +515,33 @@
   </div>
 </section>
 
-<!-- EMAIL CAPTURE -->
+<!-- CONTACT / BOOK A CALL -->
 <section class="capture fade-up" id="contact">
   <div class="capture-inner">
-    <div class="eyebrow">Limited Availability</div>
-    <h2>Your health can't wait.<br>Neither should you.</h2>
-    <p>Join the waitlist for 1:1 coaching sessions. Spots are limited. Members get priority booking and a free lab review when we open.</p>
-    <form class="capture-form" onsubmit="handleCapture(event)">
-      <input type="email" placeholder="Your email address" required />
-      <button type="submit">Reserve My Spot</button>
+    <div class="eyebrow">Free Discovery Call</div>
+    <h2>Let's look at your labs<br>together — on the phone.</h2>
+    <p>Fill out the form below and Sara will personally reach out within 24 hours to schedule your free 20-minute discovery call. No commitment. Just clarity.</p>
+    <form class="capture-form" onsubmit="handleCapture(event)" style="display:flex;flex-direction:column;gap:0.75rem;max-width:420px;margin:0 auto;">
+      <input type="text" name="name" placeholder="Your first name" required style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;" />
+      <input type="email" name="email" placeholder="Email address" required style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;" />
+      <input type="tel" name="phone" placeholder="Phone number (for Sara to call you)" style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;" />
+      <select name="concern" required style="padding:0.85rem 1rem;border:1px solid var(--border);border-radius:4px;font-size:0.9rem;font-family:inherit;background:white;color:#555;">
+        <option value="" disabled selected>What's your primary health concern?</option>
+        <option value="fatigue">Fatigue / low energy</option>
+        <option value="hormones">Hormones / thyroid</option>
+        <option value="gut">Gut health / digestion</option>
+        <option value="weight">Weight / metabolism</option>
+        <option value="inflammation">Inflammation / chronic pain</option>
+        <option value="labs">I have labs and need help understanding them</option>
+        <option value="general">General wellness / optimization</option>
+        <option value="other">Something else</option>
+      </select>
+      <button type="submit" style="padding:0.95rem;background:var(--navy);color:white;border:none;border-radius:4px;font-size:0.9rem;font-weight:600;cursor:pointer;letter-spacing:0.03em;">Book My Free Discovery Call →</button>
     </form>
-    <p class="capture-micro">No spam. Unsubscribe anytime. Your information is never shared.</p>
-    <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;font-size:0.78rem;opacity:0.8;">
+    <p class="capture-micro" style="margin-top:1rem;">Sara personally reviews every submission. Your information is never shared.</p>
+    <div style="display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:1rem;font-size:0.78rem;opacity:0.75;">
       <span>🔬 FDN Advanced Certified</span>
       <span>🤝 Ulta Lab Tests Partner</span>
-    </div>
-    <div class="social-proof">
-      <div class="avatars">
-        <span>JM</span><span>KR</span><span>AB</span><span>SL</span><span>+</span>
-      </div>
-      <div class="social-proof-text"><strong>247 people</strong> already on the waitlist</div>
     </div>
   </div>
 </section>
