@@ -5,6 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Function Again Health — Precision Wellness by Sara Knight</title>
   <meta name="description" content="Stop waiting to feel sick. Understand your biology now. Functional lab analysis, personalized health coaching, and evidence-based protocols." />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔬</text></svg>" />
+
+  <!-- Social Meta Tags -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://functionagain-health.netlify.app/" />
+  <meta property="og:title" content="Function Again Health — Precision Wellness by Sara Knight" />
+  <meta property="og:description" content="Stop waiting to feel sick. Understand your biology now. Functional lab analysis, personalized health coaching, and evidence-based protocols." />
+  <meta property="og:image" content="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&fit=crop" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Function Again Health — Precision Wellness by Sara Knight" />
+  <meta name="twitter:description" content="Stop waiting to feel sick. Understand your biology now. Functional lab analysis, personalized health coaching, and evidence-based protocols." />
+  <meta name="twitter:image" content="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1200&q=80&fit=crop" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
@@ -62,6 +77,22 @@
       font-size: 0.82rem !important; font-weight: 600 !important; letter-spacing: 0.04em;
     }
     .nav-cta:hover { background: #0a2244 !important; }
+
+    /* ─── HAMBURGER ─────────────────────────────────────────── */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; background: none; border: none; z-index: 600; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--navy); border-radius: 2px; transition: all .3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; top: 68px; z-index: 499;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(16px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem; list-style: none;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 1.35rem; font-weight: 500; color: var(--navy); text-decoration: none; letter-spacing: 0.02em; }
+    .mobile-menu .nav-cta { font-size: 1rem !important; padding: 0.75rem 2.5rem !important; }
 
     /* ─── HERO ──────────────────────────────────────────────── */
     .hero {
@@ -373,6 +404,7 @@
     }
     @media (max-width: 768px) {
       nav .nav-links { display: none; }
+      .hamburger { display: flex; }
       .services-grid { grid-template-columns: 1fr; }
       .products-grid { grid-template-columns: 1fr; }
       .blog-grid { grid-template-columns: 1fr; }
@@ -417,7 +449,20 @@
     <li><a href="#about">About</a></li>
     <li><a href="#contact" class="nav-cta">Book a Session</a></li>
   </ul>
+  <button class="hamburger" id="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- Mobile menu -->
+<ul class="mobile-menu" id="mobile-menu">
+  <li><a href="#services" class="mobile-link">Services</a></li>
+  <li><a href="#products" class="mobile-link">Products</a></li>
+  <li><a href="bloodwork-quiz.html" class="mobile-link">Lab Analysis</a></li>
+  <li><a href="#pricing" class="mobile-link">Pricing</a></li>
+  <li><a href="#about" class="mobile-link">About</a></li>
+  <li><a href="#contact" class="nav-cta mobile-link">Book a Session</a></li>
+</ul>
 
 <!-- HERO -->
 <section class="hero">
@@ -635,38 +680,38 @@
       <div class="product-cat">Air Quality</div>
       <h3>HEPA Air Purifier</h3>
       <p>Indoor air is often 2–5× more polluted than outdoor. HEPA + activated carbon removes VOCs, mold spores, and particulates. Non-negotiable if you have any respiratory or immune issues.</p>
-      <div class="product-action"><span class="product-link">Coming Soon</span><span>High ticket · 15–30% commission</span></div>
+      <div class="product-action"><span class="product-link">Coming Soon</span></div>
     </div>
     <div class="product-card featured fade-up">
       <div class="featured-badge">Top Pick</div>
       <div class="product-cat">Metabolism</div>
       <h3>Continuous Glucose Monitor</h3>
       <p>Wearing a CGM for 30 days permanently changes how you eat. Seeing your glucose response to specific foods is the most personalized nutrition data available — and it reveals insulin resistance years early.</p>
-      <div class="product-action"><a href="#" class="product-link ready">View →</a><span>~$200–400/mo · recurring</span></div>
+      <div class="product-action"><a href="#" class="product-link ready">View →</a></div>
     </div>
     <div class="product-card fade-up">
       <div class="product-cat">Recovery</div>
       <h3>Red Light Therapy Panel</h3>
       <p>Clinically studied for mitochondrial function, inflammation, skin health, and thyroid support. Panel quality matters — most cheap panels don't deliver therapeutic irradiance. Here's what I use.</p>
-      <div class="product-action"><span class="product-link">Coming Soon</span><span>$300–800 · 10% commission</span></div>
+      <div class="product-action"><span class="product-link">Coming Soon</span></div>
     </div>
     <div class="product-card fade-up">
       <div class="product-cat">Hydration</div>
       <h3>Reverse Osmosis Filter</h3>
       <p>Remove chlorine, fluoride, microplastics, and pharmaceutical residue from your tap water. The single highest ROI health upgrade available — and the research on what tap water contains is sobering.</p>
-      <div class="product-action"><span class="product-link">Coming Soon</span><span>$200–500 · recurring filters</span></div>
+      <div class="product-action"><span class="product-link">Coming Soon</span></div>
     </div>
     <div class="product-card fade-up">
       <div class="product-cat">Kitchen</div>
       <h3>Non-Toxic Cookware</h3>
       <p>Teflon at high heat releases PFAS compounds into your food. These accumulate in tissue, disrupt hormones, and have been linked to thyroid dysfunction. Ceramic, cast iron, or stainless is the move.</p>
-      <div class="product-action"><span class="product-link">Coming Soon</span><span>$200–600 · 8% commission</span></div>
+      <div class="product-action"><span class="product-link">Coming Soon</span></div>
     </div>
     <div class="product-card fade-up">
       <div class="product-cat">Supplements</div>
       <h3>Third-Party Tested Brands</h3>
       <p>The supplement industry is largely unregulated. Most products contain what they claim — and some don't. I only recommend brands that publish third-party testing. A short list, but a trustworthy one.</p>
-      <div class="product-action"><span class="product-link">Coming Soon</span><span>Recurring · 15–40% commission</span></div>
+      <div class="product-action"><span class="product-link">Coming Soon</span></div>
     </div>
   </div>
 </section>
@@ -738,7 +783,7 @@
   <h2>Most people are surprised by what their "normal" labs are actually showing</h2>
   <p>Enter your values. We'll run them through functional optimal ranges and show you exactly what to pay attention to — in under 3 minutes.</p>
   <div class="quiz-features">
-    <span class="quiz-feature">25+ biomarkers analyzed</span>
+    <span class="quiz-feature">37+ biomarkers analyzed</span>
     <span class="quiz-feature">Functional optimal ranges</span>
     <span class="quiz-feature">Plain-English explanations</span>
     <span class="quiz-feature">No account required</span>
@@ -748,7 +793,7 @@
 </section>
 
 <!-- BLOG -->
-<section class="blog" id="blog">
+<section class="blog" id="blog" style="display:none;">
   <div class="section-header fade-up">
     <div class="eyebrow">Journal</div>
     <h2>The research you wish your doctor read</h2>
@@ -852,7 +897,7 @@
     <div class="footer-col">
       <h4>Resources</h4>
       <ul>
-        <li><a href="#blog">Journal</a></li>
+        <!-- <li><a href="#blog">Journal</a></li> -->
         <li><a href="bloodwork-quiz.html">Bloodwork Tool</a></li>
         <li><a href="#contact">Book a Session</a></li>
         <li><a href="#contact">Waitlist</a></li>
@@ -866,6 +911,22 @@
 </footer>
 
 <script>
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => {
+    hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+    document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+  });
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      document.body.style.overflow = '';
+    });
+  });
+
   // Fade-up on scroll
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
