@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyBloodIQ — Investor Deck</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --white:#ffffff;
+  --off:#fafaf9;
+  --bg:#f5f4f2;
+  --ink:#0c0c0c;
+  --ink2:#1a1a2e;
+  --muted:#6b7280;
+  --muted2:#9ca3af;
+  --accent:#1e3a8a;
+  --accent-lt:#dbeafe;
+  --accent-mid:#3b82f6;
+  --red:#b91c1c;
+  --green:#15803d;
+  --amber:#92400e;
+  --border:#e5e7eb;
+  --border2:#d1d5db;
+}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;color:var(--ink)}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;background:var(--accent);transition:width .5s ease;z-index:999}
+
+/* COUNTER */
+#ctr{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted2);letter-spacing:.15em;z-index:999}
+
+/* NAV */
+.nav{position:fixed;bottom:18px;z-index:999;width:34px;height:34px;border:1px solid var(--border2);border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted);transition:all .2s;font-size:.75rem;box-shadow:0 1px 4px rgba(0,0,0,0.08)}
+.nav:hover{border-color:var(--accent);color:var(--accent)}
+#np{right:22px}#pp{right:64px}
+
+/* SLIDES */
+.deck{width:100%;height:100%;position:relative}
+.s{position:absolute;inset:0;opacity:0;transform:translateX(32px);transition:opacity .45s ease,transform .45s ease;pointer-events:none;display:flex;flex-direction:column;justify-content:center;padding:5% 8%}
+.s.on{opacity:1;transform:translateX(0);pointer-events:all}
+.s.out{opacity:0;transform:translateX(-32px)}
+
+/* SLIDE BACKGROUNDS */
+.s-white{background:var(--white)}
+.s-off{background:var(--off)}
+.s-ink{background:var(--ink2);color:var(--white)}
+.s-accent{background:var(--accent);color:var(--white)}
+
+/* TYPOGRAPHY */
+.eyebrow{font-family:'DM Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.eyebrow-inv{color:rgba(255,255,255,0.5)}
+.h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,6vw,5.5rem);font-weight:700;line-height:1.05;letter-spacing:-.02em;margin-bottom:1.25rem;color:var(--ink)}
+.h1-inv{color:var(--white)}
+.h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:600;line-height:1.1;letter-spacing:-.01em;margin-bottom:1rem;color:var(--ink)}
+.h2-inv{color:var(--white)}
+.h3{font-size:1rem;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.body{font-size:.95rem;color:var(--muted);line-height:1.75;max-width:500px;font-weight:300}
+.body-inv{color:rgba(255,255,255,0.65)}
+.big{font-family:'Playfair Display',serif;font-size:clamp(3.5rem,7vw,6.5rem);font-weight:700;line-height:1;letter-spacing:-.02em;display:block}
+.mono{font-family:'DM Mono',monospace}
+
+/* DIVIDER */
+.rule{width:48px;height:2px;background:var(--accent);margin-bottom:2rem}
+.rule-inv{background:rgba(255,255,255,0.3)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;width:100%}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;width:100%}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;width:100%}
+.split{display:grid;grid-template-columns:1.1fr 1fr;gap:5rem;align-items:center;width:100%}
+
+/* STAT BLOCK */
+.stat{padding:.25rem 0}
+.stat .n{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;line-height:1;display:block;margin-bottom:.3rem;color:var(--accent)}
+.stat .n-inv{color:var(--white)}
+.stat .l{font-size:.78rem;color:var(--muted);line-height:1.5}
+.stat .l-inv{color:rgba(255,255,255,0.55)}
+
+/* CARD */
+.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:1.75rem}
+.card-accent{background:var(--accent-lt);border-color:var(--accent-mid)}
+.card-ink{background:var(--ink2);border-color:rgba(255,255,255,0.1);color:var(--white)}
+.card-line{border-left:3px solid var(--accent);border-radius:0 8px 8px 0;padding-left:1.5rem;border-top:none;border-right:none;border-bottom:none;background:transparent}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:.8rem}
+th{font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted2);padding:.75rem 1rem;font-weight:500;border-bottom:2px solid var(--border)}
+td{padding:.6rem 1rem;border-bottom:1px solid var(--border);vertical-align:middle}
+td:first-child{color:var(--muted);font-size:.8rem;font-weight:400}
+.hl-col{background:var(--accent);color:var(--white);font-weight:600}
+.hl-col td{color:var(--white)!important}
+.yes{color:var(--green);font-weight:600}
+.no-val{color:var(--muted2)}
+th.hl-col{color:rgba(255,255,255,0.8)}
+
+/* CHECK */
+.ck{display:flex;align-items:flex-start;gap:.85rem;padding:.55rem 0;border-bottom:1px solid var(--border);font-size:.875rem;color:var(--ink)}
+.ck:last-child{border:none}
+.ck-mark{width:18px;height:18px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--white);flex-shrink:0;margin-top:2px}
+
+/* BAR CHART */
+.bars{display:flex;align-items:flex-end;gap:2rem;height:140px;padding:1.25rem 1.25rem 0;background:var(--off);border-radius:8px;border:1px solid var(--border)}
+.bg{display:flex;flex-direction:column;align-items:center;gap:.5rem;flex:1}
+.bb{width:100%;background:linear-gradient(180deg,var(--accent),var(--accent-mid));border-radius:3px 3px 0 0}
+.bv{font-family:'DM Mono',monospace;font-size:.72rem;font-weight:500;color:var(--accent)}
+.bl{font-size:.68rem;color:var(--muted);font-family:'DM Mono',monospace}
+
+/* CAP BAR */
+.capb{display:flex;height:22px;border-radius:4px;overflow:hidden;width:100%}
+.caps{display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:600;font-family:'DM Mono',monospace;color:var(--white)}
+
+/* TIMELINE */
+.tl{display:flex;align-items:stretch;width:100%;gap:.5rem}
+.tln{flex:1;border:1px solid var(--border);border-radius:8px;padding:1.25rem;background:var(--white)}
+.tln.peak{background:var(--accent);color:var(--white);border-color:var(--accent)}
+.tl-arr{display:flex;align-items:center;color:var(--muted2);font-size:1rem;flex-shrink:0}
+.tl-r{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted);margin-bottom:.3rem;letter-spacing:.06em}
+.tl-r-inv{color:rgba(255,255,255,0.6)}
+.tl-v{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--accent)}
+.tl-v-inv{color:var(--white);font-size:1.5rem}
+
+/* STREAM */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;width:100%}
+.sc{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:1.25rem;border-top:2px solid var(--accent)}
+.si{font-size:1.2rem;margin-bottom:.4rem}
+.sn{font-size:.85rem;font-weight:600;color:var(--ink);margin-bottom:.2rem}
+.sd{font-size:.7rem;color:var(--muted);line-height:1.4;margin-bottom:.4rem}
+.sp{font-family:'DM Mono',monospace;font-size:.62rem;color:var(--accent)}
+
+/* PHASE */
+.ph{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:1.1rem;border-top:2px solid var(--accent)}
+.ph-n{font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.3rem}
+.ph-t{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:.3rem}
+.ph-d{font-size:.72rem;color:var(--muted);line-height:1.5}
+.ph-c{font-family:'DM Mono',monospace;font-size:.65rem;color:var(--accent);margin-top:.5rem}
+
+/* CONF BADGE */
+.conf{display:inline-flex;align-items:center;gap:.35rem;border:1px solid var(--border2);border-radius:3px;padding:.18rem .6rem;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-family:'DM Mono',monospace}
+
+/* GAUGE */
+.gw{position:relative;display:inline-block}
+.gw svg{display:block}
+.gc{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.gn{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--ink2);display:block;line-height:1}
+.gl{font-size:.55rem;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:.12em;text-transform:uppercase}
+
+/* PILL */
+.pill{display:inline-flex;padding:.2rem .75rem;border-radius:3px;font-size:.65rem;font-weight:600;letter-spacing:.05em;font-family:'DM Mono',monospace;margin:.15rem;border:1px solid}
+.p-g{color:var(--green);border-color:rgba(21,128,61,0.3);background:rgba(21,128,61,0.06)}
+.p-b{color:var(--accent);border-color:rgba(30,58,138,0.3);background:var(--accent-lt)}
+.p-a{color:var(--amber);border-color:rgba(146,64,14,0.3);background:rgba(146,64,14,0.06)}
+.p-r{color:var(--red);border-color:rgba(185,28,28,0.3);background:rgba(185,28,28,0.06)}
+
+/* RAISE BOX */
+.raise{background:var(--ink2);color:var(--white);border-radius:10px;padding:2rem 2.5rem}
+.raise .amount{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:700;line-height:1;display:block;margin-bottom:.4rem}
+.raise .sub{font-family:'DM Mono',monospace;font-size:.7rem;color:rgba(255,255,255,0.45);letter-spacing:.1em;text-transform:uppercase}
+
+/* PRINT */
+@media print{
+  html,body{overflow:visible;height:auto;background:var(--white)}
+  .s{position:relative;page-break-after:always;opacity:1;transform:none;pointer-events:all;height:100vh;min-height:100vh}
+  #prog,#ctr,.nav{display:none!important}
+}
+</style>
+</head>
+<body>
+
+<div id="prog"></div>
+<div id="ctr">1 / 13</div>
+<div class="nav" id="pp" onclick="go(-1)">←</div>
+<div class="nav" id="np" onclick="go(1)">→</div>
+
+<div class="deck">
+
+<!-- S1: COVER -->
+<div class="s s-white on" id="s1">
+  <div style="max-width:780px">
+    <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:3.5rem">
+      <div class="conf">Confidential · March 2026</div>
+    </div>
+    <div class="h1" style="font-size:clamp(3.5rem,7vw,6.5rem);margin-bottom:.75rem">My<span style="color:var(--accent)">Blood</span>IQ</div>
+    <div style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:400;color:var(--muted);font-style:italic;margin-bottom:1.5rem">iOS · Android · Web</div>
+    <div style="font-size:1rem;color:var(--muted);max-width:560px;line-height:1.75;font-weight:300;margin-bottom:1.25rem">A consumer health app that scores your blood work 0–100 — free, instant, and more insightful than anything your doctor shows you. The web properties acquire users. The app builds the dataset. The dataset is the exit.</div>
+    <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2.5rem">
+      <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .7rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)">mybloodiq.com</span>
+      <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .7rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)">mybloodiq.info</span>
+      <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .7rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)">mybloodiq.online</span>
+      <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .7rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted)">mybloodiq.store</span>
+    </div>
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+      <div style="background:var(--accent);color:var(--white);border-radius:8px;padding:1.1rem 1.75rem">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:500">$1,500,000</div>
+        <div style="font-size:.6rem;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;font-family:'DM Mono',monospace">Raising</div>
+      </div>
+      <div class="card" style="padding:1.1rem 1.5rem">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--ink)">49%</div>
+        <div style="font-size:.6rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;font-family:'DM Mono',monospace">Equity</div>
+      </div>
+      <div class="card" style="padding:1.1rem 1.5rem">
+        <div style="font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--ink)">$3,060,000</div>
+        <div style="font-size:.6rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;font-family:'DM Mono',monospace">Post-Money Valuation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S2: PROBLEM -->
+<div class="s s-off" id="s2">
+  <div style="max-width:900px;width:100%">
+    <div class="eyebrow">The Problem</div>
+    <div class="rule"></div>
+    <div class="h2" style="max-width:700px;margin-bottom:2.5rem">100 million Americans have blood test results that are telling them something.<br><em style="color:var(--accent)">Nobody tells them what.</em></div>
+    <div class="g3">
+      <div>
+        <span class="big" style="color:var(--red)">60%</span>
+        <div style="width:32px;height:2px;background:var(--red);margin:.75rem 0"></div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.6">of adults have a chronic disease — standard lab ranges calibrated around them</div>
+      </div>
+      <div>
+        <span class="big" style="color:var(--accent)">5–10</span>
+        <div style="width:32px;height:2px;background:var(--accent);margin:.75rem 0"></div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.6">years earlier that functional ranges catch problems vs. standard reference ranges</div>
+      </div>
+      <div>
+        <span class="big" style="color:var(--ink)">$499</span>
+        <div style="width:32px;height:2px;background:var(--ink);margin:.75rem 0"></div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.6">minimum cost of a single interpretation session — if you can find a practitioner at all</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S3: SOLUTION -->
+<div class="s s-white" id="s3">
+  <div class="split" style="max-width:980px;width:100%">
+    <div>
+      <div class="eyebrow">The Solution</div>
+      <div class="rule"></div>
+      <div class="h2" style="margin-bottom:1rem">Your blood,<br><em style="color:var(--accent)">scored.</em></div>
+      <div class="body" style="margin-bottom:1.5rem">Enter your existing lab values. Get a Blood IQ score out of 100 — instant, free, no doctor required. The first time anyone has made functional health interpretation accessible to everyone.</div>
+      <div style="display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.5rem">
+        <div style="display:flex;align-items:center;gap:.8rem;font-size:.875rem;color:var(--muted)"><span style="color:var(--accent);font-weight:600">→</span> Native iOS app with Apple HealthKit — auto-imports your labs + wearable data</div>
+        <div style="display:flex;align-items:center;gap:.8rem;font-size:.875rem;color:var(--muted)"><span style="color:var(--accent);font-weight:600">→</span> Native Android app with Google Fit integration</div>
+        <div style="display:flex;align-items:center;gap:.8rem;font-size:.875rem;color:var(--muted)"><span style="color:var(--accent);font-weight:600">→</span> 37+ biomarkers scored against functional optimal ranges</div>
+        <div style="display:flex;align-items:center;gap:.8rem;font-size:.875rem;color:var(--muted)"><span style="color:var(--accent);font-weight:600">→</span> 4 web properties drive acquisition → app converts to longitudinal user</div>
+        <div style="display:flex;align-items:center;gap:.8rem;font-size:.875rem;color:var(--muted)"><span style="color:var(--accent);font-weight:600">→</span> Free forever — the data is the product</div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap">
+        <span class="pill p-g">90–100 Elite</span>
+        <span class="pill p-b">75–89 Strong</span>
+        <span class="pill p-a">50–74 Room to Grow</span>
+        <span class="pill p-r">&lt;50 Needs Attention</span>
+      </div>
+    </div>
+    <div style="text-align:center">
+      <div class="gw">
+        <svg width="200" height="200" viewBox="0 0 200 200">
+          <circle fill="none" stroke="#e5e7eb" cx="100" cy="100" r="78" stroke-width="10"/>
+          <circle fill="none" stroke="var(--accent)" cx="100" cy="100" r="78"
+            stroke-width="10" stroke-linecap="round"
+            stroke-dasharray="490" stroke-dashoffset="74"
+            transform="rotate(-90 100 100)"/>
+        </svg>
+        <div class="gc">
+          <span class="gn" id="gs">0</span>
+          <span class="gl">Blood IQ</span>
+        </div>
+      </div>
+      <div style="margin-top:.75rem;display:inline-flex;align-items:center;gap:.5rem;background:var(--accent-lt);border:1px solid var(--accent-mid);border-radius:4px;padding:.4rem 1rem">
+        <span style="font-family:'DM Mono',monospace;font-size:.72rem;color:var(--accent);font-weight:500">STRONG · 85th percentile</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4: TRACTION -->
+<div class="s s-off" id="s4">
+  <div style="max-width:900px;width:100%">
+    <div class="eyebrow">Traction</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:.5rem">Built. Shipped. Running.</div>
+    <div class="body" style="margin-bottom:2rem">We are not asking for money to build the product. The product is live. Your capital scales distribution.</div>
+    <div class="g2">
+      <div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>iOS App</strong> — built, Apple HealthKit integrated, App Store ready</div></div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>Android App</strong> — built, Google Fit integrated, Play Store ready</div></div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>Blood diagnosis engine</strong> — 37+ biomarkers, pattern detection, fully operational</div></div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>4 web domains owned</strong> — mybloodiq.com / .info / .online / .store</div></div>
+      </div>
+      <div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>mybloodiq.com</strong> — live acquisition website feeding the app</div></div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>Anchor practitioner</strong> — FunctionAgain Health active partnership</div></div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>Email gate + consent</strong> — HIPAA-aware, fully operational</div></div>
+        <div class="ck"><div class="ck-mark">✓</div><div><strong>Lab affiliate partnerships</strong> — Walk-In Lab, HealthLabs, Ulta active</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4B: THE PLATFORM -->
+<div class="s s-ink" id="s4b">
+  <div style="max-width:940px;width:100%">
+    <div class="eyebrow eyebrow-inv">The Platform Architecture</div>
+    <div class="rule rule-inv"></div>
+    <div class="h2 h2-inv" style="margin-bottom:2rem">The websites acquire.<br><em style="color:rgba(255,255,255,0.45)">The app retains. The data compounds.</em></div>
+    <div style="display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:.5rem;align-items:center;width:100%;margin-bottom:2rem">
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:1.5rem;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:.5rem">🌐</div>
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Acquisition Layer</div>
+        <div style="font-size:.875rem;font-weight:600;color:var(--white);margin-bottom:.3rem">4 Web Properties</div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.45);line-height:1.5">.com · .info · .online · .store<br>SEO · Paid · Affiliates · Organic</div>
+      </div>
+      <div style="color:rgba(255,255,255,.3);font-size:1.2rem;text-align:center">→</div>
+      <div style="background:var(--accent);border-radius:10px;padding:1.5rem;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:.5rem">📱</div>
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">Core Product</div>
+        <div style="font-size:.875rem;font-weight:600;color:var(--white);margin-bottom:.3rem">iOS + Android App</div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.7);line-height:1.5">HealthKit · Google Fit<br>Quarterly check-ins · Trend tracking</div>
+      </div>
+      <div style="color:rgba(255,255,255,.3);font-size:1.2rem;text-align:center">→</div>
+      <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:1.5rem;text-align:center">
+        <div style="font-size:1.5rem;margin-bottom:.5rem">🗃️</div>
+        <div style="font-family:'DM Mono',monospace;font-size:.65rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4rem">The Asset</div>
+        <div style="font-size:.875rem;font-weight:600;color:var(--white);margin-bottom:.3rem">Longitudinal Dataset</div>
+        <div style="font-size:.7rem;color:rgba(255,255,255,.45);line-height:1.5">Biomarkers + wearable data<br>Quarterly · HIPAA Safe Harbor</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem">
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:.75rem"><div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem">App Store</div><div style="font-size:.8rem;color:rgba(255,255,255,.7)">Health & Fitness category. HealthKit badge = instant credibility with Apple's 1B+ users.</div></div>
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:.75rem"><div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem">Data Depth</div><div style="font-size:.8rem;color:rgba(255,255,255,.7)">Web user = one snapshot. App user = quarterly data points for years. 20× more valuable per record.</div></div>
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:.75rem"><div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem">Retention</div><div style="font-size:.8rem;color:rgba(255,255,255,.7)">Push notifications for quarterly check-ins. Once you have 4 scores, you never stop tracking.</div></div>
+      <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:.75rem"><div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.3rem">Premium Tier</div><div style="font-size:.8rem;color:rgba(255,255,255,.7)">$4.99/month for trend tracking, pattern alerts, practitioner matching, full report export.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S5: MARKET -->
+<div class="s s-white" id="s5">
+  <div style="max-width:920px;width:100%">
+    <div class="eyebrow">Market Opportunity</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:2.5rem">A $28 billion market.<br><em style="color:var(--accent)">With a free front door.</em></div>
+    <div class="g4" style="margin-bottom:2rem">
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1;display:block;color:var(--accent);margin-bottom:.5rem">$28B</span>
+        <div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Functional Wellness</div>
+        <div style="font-size:.72rem;color:var(--muted)">Global TAM · 9% CAGR</div>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1;display:block;color:var(--ink);margin-bottom:.5rem">$6.2B</span>
+        <div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Health & Fitness Apps</div>
+        <div style="font-size:.72rem;color:var(--muted)">App Store + Google Play · 2024</div>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1;display:block;color:var(--ink);margin-bottom:.5rem">$4.5B</span>
+        <div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Health Data Licensing</div>
+        <div style="font-size:.72rem;color:var(--muted)">Growing 15% annually</div>
+      </div>
+      <div>
+        <span style="font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;line-height:1;display:block;color:var(--muted);margin-bottom:.5rem">$8M</span>
+        <div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Year 3 Target</div>
+        <div style="font-size:.72rem;color:var(--muted)">Conservative capture</div>
+      </div>
+    </div>
+    <div style="border-left:3px solid var(--accent);padding-left:1.5rem;max-width:640px">
+      <div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:500;color:var(--ink);margin-bottom:.4rem">Every blood testing company in existence is a feeder for our interpretation layer.</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.6rem">
+        <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .65rem;font-size:.72rem;color:var(--muted)">Rythm Health → <strong style="color:var(--green)">feeds us</strong></span>
+        <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .65rem;font-size:.72rem;color:var(--muted)">Function Health → <strong style="color:var(--green)">feeds us</strong></span>
+        <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .65rem;font-size:.72rem;color:var(--muted)">Labcorp → <strong style="color:var(--green)">feeds us</strong></span>
+        <span style="background:var(--off);border:1px solid var(--border);border-radius:3px;padding:.2rem .65rem;font-size:.72rem;color:var(--muted)">Quest → <strong style="color:var(--green)">feeds us</strong></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S6: BUSINESS MODEL -->
+<div class="s s-off" id="s6">
+  <div style="max-width:960px;width:100%">
+    <div class="eyebrow">Business Model</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:1.5rem">Six streams. <em style="color:var(--accent)">All compounding.</em></div>
+    <div class="sg">
+      <div class="sc"><div class="si">🔬</div><div class="sn">Lab Affiliates</div><div class="sd">Every flagged marker links to cheapest available test. 8–15% commission per order.</div><div class="sp">Y1: $15K → Y3: $120K</div></div>
+      <div class="sc"><div class="si">💊</div><div class="sn">Supplement Affiliates</div><div class="sd">Deficiency flags → supplement links on results page. 5–8% per sale.</div><div class="sp">Y1: $8K → Y3: $60K</div></div>
+      <div class="sc"><div class="si">👨‍⚕️</div><div class="sn">Practitioner Marketplace</div><div class="sd">Practitioners list for $99–$299/mo. 15–20% referral fee per booked session.</div><div class="sp">Y1: $50K → Y3: $540K</div></div>
+      <div class="sc"><div class="si">📣</div><div class="sn">Traffic Affiliates</div><div class="sd">Influencers + health coaches drive traffic. $1–2/capture. Net positive from Month 1.</div><div class="sp">Drives all other streams</div></div>
+      <div class="sc"><div class="si">📧</div><div class="sn">Newsletter Sponsorships</div><div class="sd">Health-verified list with known biomarker deficiencies. $20–50 CPM premium.</div><div class="sp">Y1: $12K → Y3: $144K</div></div>
+      <div class="sc"><div class="si">🗃️</div><div class="sn">Data Licensing</div><div class="sd">De-identified biomarker datasets licensed to pharma, supplement, insurance tech. Safe Harbor compliant.</div><div class="sp">Y1: $25K → Y3: $450K</div></div>
+    </div>
+    <div style="margin-top:1.1rem;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted);letter-spacing:.08em">97% gross margin · no COGS · no physical product · no testing infrastructure</div>
+  </div>
+</div>
+
+<!-- S7: FINANCIALS -->
+<div class="s s-white" id="s7">
+  <div style="max-width:960px;width:100%">
+    <div class="eyebrow">Financial Projections</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:1.5rem">Conservative. <em style="color:var(--accent)">Achievable.</em></div>
+    <div class="g2" style="align-items:start;gap:3rem">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.75rem">Annual Revenue</div>
+        <div class="bars" style="margin-bottom:1.25rem">
+          <div class="bg"><div class="bv">$115K</div><div class="bb" style="height:18%"></div><div class="bl">Year 1</div></div>
+          <div class="bg"><div class="bv">$507K</div><div class="bb" style="height:52%"></div><div class="bl">Year 2</div></div>
+          <div class="bg"><div class="bv">$1.6M</div><div class="bb" style="height:100%"></div><div class="bl">Year 3</div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:.75rem">
+          <div class="card" style="padding:.9rem;text-align:center"><div style="font-family:'DM Mono',monospace;font-size:.9rem;font-weight:500;color:var(--green)">97%+</div><div style="font-size:.62rem;color:var(--muted);margin-top:.2rem">Gross Margin</div></div>
+          <div class="card" style="padding:.9rem;text-align:center"><div style="font-family:'DM Mono',monospace;font-size:.9rem;font-weight:500;color:var(--accent)">$175/mo</div><div style="font-size:.62rem;color:var(--muted);margin-top:.2rem">Operating Cost</div></div>
+          <div class="card" style="padding:.9rem;text-align:center"><div style="font-family:'DM Mono',monospace;font-size:.9rem;font-weight:500;color:var(--ink)">3.1 yrs</div><div style="font-size:.62rem;color:var(--muted);margin-top:.2rem">Payback Period</div></div>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.75rem">Use of Funds — $1,500,000</div>
+        <div style="display:flex;flex-direction:column;gap:.6rem">
+          <div style="display:flex;align-items:center;gap:.9rem"><div style="width:140px;height:4px;border-radius:2px;background:var(--accent);flex-shrink:0"></div><span style="font-size:.8rem"><strong>$600K</strong> <span style="color:var(--muted)">Growth & paid acquisition</span></span></div>
+          <div style="display:flex;align-items:center;gap:.9rem"><div style="width:80px;height:4px;border-radius:2px;background:#1d4ed8;flex-shrink:0"></div><span style="font-size:.8rem"><strong>$300K</strong> <span style="color:var(--muted)">Practitioner network</span></span></div>
+          <div style="display:flex;align-items:center;gap:.9rem"><div style="width:55px;height:4px;border-radius:2px;background:#2563eb;flex-shrink:0"></div><span style="font-size:.8rem"><strong>$200K</strong> <span style="color:var(--muted)">App enhancements</span></span></div>
+          <div style="display:flex;align-items:center;gap:.9rem"><div style="width:42px;height:4px;border-radius:2px;background:#3b82f6;flex-shrink:0"></div><span style="font-size:.8rem"><strong>$150K</strong> <span style="color:var(--muted)">Data infrastructure & legal</span></span></div>
+          <div style="display:flex;align-items:center;gap:.9rem"><div style="width:55px;height:4px;border-radius:2px;background:#60a5fa;flex-shrink:0"></div><span style="font-size:.8rem"><strong>$200K</strong> <span style="color:var(--muted)">Operations & first hire</span></span></div>
+          <div style="display:flex;align-items:center;gap:.9rem"><div style="width:14px;height:4px;border-radius:2px;background:var(--muted2);flex-shrink:0"></div><span style="font-size:.8rem"><strong>$50K</strong> <span style="color:var(--muted)">Reserve</span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8: GTM -->
+<div class="s s-off" id="s8">
+  <div style="max-width:960px;width:100%">
+    <div class="eyebrow">Go-To-Market</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:1.5rem">Four phases. <em style="color:var(--accent)">Compounding growth.</em></div>
+    <div class="g4" style="margin-bottom:1.25rem">
+      <div class="ph"><div class="ph-n">Phase 1 · M1–3</div><div class="ph-t">Organic</div><div class="ph-d">Reddit · TikTok · Rythm Health users · YouTube creators. Zero ad spend.</div><div class="ph-c">CAC: $0</div></div>
+      <div class="ph" style="border-top-color:#2563eb"><div class="ph-n">Phase 2 · M3–6</div><div class="ph-t">Affiliate Network</div><div class="ph-d">100 affiliates · 20K users/month at $1–2 per capture.</div><div class="ph-c">CAC: $1–2</div></div>
+      <div class="ph" style="border-top-color:var(--green)"><div class="ph-n">Phase 3 · M3+</div><div class="ph-t">SEO</div><div class="ph-d">High-intent lab queries. 29K+ targeted searches/month.</div><div class="ph-c" style="color:var(--green)">Organic traffic</div></div>
+      <div class="ph" style="border-top-color:var(--amber)"><div class="ph-n">Phase 4 · M6+</div><div class="ph-t">Paid Acquisition</div><div class="ph-d">Meta + Google. Target CAC under $3. LTV $20–50.</div><div class="ph-c" style="color:var(--amber)">ROAS: 7–17×</div></div>
+    </div>
+    <div style="background:var(--ink2);color:var(--white);border-radius:6px;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:.8rem;color:rgba(255,255,255,.5)">Year 3 target</span>
+      <span style="font-family:'DM Mono',monospace;font-size:.82rem;font-weight:500">500,000 users · 300 practitioners · $1,614,000 revenue</span>
+    </div>
+  </div>
+</div>
+
+<!-- S9: COMPETITIVE -->
+<div class="s s-white" id="s9">
+  <div style="max-width:940px;width:100%">
+    <div class="eyebrow">Competitive Landscape</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:1.5rem">We don't compete.<br><em style="color:var(--accent)">We aggregate.</em></div>
+    <div style="overflow:hidden;border-radius:6px;border:1px solid var(--border);margin-bottom:1.25rem">
+      <table>
+        <thead><tr>
+          <th style="text-align:left;background:var(--off)">Feature</th>
+          <th class="hl-col">MyBloodIQ</th>
+          <th style="background:var(--off)">Rythm Health</th>
+          <th style="background:var(--off)">Function Health</th>
+          <th style="background:var(--off)">Your Doctor</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>Cost to user</td><td class="hl-col">FREE</td><td>$79/mo</td><td>$499/yr</td><td>$150+ copay</td></tr>
+          <tr><td>Requires new blood draw</td><td class="hl-col"><span style="color:#86efac;font-weight:600">No</span></td><td class="no-val">Yes</td><td class="no-val">Yes</td><td class="no-val">Yes</td></tr>
+          <tr><td>Functional optimal ranges</td><td class="hl-col"><span style="color:#86efac;font-weight:600">Yes</span></td><td class="no-val">No</td><td style="color:#fde68a">Partial</td><td class="no-val">Rarely</td></tr>
+          <tr><td>Instant results</td><td class="hl-col"><span style="color:#86efac;font-weight:600">Yes</span></td><td class="no-val">48–72 hrs</td><td class="no-val">48–72 hrs</td><td class="no-val">Days</td></tr>
+          <tr><td>Practitioner marketplace</td><td class="hl-col"><span style="color:#86efac;font-weight:600">Yes</span></td><td class="no-val">No</td><td class="no-val">No</td><td class="no-val">No</td></tr>
+          <tr><td>Data product</td><td class="hl-col"><span style="color:#86efac;font-weight:600">Yes</span></td><td class="no-val">No</td><td class="no-val">No</td><td class="no-val">No</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="g4">
+      <div style="padding:.9rem;border-left:2px solid var(--accent);padding-left:1rem"><div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">First Mover</div><div style="font-size:.68rem;color:var(--muted)">Branded score concept. Gamified. Shareable.</div></div>
+      <div style="padding:.9rem;border-left:2px solid var(--accent);padding-left:1rem"><div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Data Network Effect</div><div style="font-size:.68rem;color:var(--muted)">More records = dataset more valuable.</div></div>
+      <div style="padding:.9rem;border-left:2px solid var(--accent);padding-left:1rem"><div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Practitioner Lock-In</div><div style="font-size:.68rem;color:var(--muted)">Practice built on referrals — switching cost is high.</div></div>
+      <div style="padding:.9rem;border-left:2px solid var(--accent);padding-left:1rem"><div style="font-size:.75rem;font-weight:600;color:var(--ink);margin-bottom:.2rem">Longitudinal Data</div><div style="font-size:.68rem;color:var(--muted)">App = quarterly updates = dataset that compounds.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- S10: TEAM -->
+<div class="s s-off" id="s10">
+  <div style="max-width:900px;width:100%">
+    <div class="eyebrow">Team</div>
+    <div class="rule"></div>
+    <div class="h2" style="margin-bottom:1.5rem">Built by operators.</div>
+    <div class="g2" style="margin-bottom:1.75rem;align-items:start">
+      <div class="card" style="padding:2rem">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem">
+          <div style="width:44px;height:44px;background:var(--ink2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-weight:500;font-size:.9rem;color:var(--white)">JT</div>
+          <div><div style="font-weight:600;font-size:1rem;color:var(--ink)">Joshua Tremblay</div><div style="font-size:.72rem;color:var(--accent);font-family:'DM Mono',monospace">Founder & CEO</div></div>
+        </div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.75">Serial builder. Full-stack product and business operator. Built and shipped multiple web products across health, finance, and consumer markets.</div>
+      </div>
+      <div class="card" style="padding:2rem">
+        <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.1rem">
+          <div style="width:44px;height:44px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-weight:500;font-size:.9rem;color:var(--white)">SK</div>
+          <div><div style="font-weight:600;font-size:1rem;color:var(--ink)">Sara Knight</div><div style="font-size:.72rem;color:var(--green);font-family:'DM Mono',monospace">Co-Founder & Chief Clinical Advisor</div></div>
+        </div>
+        <div style="font-size:.82rem;color:var(--muted);line-height:1.75">FDN Advanced Certified — Functional Blood Chemistry Analysis (Reed Davis, FDN® Feb 2025). Founder of FunctionAgain Health. Drives clinical credibility and practitioner network.</div>
+      </div>
+    </div>
+    <div class="card" style="padding:1.25rem 1.75rem">
+      <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.75rem">Cap Table</div>
+      <div class="g2" style="gap:2rem">
+        <div>
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem">Pre-Raise</div>
+          <div class="capb"><div class="caps" style="flex:.667;background:var(--ink2)">Joshua 66.7%</div><div class="caps" style="flex:.333;background:var(--green)">Sara 33.3%</div></div>
+        </div>
+        <div>
+          <div style="font-size:.72rem;color:var(--muted);margin-bottom:.4rem">Post-Raise</div>
+          <div class="capb"><div class="caps" style="flex:.341;background:var(--ink2)">34.1%</div><div class="caps" style="flex:.170;background:var(--green)">17%</div><div class="caps" style="flex:.490;background:var(--accent)">Investor 49%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S11: DATA ASSET -->
+<div class="s s-ink" id="s11">
+  <div style="max-width:940px;width:100%">
+    <div class="eyebrow eyebrow-inv">The Real Prize</div>
+    <div class="rule rule-inv"></div>
+    <div class="h2 h2-inv" style="margin-bottom:.75rem">The revenue is the business.<br><em style="color:rgba(255,255,255,0.5)">The dataset is the exit.</em></div>
+    <div class="body body-inv" style="margin-bottom:2rem">At scale, MyBloodIQ is not a website. It is the largest opt-in biomarker intelligence network ever assembled.</div>
+    <div class="tl" style="margin-bottom:1.75rem">
+      <div class="tln"><div class="tl-r">10K records</div><div class="tl-v">$10K–$50K</div><div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:.2rem">Basic biomarker dataset</div></div>
+      <div class="tl-arr">→</div>
+      <div class="tln"><div class="tl-r">100K records</div><div class="tl-v">$100K–$500K</div><div style="font-size:.65rem;color:rgba(255,255,255,.35);margin-top:.2rem">With app + pattern data</div></div>
+      <div class="tl-arr">→</div>
+      <div class="tln" style="background:rgba(255,255,255,0.08);border-color:rgba(255,255,255,0.15)"><div class="tl-r tl-r-inv">1M records</div><div class="tl-v tl-v-inv">$50M–$200M</div><div style="font-size:.65rem;color:rgba(255,255,255,.5);margin-top:.2rem">Longitudinal + wearable-enriched</div></div>
+    </div>
+    <div class="g2" style="align-items:start">
+      <div>
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem">Who buys health data</div>
+        <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.82rem;color:rgba(255,255,255,.6)">
+          <div>→ Supplement companies — what's their market deficient in?</div>
+          <div>→ Pharma / biotech — population health research</div>
+          <div>→ Insurance tech — actuarial modeling</div>
+          <div>→ Wellness apps — dataset enrichment</div>
+          <div>→ Academic / NIH-funded research</div>
+        </div>
+      </div>
+      <div style="border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:1.5rem">
+        <div style="font-family:'DM Mono',monospace;font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Compliance</div>
+        <div style="font-size:.8rem;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:1rem">HIPAA Safe Harbor de-identification. No individual records ever sold. Explicit consent captured at point of entry.</div>
+        <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:500;color:var(--white);font-style:italic">"We are building the Bloomberg Terminal of personal biomarker data."</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12: THE ASK -->
+<div class="s s-white" id="s12">
+  <div style="max-width:960px;width:100%">
+    <div class="eyebrow">The Ask</div>
+    <div class="rule"></div>
+    <div class="g2" style="gap:3.5rem;align-items:start">
+      <div>
+        <div class="raise" style="margin-bottom:1.5rem">
+          <span class="amount">$1,500,000</span>
+          <div class="sub">for 49% equity</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1.25rem">
+            <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:.75rem 1rem">
+              <div style="font-family:'DM Mono',monospace;font-size:.85rem;color:var(--white)">$1,560,000</div>
+              <div style="font-size:.58rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;font-family:'DM Mono',monospace">Pre-Money</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.06);border-radius:6px;padding:.75rem 1rem">
+              <div style="font-family:'DM Mono',monospace;font-size:.85rem;color:var(--white)">$3,060,000</div>
+              <div style="font-size:.58rem;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem;font-family:'DM Mono',monospace">Post-Money</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="padding:1.25rem">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem">What exists today</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;font-size:.82rem;color:var(--ink)">
+            <div>✓ Product built and live</div>
+            <div>✓ iOS + Android apps built</div>
+            <div>✓ 4 domains owned</div>
+            <div>✓ Lab affiliates active</div>
+            <div>✓ Clinical co-founder in place</div>
+            <div>✓ HIPAA-aware framework operational</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card card-accent" style="padding:1.5rem;margin-bottom:1.25rem">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.6rem">What capital unlocks</div>
+          <div style="display:flex;flex-direction:column;gap:.3rem;font-size:.82rem;color:var(--accent)">
+            <div>→ Paid acquisition at 7–17× ROAS</div>
+            <div>→ 300 practitioners = $720K/yr recurring</div>
+            <div>→ 100K email list = newsletter revenue</div>
+            <div>→ First data licensing sale at 10K records</div>
+            <div>→ App Store + Google Play scale</div>
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);border-radius:8px;padding:1.5rem">
+          <div style="font-family:'DM Mono',monospace;font-size:.58rem;color:var(--muted2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:.5rem">Exit</div>
+          <div style="font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:.75rem">At 1,000,000 longitudinal records, this dataset is worth <strong style="color:var(--ink)">$50M–$200M</strong> to a strategic acquirer. Potential buyers: Rythm Health · Function Health · Hims & Hers · Labcorp · Quest.</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:600;color:var(--ink)">The $1 domain becomes a nine-figure asset.</div>
+        </div>
+        <div style="margin-top:1.25rem;text-align:right;font-family:'DM Mono',monospace;font-size:.65rem;color:var(--muted2)">mybloodiq.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<script>
+let cur=0;
+const ss=document.querySelectorAll('.s');
+const N=ss.length;
+function render(){
+  ss.forEach((s,i)=>{s.classList.remove('on','out');if(i===cur)s.classList.add('on');else if(i<cur)s.classList.add('out');});
+  document.getElementById('ctr').textContent=(cur+1)+' / '+N;
+  document.getElementById('prog').style.width=((cur+1)/N*100)+'%';
+  document.getElementById('pp').style.opacity=cur===0?.3:1;
+  document.getElementById('np').style.opacity=cur===N-1?.3:1;
+  if(cur===2){const el=document.getElementById('gs');if(el&&el.textContent==='0'){let n=0;const t=setInterval(()=>{n=Math.min(n+1,85);el.textContent=n;if(n>=85)clearInterval(t);},18);}}
+}
+function go(d){const n=cur+d;if(n<0||n>=N)return;cur=n;render();}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);});
+let tx=0;
+document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX;});
+document.addEventListener('touchend',e=>{const dx=tx-e.changedTouches[0].clientX;if(Math.abs(dx)>50)go(dx>0?1:-1);});
+render();
+</script>
+</body>
+</html>
