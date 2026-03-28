@@ -1,173 +1,495 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Is Your Bloodwork Optimal? | Function Again Health</title>
-  <meta name="description" content="Enter your lab values and find out if you're truly optimal — not just 'normal'. Free functional blood chemistry analysis tool." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <meta name="description" content="Enter your lab values and find out if you're truly optimal — not just 'normal'. Free functional blood chemistry analysis tool.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --navy:     #05152e;
-      --blue:     #0096c7;
-      --ocean:    #0077b6;
-      --coral:    #e07b6a;
-      --coral-lt: #f4a0a0;
-      --sand:     #f7f2ec;
-      --warm:     #faf8f5;
-      --amber:    #d97706;
-      --amber-bg: #fffbeb;
-      --red:      #dc2626;
-      --red-bg:   #fef2f2;
-      --green-bg: #e0f4ff;
-      --cream:    #faf8f5;
-      --text:     #111827;
-      --muted:    #6b7280;
-      --border:   #e5e0d8;
-      --white:    #ffffff;
-      --shadow:   0 4px 24px rgba(0,0,0,0.07);
+      --bg:        #050d1a;
+      --bg2:       #080f1f;
+      --glass:     rgba(255,255,255,0.04);
+      --glass-border: rgba(0,212,255,0.18);
+      --cyan:      #00d4ff;
+      --cyan-dim:  rgba(0,212,255,0.12);
+      --cyan-glow: 0 0 20px rgba(0,212,255,0.35);
+      --coral:     #e07b6a;
+      --coral-lt:  #f4a0a0;
+      --amber:     #f59e0b;
+      --amber-bg:  rgba(245,158,11,0.12);
+      --red:       #ef4444;
+      --red-bg:    rgba(239,68,68,0.12);
+      --green:     #10b981;
+      --green-bg:  rgba(0,212,255,0.1);
+      --text:      #e2e8f0;
+      --text-dim:  #64748b;
+      --border:    rgba(255,255,255,0.08);
+      --shadow:    0 8px 40px rgba(0,0,0,0.5);
+      --navy:      #05152e;
     }
-    body { font-family: 'Inter', sans-serif; background: var(--warm); color: var(--text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
 
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg2); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.3); border-radius: 3px; }
+
+    /* ── NAV ── */
     nav {
-      background: var(--white); border-bottom: 1px solid var(--border);
-      padding: 0 5%; display: flex; align-items: center; justify-content: space-between; height: 68px;
+      background: rgba(5,13,26,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0 5%;
+      display: flex; align-items: center; justify-content: space-between; height: 68px;
       position: sticky; top: 0; z-index: 100;
     }
-    .logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 400; color: var(--navy); text-decoration: none; letter-spacing:.03em; }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem; font-weight: 400; color: var(--text);
+      text-decoration: none; letter-spacing: .03em;
+    }
     .logo span { color: var(--coral); font-style: italic; }
-    .back-link { font-size: 0.875rem; color: var(--muted); text-decoration: none; font-weight: 500; }
-    .back-link:hover { color: var(--navy); }
+    .back-link {
+      font-size: 0.875rem; color: var(--text-dim); text-decoration: none; font-weight: 500;
+      transition: color .2s;
+    }
+    .back-link:hover { color: var(--cyan); }
 
+    /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, var(--navy) 0%, #0a2a52 100%);
-      color: white; text-align: center; padding: 4rem 5% 3rem;
+      background: linear-gradient(160deg, #050d1a 0%, #071428 50%, #050d1a 100%);
+      border-bottom: 1px solid var(--glass-border);
+      text-align: center; padding: 4rem 5% 3rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.08) 0%, transparent 70%);
+      pointer-events: none;
     }
     .hero-badge {
-      display: inline-block; background: rgba(255,255,255,0.15);
-      border: 1px solid rgba(255,255,255,0.25); border-radius: 20px;
-      padding: 0.3rem 1rem; font-size: 0.78rem; font-weight: 600;
-      letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.2rem;
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: rgba(0,212,255,0.1);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 20px;
+      padding: 0.35rem 1.1rem;
+      font-size: 0.75rem; font-weight: 600; font-family: 'Space Mono', monospace;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--cyan); margin-bottom: 1.4rem;
+      animation: pulse-badge 3s ease-in-out infinite;
     }
-    .hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 300; margin-bottom: 1rem; letter-spacing:-0.01em; }
-    .hero p { opacity: 0.85; font-size: 1rem; max-width: 580px; margin: 0 auto; font-weight: 300; }
-
+    @keyframes pulse-badge {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.2); }
+      50% { box-shadow: 0 0 0 8px rgba(0,212,255,0); }
+    }
+    .badge-dot {
+      width: 6px; height: 6px; background: var(--cyan);
+      border-radius: 50%; animation: blink 1.4s ease infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 300; margin-bottom: 1rem; letter-spacing: -0.01em;
+      color: #fff;
+    }
+    .hero h1 em { color: var(--cyan); font-style: italic; }
+    .hero p {
+      opacity: 0.7; font-size: 1rem; max-width: 580px;
+      margin: 0 auto; font-weight: 300;
+    }
     .disclaimer {
-      background: #fffbeb; border: 1px solid #fde68a; border-radius: 8px;
-      padding: 0.9rem 1.2rem; font-size: 0.82rem; color: #92400e;
+      background: rgba(245,158,11,0.08);
+      border: 1px solid rgba(245,158,11,0.25);
+      border-radius: 8px; padding: 0.9rem 1.2rem;
+      font-size: 0.82rem; color: #fbbf24;
       max-width: 780px; margin: 1.5rem auto 0; text-align: left;
     }
 
-    .container { max-width: 820px; margin: 0 auto; padding: 2.5rem 5%; }
+    /* ── CONTAINER ── */
+    .container { max-width: 840px; margin: 0 auto; padding: 2.5rem 5%; }
 
     /* ── PANEL ── */
     .panel {
-      background: var(--white); border-radius: 14px; border: 1px solid var(--border);
-      box-shadow: var(--shadow); margin-bottom: 1.5rem; overflow: hidden;
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 1.25rem; overflow: hidden;
+      transition: border-color .3s;
     }
+    .panel:hover { border-color: rgba(0,212,255,0.3); }
     .panel-header {
-      padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; gap: 0.75rem; cursor: pointer;
-      user-select: none;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid transparent;
+      display: flex; align-items: center; gap: 0.75rem;
+      cursor: pointer; user-select: none;
+      transition: background .2s;
     }
-    .panel-icon { font-size: 1.3rem; }
-    .panel-header h2 { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 400; flex: 1; }
-    .panel-toggle { font-size: 1rem; color: var(--muted); transition: transform 0.2s; }
-    .panel-header.open .panel-toggle { transform: rotate(180deg); }
+    .panel-header:hover { background: rgba(0,212,255,0.04); }
+    .panel-header.open { border-bottom-color: var(--border); }
+    .panel-icon { font-size: 1.2rem; }
+    .panel-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem; font-weight: 400; flex: 1; color: #fff;
+      letter-spacing: .02em;
+    }
+    .panel-toggle { font-size: .85rem; color: var(--cyan); opacity: 0.6; transition: transform 0.25s; }
+    .panel-header.open .panel-toggle { transform: rotate(180deg); opacity: 1; }
     .panel-body { padding: 1.5rem; display: none; }
     .panel-body.open { display: block; }
 
-    /* ── INPUTS ── */
+    /* ── MARKER GRID ── */
     .marker-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.1rem;
     }
-    .marker-field label {
-      display: block; font-size: 0.8rem; font-weight: 600; color: var(--muted);
-      margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.05em;
+    .marker-field { position: relative; }
+    .field-name {
+      font-size: 0.85rem; font-weight: 500; color: var(--text);
+      margin-bottom: 0.15rem;
     }
-    .marker-field .field-name { font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
-    .marker-field .field-unit { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .field-unit {
+      font-size: 0.7rem; color: var(--text-dim);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 0.4rem;
+    }
     .marker-field input {
-      width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border);
-      border-radius: 7px; font-size: 0.95rem; font-family: 'Inter', sans-serif;
-      background: var(--cream); color: var(--text); transition: border-color 0.2s;
+      width: 100%; padding: 0.6rem 0.8rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px;
+      font-size: 0.95rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--text);
+      transition: border-color .2s, background .2s, box-shadow .2s;
     }
-    .marker-field input:focus { outline: none; border-color: var(--blue-lt); background: var(--white); }
+    .marker-field input::placeholder { color: rgba(255,255,255,0.2); font-size: .85rem; }
+    .marker-field input:focus {
+      outline: none;
+      border-color: var(--cyan);
+      background: rgba(0,212,255,0.06);
+      box-shadow: 0 0 0 3px rgba(0,212,255,0.1);
+    }
+
+    /* ── LIVE RANGE BAR ── */
+    .range-bar-wrap {
+      height: 4px; background: rgba(255,255,255,0.06);
+      border-radius: 2px; margin-top: 6px; overflow: visible;
+      position: relative;
+    }
+    .range-bar-fill {
+      height: 100%; border-radius: 2px;
+      transition: width .35s ease, background-color .35s ease;
+      width: 0%;
+    }
+    .range-bar-fill.optimal { background: var(--cyan); box-shadow: 0 0 6px rgba(0,212,255,0.6); }
+    .range-bar-fill.caution { background: var(--amber); box-shadow: 0 0 6px rgba(245,158,11,0.5); }
+    .range-bar-fill.flag    { background: var(--red);   box-shadow: 0 0 6px rgba(239,68,68,0.5); }
+    .range-status-label {
+      font-size: 0.65rem; font-family: 'Space Mono', monospace;
+      margin-top: 4px; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; height: 12px;
+      transition: color .3s;
+    }
+    .range-status-label.optimal { color: var(--cyan); }
+    .range-status-label.caution { color: var(--amber); }
+    .range-status-label.flag    { color: var(--red); }
 
     /* ── SUBMIT ── */
-    .submit-wrap { text-align: center; margin: 2rem 0 1rem; }
+    .submit-wrap { text-align: center; margin: 2.5rem 0 1rem; }
     .btn-analyze {
-      background: var(--coral); /* coral */ color: white; border: none;
-      padding: 1rem 3rem; border-radius: 10px; font-size: 1rem;
-      font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif;
-      transition: background 0.2s, transform 0.2s;
+      background: transparent;
+      border: 1.5px solid var(--cyan);
+      color: var(--cyan);
+      padding: 1rem 3.5rem;
+      border-radius: 10px; font-size: 1rem; font-weight: 600;
+      cursor: pointer; font-family: 'Space Mono', monospace;
+      letter-spacing: .04em;
+      transition: background .25s, box-shadow .25s, transform .2s;
+      position: relative; overflow: hidden;
     }
-    .btn-analyze:hover { background: #e88585; transform: translateY(-2px); }
+    .btn-analyze::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.15), transparent);
+      opacity: 0; transition: opacity .25s;
+    }
+    .btn-analyze:hover {
+      background: rgba(0,212,255,0.08);
+      box-shadow: var(--cyan-glow);
+      transform: translateY(-2px);
+    }
+    .btn-analyze:hover::before { opacity: 1; }
+    .submit-hint { margin-top: 0.75rem; font-size: 0.8rem; color: var(--text-dim); }
 
     /* ── RESULTS ── */
     #results { display: none; }
-    .results-summary { background: linear-gradient(135deg, var(--navy), #0a2a52) !important; 
-      background: linear-gradient(135deg, var(--navy), #0a2a52); color: white; border-radius: 14px;
-      padding: 2rem; text-align: center; margin-bottom: 1.5rem;
-    }
-    .results-summary h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 0.5rem; }
-    .score-bar {
-      height: 10px; background: rgba(255,255,255,0.2); border-radius: 5px;
-      margin: 1rem auto; max-width: 400px; overflow: hidden;
-    }
-    .score-fill { height: 100%; background: var(--blue-lt); border-radius: 5px; transition: width 1s ease; }
 
+    /* Radial score gauge */
+    .results-summary {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      text-align: center; margin-bottom: 1.5rem;
+      position: relative; overflow: hidden;
+    }
+    .results-summary::before {
+      content: '';
+      position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+      width: 400px; height: 400px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .radial-gauge { position: relative; display: inline-block; margin: 1.5rem auto; }
+    .radial-gauge svg { display: block; }
+    .gauge-bg { fill: none; stroke: rgba(255,255,255,0.06); }
+    .gauge-fill { fill: none; stroke-linecap: round; transition: stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1), stroke .5s; }
+    .gauge-score-text {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    .gauge-score-num {
+      font-family: 'Space Mono', monospace;
+      font-size: 2rem; font-weight: 700; color: #fff;
+      display: block; line-height: 1;
+    }
+    .gauge-score-pct { font-size: 0.75rem; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+    .results-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 400; color: #fff;
+      margin-bottom: .3rem;
+    }
+    .results-subhead { font-size: .9rem; color: var(--text-dim); margin-bottom: .25rem; }
+
+    /* Result cards */
     .result-cards { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
     .result-card {
       border-radius: 10px; padding: 1rem 1.25rem;
-      border: 1px solid; display: flex; align-items: flex-start; gap: 1rem;
+      border: 1px solid;
+      display: flex; align-items: flex-start; gap: 1rem;
+      backdrop-filter: blur(6px);
     }
-    .result-card.optimal { background: var(--blue-bg); border-color: #86efac; }
-    .result-card.caution { background: var(--amber-bg); border-color: #fde68a; }
-    .result-card.flag    { background: var(--red-bg);   border-color: #fca5a5; }
-    .result-icon { font-size: 1.3rem; margin-top: 0.1rem; }
+    .result-card.optimal { background: var(--green-bg); border-color: rgba(0,212,255,0.3); }
+    .result-card.caution { background: var(--amber-bg); border-color: rgba(245,158,11,0.3); }
+    .result-card.flag    { background: var(--red-bg);   border-color: rgba(239,68,68,0.3); }
+    .result-icon { font-size: 1.2rem; margin-top: 0.1rem; flex-shrink: 0; }
     .result-info { flex: 1; }
-    .result-name { font-weight: 600; font-size: 0.95rem; margin-bottom: 0.2rem; }
-    .result-value { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.3rem; }
-    .result-explain { font-size: 0.85rem; line-height: 1.5; }
-    .result-card.optimal .result-explain { color: #166534; }
-    .result-card.caution .result-explain { color: #92400e; }
-    .result-card.flag .result-explain    { color: #991b1b; }
+    .result-name { font-weight: 600; font-size: 0.92rem; margin-bottom: 0.2rem; color: #fff; }
+    .result-value {
+      font-size: 0.8rem; margin-bottom: 0.3rem;
+      font-family: 'Space Mono', monospace; color: var(--text-dim);
+    }
+    .result-explain { font-size: 0.83rem; line-height: 1.55; }
+    .result-card.optimal .result-explain { color: #67e8f9; }
+    .result-card.caution .result-explain { color: #fcd34d; }
+    .result-card.flag    .result-explain { color: #fca5a5; }
 
-    /* ── CTA ── */
+    /* ── PAYWALL ── */
+    #paywall-section .paywall-inner {
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(224,123,106,0.4);
+      border-radius: 14px; padding: 2.5rem;
+      text-align: center; margin-bottom: 1.5rem;
+    }
+    .paywall-eyebrow {
+      font-size: .7rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--coral); margin-bottom: .75rem;
+      font-family: 'Space Mono', monospace;
+    }
+    .paywall-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem; font-weight: 400; margin-bottom: .5rem; color: #fff;
+    }
+    .paywall-sub {
+      opacity: .7; max-width: 440px; margin: 0 auto 2rem;
+      font-size: .9rem; line-height: 1.7;
+    }
+    .paywall-card {
+      background: rgba(255,255,255,0.04);
+      border: 2px solid var(--coral);
+      border-radius: 12px; padding: 2rem;
+      max-width: 380px; margin: 0 auto 1.5rem; text-align: left;
+    }
+    .paywall-price {
+      font-size: 2.5rem; font-weight: 700; color: #fff;
+      font-family: 'Space Mono', monospace; margin-bottom: .15rem;
+    }
+    .paywall-price-sub { font-size: .75rem; opacity: .4; margin-bottom: 1.5rem; font-family: 'Space Mono', monospace; }
+    .paywall-features { list-style: none; display: flex; flex-direction: column; gap: .65rem; margin-bottom: 1.75rem; }
+    .paywall-features li { font-size: .875rem; display: flex; gap: .6rem; }
+    .paywall-features li span { color: #34d399; }
+    .btn-paywall {
+      background: var(--coral); color: white; border: none;
+      padding: 1rem; border-radius: 8px; font-size: .95rem;
+      font-weight: 700; cursor: pointer; width: 100%;
+      letter-spacing: .02em; font-family: 'Inter', sans-serif;
+      transition: background .2s, transform .2s;
+    }
+    .btn-paywall:hover { background: #e88575; transform: translateY(-1px); }
+    .paywall-trust {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.5rem; opacity: .3; font-size: .75rem;
+    }
+
+    /* ── AI REPORT ── */
+    #ai-report { }
+    .ephemeral-notice {
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 8px; padding: .875rem 1.25rem;
+      margin-bottom: 1rem;
+      display: flex; align-items: flex-start; gap: .75rem;
+    }
+    .ephemeral-notice-text { font-size: .82rem; color: #fcd34d; line-height: 1.6; }
+    .action-bar { display: flex; gap: .75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .btn-action {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.25rem;
+      border-radius: 6px; font-size: .875rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: opacity .2s, transform .2s;
+      border: 1px solid var(--border);
+    }
+    .btn-action:hover { opacity: .85; transform: translateY(-1px); }
+    .btn-action-primary { background: var(--cyan); color: var(--bg); border-color: var(--cyan); }
+    .btn-action-secondary { background: var(--glass); color: var(--text); }
+    .btn-action-danger { background: var(--glass); color: var(--red); border-color: rgba(239,68,68,0.3); }
+
+    .email-panel {
+      display: none; align-items: center; gap: .75rem; flex-wrap: wrap;
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+    }
+    .email-panel input {
+      flex: 1; min-width: 220px; padding: .7rem 1rem;
+      border: 1px solid var(--border); border-radius: 6px;
+      font-size: .875rem; font-family: inherit;
+      background: rgba(255,255,255,0.05); color: var(--text);
+    }
+    .email-panel input:focus { outline: none; border-color: var(--cyan); }
+    .btn-send-email {
+      padding: .7rem 1.25rem; background: var(--coral); color: white;
+      border: none; border-radius: 6px; font-size: .875rem;
+      font-weight: 600; cursor: pointer; white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .report-printable {
+      background: var(--glass);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px; padding: 2.5rem; margin-bottom: 1.5rem;
+    }
+    .report-header {
+      display: flex; align-items: center; gap: .75rem;
+      margin-bottom: 1.5rem; padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-logo-icon {
+      width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--cyan), #0077b6);
+      border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem;
+    }
+    .report-logo-title { font-weight: 700; font-size: 1rem; color: #fff; }
+    .report-logo-sub { font-size: .8rem; color: var(--text-dim); }
+
+    /* ── CTA BOX ── */
     .cta-box {
-      background: linear-gradient(135deg, var(--navy) 0%, #0a2a52 100%);
-      color: white; border-radius: 14px; padding: 2.5rem 2rem; text-align: center;
+      background: var(--glass);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px; padding: 2.5rem 2rem; text-align: center;
+      position: relative; overflow: hidden;
     }
-    .cta-box h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; margin-bottom: 0.75rem; }
-    .cta-box p { opacity: 0.85; margin-bottom: 1.5rem; font-size: 0.95rem; }
+    .cta-box::before {
+      content: '';
+      position: absolute; bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(ellipse, rgba(0,212,255,0.08), transparent 70%);
+      pointer-events: none;
+    }
+    .cta-box h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 400; margin-bottom: .6rem; color: #fff;
+    }
+    .cta-box p { opacity: .75; margin-bottom: 1.5rem; font-size: .95rem; }
     .btn-white {
-      background: white; color: var(--blue); padding: 0.8rem 2rem;
-      border-radius: 8px; font-weight: 600; font-size: 0.95rem;
-      text-decoration: none; display: inline-block; margin: 0.25rem;
+      background: #fff; color: var(--navy);
+      padding: .8rem 2rem; border-radius: 8px;
+      font-weight: 600; font-size: .95rem;
+      text-decoration: none; display: inline-block; margin: .25rem;
+      transition: opacity .2s, transform .2s;
     }
+    .btn-white:hover { opacity: .9; transform: translateY(-1px); }
     .btn-outline-white {
-      border: 2px solid rgba(255,255,255,0.6); color: white;
-      padding: 0.8rem 2rem; border-radius: 8px; font-weight: 500;
-      font-size: 0.95rem; text-decoration: none; display: inline-block; margin: 0.25rem;
+      border: 1.5px solid rgba(255,255,255,0.4); color: #fff;
+      padding: .8rem 2rem; border-radius: 8px;
+      font-weight: 500; font-size: .95rem;
+      text-decoration: none; display: inline-block; margin: .25rem;
+      transition: border-color .2s, transform .2s;
     }
+    .btn-outline-white:hover { border-color: var(--cyan); color: var(--cyan); transform: translateY(-1px); }
 
-    footer { background: #1a1a1a; color: #9ca3af; padding: 2rem 5%; text-align: center; font-size: 0.82rem; }
-    .footer-disc { max-width: 600px; margin: 0.5rem auto; color: #6b7280; font-size: 0.75rem; }
+    /* ── FOOTER ── */
+    footer {
+      background: #020810; border-top: 1px solid var(--border);
+      color: var(--text-dim); padding: 2rem 5%; text-align: center;
+      font-size: .82rem;
+    }
+    .footer-disc { max-width: 600px; margin: .5rem auto; color: #374151; font-size: .75rem; }
+
+    /* ── SCAN ANIMATION on results ── */
+    @keyframes scanline {
+      0%   { transform: translateY(-100%); opacity: 0; }
+      10%  { opacity: 0.5; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(100%); opacity: 0; }
+    }
+    .scan-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none; z-index: 999; overflow: hidden;
+    }
+    .scan-line {
+      height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+      position: absolute; width: 100%;
+      animation: scanline 1.2s ease-in-out forwards;
+    }
   </style>
 </head>
 <body>
 
+<div class="scan-overlay" id="scan-overlay" style="display:none;">
+  <div class="scan-line"></div>
+</div>
+
 <nav>
-  <a href="index.html" class="logo">Function<span>Again</span> Health</a>
-  <a href="index.html" class="back-link">← Back to Home</a>
+  <a class="logo" href="/">Function<span>Again</span> Health</a>
+  <a class="back-link" href="/">← Back to Home</a>
 </nav>
 
 <div class="hero">
-  <div class="hero-badge">🔬 Free Tool</div>
-  <h1>Is Your Bloodwork Actually Optimal?</h1>
+  <div class="hero-badge"><div class="badge-dot"></div>🔬 Free Diagnostic Tool</div>
+  <h1>Is Your Bloodwork <em>Actually</em> Optimal?</h1>
   <p>Enter your lab values below. We'll compare them against functional optimal ranges — not just the standard "you're not sick yet" reference ranges.</p>
   <div class="disclaimer">
     ⚠️ <strong>Disclaimer:</strong> This tool is for educational purposes only and does not constitute medical advice. Results should be discussed with a qualified healthcare provider. Functional ranges represent optimal health patterns, not diagnostic criteria.
@@ -177,7 +499,7 @@
 <div class="container">
   <form id="quiz-form">
 
-    <!-- COMPLETE BLOOD COUNT -->
+    <!-- CBC -->
     <div class="panel">
       <div class="panel-header open" onclick="togglePanel(this)">
         <span class="panel-icon">🩸</span>
@@ -189,38 +511,50 @@
           <div class="marker-field">
             <div class="field-name">White Blood Cells (WBC)</div>
             <div class="field-unit">10³/μL</div>
-            <input type="number" step="0.1" name="wbc" placeholder="e.g. 6.2">
+            <input type="number" step="0.1" name="wbc" placeholder="e.g. 6.2" oninput="updateRangeBar(this,'wbc')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-wbc"></div></div>
+            <div class="range-status-label" id="lbl-wbc"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Red Blood Cells (RBC)</div>
             <div class="field-unit">M/μL</div>
-            <input type="number" step="0.01" name="rbc" placeholder="e.g. 4.8">
+            <input type="number" step="0.01" name="rbc" placeholder="e.g. 4.8" oninput="updateRangeBar(this,'rbc')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-rbc"></div></div>
+            <div class="range-status-label" id="lbl-rbc"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Hemoglobin</div>
             <div class="field-unit">g/dL</div>
-            <input type="number" step="0.1" name="hemoglobin" placeholder="e.g. 14.5">
+            <input type="number" step="0.1" name="hemoglobin" placeholder="e.g. 14.5" oninput="updateRangeBar(this,'hemoglobin')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-hemoglobin"></div></div>
+            <div class="range-status-label" id="lbl-hemoglobin"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Hematocrit</div>
             <div class="field-unit">%</div>
-            <input type="number" step="0.1" name="hematocrit" placeholder="e.g. 43">
+            <input type="number" step="0.1" name="hematocrit" placeholder="e.g. 43" oninput="updateRangeBar(this,'hematocrit')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-hematocrit"></div></div>
+            <div class="range-status-label" id="lbl-hematocrit"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">MCV</div>
             <div class="field-unit">fL</div>
-            <input type="number" step="0.1" name="mcv" placeholder="e.g. 88">
+            <input type="number" step="0.1" name="mcv" placeholder="e.g. 88" oninput="updateRangeBar(this,'mcv')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-mcv"></div></div>
+            <div class="range-status-label" id="lbl-mcv"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Platelets</div>
             <div class="field-unit">10³/μL</div>
-            <input type="number" step="1" name="platelets" placeholder="e.g. 250">
+            <input type="number" step="1" name="platelets" placeholder="e.g. 250" oninput="updateRangeBar(this,'platelets')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-platelets"></div></div>
+            <div class="range-status-label" id="lbl-platelets"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- METABOLIC PANEL -->
+    <!-- CMP -->
     <div class="panel">
       <div class="panel-header open" onclick="togglePanel(this)">
         <span class="panel-icon">⚗️</span>
@@ -232,52 +566,72 @@
           <div class="marker-field">
             <div class="field-name">Fasting Glucose</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="1" name="glucose" placeholder="e.g. 85">
+            <input type="number" step="1" name="glucose" placeholder="e.g. 85" oninput="updateRangeBar(this,'glucose')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-glucose"></div></div>
+            <div class="range-status-label" id="lbl-glucose"></div>
           </div>
           <div class="marker-field">
-            <div class="field-name">BUN (Blood Urea Nitrogen)</div>
+            <div class="field-name">BUN</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="1" name="bun" placeholder="e.g. 14">
+            <input type="number" step="1" name="bun" placeholder="e.g. 14" oninput="updateRangeBar(this,'bun')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-bun"></div></div>
+            <div class="range-status-label" id="lbl-bun"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Creatinine</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="0.01" name="creatinine" placeholder="e.g. 0.9">
+            <input type="number" step="0.01" name="creatinine" placeholder="e.g. 0.9" oninput="updateRangeBar(this,'creatinine')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-creatinine"></div></div>
+            <div class="range-status-label" id="lbl-creatinine"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Sodium</div>
             <div class="field-unit">mEq/L</div>
-            <input type="number" step="1" name="sodium" placeholder="e.g. 140">
+            <input type="number" step="1" name="sodium" placeholder="e.g. 140" oninput="updateRangeBar(this,'sodium')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-sodium"></div></div>
+            <div class="range-status-label" id="lbl-sodium"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Potassium</div>
             <div class="field-unit">mEq/L</div>
-            <input type="number" step="0.1" name="potassium" placeholder="e.g. 4.2">
+            <input type="number" step="0.1" name="potassium" placeholder="e.g. 4.2" oninput="updateRangeBar(this,'potassium')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-potassium"></div></div>
+            <div class="range-status-label" id="lbl-potassium"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">ALT (Liver)</div>
             <div class="field-unit">U/L</div>
-            <input type="number" step="1" name="alt" placeholder="e.g. 22">
+            <input type="number" step="1" name="alt" placeholder="e.g. 22" oninput="updateRangeBar(this,'alt')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-alt"></div></div>
+            <div class="range-status-label" id="lbl-alt"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">AST (Liver)</div>
             <div class="field-unit">U/L</div>
-            <input type="number" step="1" name="ast" placeholder="e.g. 20">
+            <input type="number" step="1" name="ast" placeholder="e.g. 20" oninput="updateRangeBar(this,'ast')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-ast"></div></div>
+            <div class="range-status-label" id="lbl-ast"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Total Bilirubin</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="0.1" name="bilirubin" placeholder="e.g. 0.7">
+            <input type="number" step="0.1" name="bilirubin" placeholder="e.g. 0.7" oninput="updateRangeBar(this,'bilirubin')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-bilirubin"></div></div>
+            <div class="range-status-label" id="lbl-bilirubin"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Total Protein</div>
             <div class="field-unit">g/dL</div>
-            <input type="number" step="0.1" name="total_protein" placeholder="e.g. 7.2">
+            <input type="number" step="0.1" name="total_protein" placeholder="e.g. 7.2" oninput="updateRangeBar(this,'total_protein')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-total_protein"></div></div>
+            <div class="range-status-label" id="lbl-total_protein"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Albumin</div>
             <div class="field-unit">g/dL</div>
-            <input type="number" step="0.1" name="albumin" placeholder="e.g. 4.5">
+            <input type="number" step="0.1" name="albumin" placeholder="e.g. 4.5" oninput="updateRangeBar(this,'albumin')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-albumin"></div></div>
+            <div class="range-status-label" id="lbl-albumin"></div>
           </div>
         </div>
       </div>
@@ -295,17 +649,23 @@
           <div class="marker-field">
             <div class="field-name">TSH</div>
             <div class="field-unit">mIU/L</div>
-            <input type="number" step="0.01" name="tsh" placeholder="e.g. 1.8">
+            <input type="number" step="0.01" name="tsh" placeholder="e.g. 1.8" oninput="updateRangeBar(this,'tsh')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-tsh"></div></div>
+            <div class="range-status-label" id="lbl-tsh"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Free T4</div>
             <div class="field-unit">ng/dL</div>
-            <input type="number" step="0.01" name="free_t4" placeholder="e.g. 1.1">
+            <input type="number" step="0.01" name="free_t4" placeholder="e.g. 1.1" oninput="updateRangeBar(this,'free_t4')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-free_t4"></div></div>
+            <div class="range-status-label" id="lbl-free_t4"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Free T3</div>
             <div class="field-unit">pg/mL</div>
-            <input type="number" step="0.1" name="free_t3" placeholder="e.g. 3.2">
+            <input type="number" step="0.1" name="free_t3" placeholder="e.g. 3.2" oninput="updateRangeBar(this,'free_t3')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-free_t3"></div></div>
+            <div class="range-status-label" id="lbl-free_t3"></div>
           </div>
         </div>
       </div>
@@ -323,32 +683,40 @@
           <div class="marker-field">
             <div class="field-name">Total Cholesterol</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="1" name="total_cholesterol" placeholder="e.g. 185">
+            <input type="number" step="1" name="total_cholesterol" placeholder="e.g. 185" oninput="updateRangeBar(this,'total_cholesterol')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-total_cholesterol"></div></div>
+            <div class="range-status-label" id="lbl-total_cholesterol"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">LDL</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="1" name="ldl" placeholder="e.g. 105">
+            <input type="number" step="1" name="ldl" placeholder="e.g. 105" oninput="updateRangeBar(this,'ldl')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-ldl"></div></div>
+            <div class="range-status-label" id="lbl-ldl"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">HDL</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="1" name="hdl" placeholder="e.g. 58">
+            <input type="number" step="1" name="hdl" placeholder="e.g. 58" oninput="updateRangeBar(this,'hdl')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-hdl"></div></div>
+            <div class="range-status-label" id="lbl-hdl"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Triglycerides</div>
             <div class="field-unit">mg/dL</div>
-            <input type="number" step="1" name="triglycerides" placeholder="e.g. 90">
+            <input type="number" step="1" name="triglycerides" placeholder="e.g. 90" oninput="updateRangeBar(this,'triglycerides')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-triglycerides"></div></div>
+            <div class="range-status-label" id="lbl-triglycerides"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- BLOOD SUGAR -->
+    <!-- BLOOD SUGAR & INFLAMMATION -->
     <div class="panel">
       <div class="panel-header" onclick="togglePanel(this)">
         <span class="panel-icon">📊</span>
-        <h2>Blood Sugar & Inflammation</h2>
+        <h2>Blood Sugar &amp; Inflammation</h2>
         <span class="panel-toggle">▼</span>
       </div>
       <div class="panel-body">
@@ -356,38 +724,50 @@
           <div class="marker-field">
             <div class="field-name">HbA1c</div>
             <div class="field-unit">%</div>
-            <input type="number" step="0.1" name="hba1c" placeholder="e.g. 5.2">
+            <input type="number" step="0.1" name="hba1c" placeholder="e.g. 5.2" oninput="updateRangeBar(this,'hba1c')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-hba1c"></div></div>
+            <div class="range-status-label" id="lbl-hba1c"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">hsCRP</div>
             <div class="field-unit">mg/L</div>
-            <input type="number" step="0.1" name="hscrp" placeholder="e.g. 0.8">
+            <input type="number" step="0.1" name="hscrp" placeholder="e.g. 0.8" oninput="updateRangeBar(this,'hscrp')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-hscrp"></div></div>
+            <div class="range-status-label" id="lbl-hscrp"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Insulin (fasting)</div>
             <div class="field-unit">μIU/mL</div>
-            <input type="number" step="0.1" name="insulin" placeholder="e.g. 5.5">
+            <input type="number" step="0.1" name="insulin" placeholder="e.g. 5.5" oninput="updateRangeBar(this,'insulin')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-insulin"></div></div>
+            <div class="range-status-label" id="lbl-insulin"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Ferritin</div>
             <div class="field-unit">ng/mL</div>
-            <input type="number" step="1" name="ferritin" placeholder="e.g. 75">
+            <input type="number" step="1" name="ferritin" placeholder="e.g. 75" oninput="updateRangeBar(this,'ferritin')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-ferritin"></div></div>
+            <div class="range-status-label" id="lbl-ferritin"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Vitamin D (25-OH)</div>
             <div class="field-unit">ng/mL</div>
-            <input type="number" step="1" name="vitamin_d" placeholder="e.g. 52">
+            <input type="number" step="1" name="vitamin_d" placeholder="e.g. 52" oninput="updateRangeBar(this,'vitamin_d')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-vitamin_d"></div></div>
+            <div class="range-status-label" id="lbl-vitamin_d"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Homocysteine</div>
             <div class="field-unit">μmol/L</div>
-            <input type="number" step="0.1" name="homocysteine" placeholder="e.g. 7.5">
+            <input type="number" step="0.1" name="homocysteine" placeholder="e.g. 7.5" oninput="updateRangeBar(this,'homocysteine')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-homocysteine"></div></div>
+            <div class="range-status-label" id="lbl-homocysteine"></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- HORMONES PANEL -->
+    <!-- HORMONES -->
     <div class="panel">
       <div class="panel-header" onclick="togglePanel(this)">
         <span class="panel-icon">⚡</span>
@@ -399,62 +779,86 @@
           <div class="marker-field">
             <div class="field-name">Testosterone (Total) — Male</div>
             <div class="field-unit">ng/dL</div>
-            <input type="number" step="1" name="testosterone_male" placeholder="e.g. 650">
+            <input type="number" step="1" name="testosterone_male" placeholder="e.g. 650" oninput="updateRangeBar(this,'testosterone_male')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-testosterone_male"></div></div>
+            <div class="range-status-label" id="lbl-testosterone_male"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Testosterone (Total) — Female</div>
             <div class="field-unit">ng/dL</div>
-            <input type="number" step="1" name="testosterone_female" placeholder="e.g. 45">
+            <input type="number" step="1" name="testosterone_female" placeholder="e.g. 45" oninput="updateRangeBar(this,'testosterone_female')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-testosterone_female"></div></div>
+            <div class="range-status-label" id="lbl-testosterone_female"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Free Testosterone — Male</div>
             <div class="field-unit">pg/mL</div>
-            <input type="number" step="0.1" name="free_testosterone_male" placeholder="e.g. 12">
+            <input type="number" step="0.1" name="free_testosterone_male" placeholder="e.g. 12" oninput="updateRangeBar(this,'free_testosterone_male')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-free_testosterone_male"></div></div>
+            <div class="range-status-label" id="lbl-free_testosterone_male"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Estradiol (E2)</div>
             <div class="field-unit">pg/mL</div>
-            <input type="number" step="0.1" name="estradiol" placeholder="e.g. 80">
+            <input type="number" step="0.1" name="estradiol" placeholder="e.g. 80" oninput="updateRangeBar(this,'estradiol')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-estradiol"></div></div>
+            <div class="range-status-label" id="lbl-estradiol"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Progesterone</div>
             <div class="field-unit">ng/mL</div>
-            <input type="number" step="0.1" name="progesterone" placeholder="e.g. 12">
+            <input type="number" step="0.1" name="progesterone" placeholder="e.g. 12" oninput="updateRangeBar(this,'progesterone')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-progesterone"></div></div>
+            <div class="range-status-label" id="lbl-progesterone"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">DHEA-S</div>
             <div class="field-unit">μg/dL</div>
-            <input type="number" step="1" name="dheas" placeholder="e.g. 220">
+            <input type="number" step="1" name="dheas" placeholder="e.g. 220" oninput="updateRangeBar(this,'dheas')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-dheas"></div></div>
+            <div class="range-status-label" id="lbl-dheas"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Cortisol (AM, fasting)</div>
             <div class="field-unit">μg/dL</div>
-            <input type="number" step="0.1" name="cortisol" placeholder="e.g. 14">
+            <input type="number" step="0.1" name="cortisol" placeholder="e.g. 14" oninput="updateRangeBar(this,'cortisol')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-cortisol"></div></div>
+            <div class="range-status-label" id="lbl-cortisol"></div>
           </div>
           <div class="marker-field">
-            <div class="field-name">SHBG (Sex Hormone Binding Globulin)</div>
+            <div class="field-name">SHBG</div>
             <div class="field-unit">nmol/L</div>
-            <input type="number" step="1" name="shbg" placeholder="e.g. 45">
+            <input type="number" step="1" name="shbg" placeholder="e.g. 45" oninput="updateRangeBar(this,'shbg')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-shbg"></div></div>
+            <div class="range-status-label" id="lbl-shbg"></div>
           </div>
           <div class="marker-field">
-            <div class="field-name">LH (Luteinizing Hormone)</div>
+            <div class="field-name">LH</div>
             <div class="field-unit">mIU/mL</div>
-            <input type="number" step="0.1" name="lh" placeholder="e.g. 5.5">
+            <input type="number" step="0.1" name="lh" placeholder="e.g. 5.5" oninput="updateRangeBar(this,'lh')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-lh"></div></div>
+            <div class="range-status-label" id="lbl-lh"></div>
           </div>
           <div class="marker-field">
-            <div class="field-name">FSH (Follicle Stimulating Hormone)</div>
+            <div class="field-name">FSH</div>
             <div class="field-unit">mIU/mL</div>
-            <input type="number" step="0.1" name="fsh" placeholder="e.g. 6.2">
+            <input type="number" step="0.1" name="fsh" placeholder="e.g. 6.2" oninput="updateRangeBar(this,'fsh')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-fsh"></div></div>
+            <div class="range-status-label" id="lbl-fsh"></div>
           </div>
           <div class="marker-field">
             <div class="field-name">Prolactin</div>
             <div class="field-unit">ng/mL</div>
-            <input type="number" step="0.1" name="prolactin" placeholder="e.g. 10">
+            <input type="number" step="0.1" name="prolactin" placeholder="e.g. 10" oninput="updateRangeBar(this,'prolactin')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-prolactin"></div></div>
+            <div class="range-status-label" id="lbl-prolactin"></div>
           </div>
           <div class="marker-field">
-            <div class="field-name">IGF-1 (Growth Hormone Proxy)</div>
+            <div class="field-name">IGF-1</div>
             <div class="field-unit">ng/mL</div>
-            <input type="number" step="1" name="igf1" placeholder="e.g. 180">
+            <input type="number" step="1" name="igf1" placeholder="e.g. 180" oninput="updateRangeBar(this,'igf1')">
+            <div class="range-bar-wrap"><div class="range-bar-fill" id="bar-igf1"></div></div>
+            <div class="range-status-label" id="lbl-igf1"></div>
           </div>
         </div>
       </div>
@@ -462,56 +866,54 @@
 
     <div class="submit-wrap">
       <button type="button" class="btn-analyze" onclick="analyzeBloodwork()">
-        🔍 Preview My Results Free
+        RUN ANALYSIS →
       </button>
-      <p style="margin-top:0.75rem; font-size:0.82rem; color:var(--muted);">Fill in as many or as few values as you have. Leave blank to skip.</p>
+      <p class="submit-hint">Fill in as many or as few values as you have. Leave blank to skip.</p>
     </div>
   </form>
 
-  <!-- EMAIL GATE -->
-  <div id="email-gate" style="display:none; padding:3rem 0;">
-    <div style="text-align:center; padding: 2.5rem; background:white; border-radius:12px; max-width:480px; margin:0 auto; box-shadow: 0 8px 40px rgba(0,0,0,0.12);">
-      <div style="font-size:2rem; margin-bottom:1rem;">🔬</div>
-      <h3 style="font-family:Cormorant Garamond,serif; font-size:1.8rem; font-weight:400; margin-bottom:0.75rem; color:#05152e;">Your Results Are Ready</h3>
-      <p style="color:#6b7280; font-size:0.95rem; line-height:1.6; margin-bottom:1.5rem;">Enter your email to see your personalized analysis and get Sara's free guide: <em>"5 Blood Markers Your Doctor Isn't Checking"</em></p>
-      <input type="email" id="gate-email" placeholder="your@email.com" style="width:100%; padding:0.75rem 1rem; border:1.5px solid #e5e0d8; border-radius:6px; font-size:1rem; margin-bottom:1rem; font-family:Inter,sans-serif;">
-      <button onclick="submitEmailGate()" style="width:100%; background:#e07b6a; color:white; border:none; padding:0.9rem; border-radius:6px; font-size:0.95rem; font-weight:600; cursor:pointer; letter-spacing:0.03em;">See My Results →</button>
-      <p style="font-size:0.75rem; color:#9ca3af; margin-top:0.75rem;">No spam. Unsubscribe anytime.</p>
-    </div>
-  </div>
-
   <!-- RESULTS -->
   <div id="results">
-    <div id="results-section" style="display:none;">
     <div class="results-summary">
-      <h2 id="results-headline">Your Functional Analysis</h2>
-      <p id="results-subhead"></p>
-      <div class="score-bar"><div class="score-fill" id="score-fill" style="width:0%"></div></div>
-      <p id="score-text" style="font-size:0.9rem; opacity:0.85;"></p>
+      <div class="radial-gauge">
+        <svg width="140" height="140" viewBox="0 0 140 140">
+          <circle class="gauge-bg" cx="70" cy="70" r="58" stroke-width="8"/>
+          <circle class="gauge-fill" id="gauge-circle" cx="70" cy="70" r="58"
+            stroke-width="8" stroke="#00d4ff"
+            stroke-dasharray="364.4"
+            stroke-dashoffset="364.4"
+            transform="rotate(-90 70 70)"/>
+        </svg>
+        <div class="gauge-score-text">
+          <span class="gauge-score-num" id="gauge-num">0</span>
+          <span class="gauge-score-pct">%</span>
+        </div>
+      </div>
+      <h2 class="results-headline" id="results-headline">Analyzing…</h2>
+      <p class="results-subhead" id="results-subhead"></p>
     </div>
+
     <div class="result-cards" id="result-cards"></div>
 
-    <!-- PAYWALL — SINGLE $49 REPORT -->
+    <!-- PAYWALL -->
     <div id="paywall-section" style="display:none;">
-      <div style="background:linear-gradient(135deg,#05152e,#0a2a52);border-radius:14px;padding:2.5rem;color:white;margin-bottom:1.5rem;text-align:center;">
-        <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f4a0a0;margin-bottom:.75rem;">Full Report</div>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;margin-bottom:.5rem;line-height:1.2;">Unlock Your Complete Analysis</h2>
-        <p style="opacity:.7;max-width:440px;margin:0 auto 2rem;font-size:.9rem;line-height:1.7;">Your first 3 results are a preview. The full report covers every marker you entered — plus pattern analysis, a ranked action plan, and follow-up lab recommendations.</p>
-
-        <div style="background:rgba(255,255,255,.06);border:2px solid #e07b6a;border-radius:12px;padding:2rem;max-width:380px;margin:0 auto 1.5rem;text-align:left;">
-          <div style="font-size:2.5rem;font-weight:700;color:white;margin-bottom:.2rem;">$49</div>
-          <div style="font-size:.78rem;opacity:.5;margin-bottom:1.5rem;">One-time · Instant delivery</div>
-          <ul style="list-style:none;display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.75rem;">
-            <li style="font-size:.875rem;display:flex;gap:.6rem;"><span style="color:#86efac;">✓</span> Full analysis of all markers you entered</li>
-            <li style="font-size:.875rem;display:flex;gap:.6rem;"><span style="color:#86efac;">✓</span> Pattern detection (metabolic, thyroid, inflammation, etc.)</li>
-            <li style="font-size:.875rem;display:flex;gap:.6rem;"><span style="color:#86efac;">✓</span> Priority action plan — ranked by impact</li>
-            <li style="font-size:.875rem;display:flex;gap:.6rem;"><span style="color:#86efac;">✓</span> Follow-up lab recommendations</li>
-            <li style="font-size:.875rem;display:flex;gap:.6rem;"><span style="color:#86efac;">✓</span> What's working — your strengths</li>
+      <div class="paywall-inner">
+        <div class="paywall-eyebrow">Full Report</div>
+        <h2 class="paywall-title">Unlock Your Complete Analysis</h2>
+        <p class="paywall-sub">Your first 3 results are a preview. The full report covers every marker you entered — plus pattern analysis, a ranked action plan, and follow-up lab recommendations.</p>
+        <div class="paywall-card">
+          <div class="paywall-price">$49</div>
+          <div class="paywall-price-sub">One-time · Instant delivery</div>
+          <ul class="paywall-features">
+            <li><span>✓</span> Full analysis of all markers you entered</li>
+            <li><span>✓</span> Pattern detection (metabolic, thyroid, inflammation, etc.)</li>
+            <li><span>✓</span> Priority action plan — ranked by impact</li>
+            <li><span>✓</span> Follow-up lab recommendations</li>
+            <li><span>✓</span> What's working — your strengths</li>
           </ul>
-          <button onclick="handleCheckout()" style="background:#e07b6a;color:white;border:none;padding:1rem;border-radius:8px;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;letter-spacing:.02em;">Get My Full Report →</button>
+          <button onclick="handleCheckout()" class="btn-paywall">Get My Full Report →</button>
         </div>
-
-        <div style="display:flex;align-items:center;justify-content:center;gap:1.5rem;opacity:.35;font-size:.78rem;">
+        <div class="paywall-trust">
           <span>🔒 256-bit SSL</span>
           <span>💳 Secured by Stripe</span>
           <span>✅ Instant</span>
@@ -521,44 +923,34 @@
 
     <!-- AI REPORT OUTPUT -->
     <div id="ai-report" style="display:none;">
-
-      <!-- Ephemeral notice -->
-      <div style="background:#fef9c3;border:1px solid #fde68a;border-radius:8px;padding:.875rem 1.25rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.75rem;">
+      <div class="ephemeral-notice">
         <span style="font-size:1.1rem;flex-shrink:0;">⚠️</span>
-        <div style="font-size:.82rem;color:#78350f;line-height:1.6;">
+        <div class="ephemeral-notice-text">
           <strong>Your report is only visible in this browser tab.</strong> It is not stored on any server. When you close or refresh this page, it's gone. Download or email it to yourself now to keep a copy.
         </div>
       </div>
 
-      <!-- Action bar -->
-      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem;">
-        <button onclick="downloadReport()" style="display:flex;align-items:center;gap:.5rem;padding:.7rem 1.25rem;background:var(--navy);color:white;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;">
-          ⬇️ Download PDF
-        </button>
-        <button onclick="document.getElementById('email-send-panel').style.display=document.getElementById('email-send-panel').style.display==='none'?'flex':'none'" style="display:flex;align-items:center;gap:.5rem;padding:.7rem 1.25rem;background:white;color:var(--navy);border:1.5px solid var(--border);border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;">
-          ✉️ Email to Myself
-        </button>
-        <button onclick="clearReport()" style="display:flex;align-items:center;gap:.5rem;padding:.7rem 1.25rem;background:white;color:#dc2626;border:1.5px solid #fecaca;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;">
-          🗑 Clear Report
-        </button>
+      <div class="action-bar">
+        <button onclick="downloadReport()" class="btn-action btn-action-primary">⬇️ Download PDF</button>
+        <button onclick="document.getElementById('email-send-panel').style.display=document.getElementById('email-send-panel').style.display==='none'?'flex':'none'" class="btn-action btn-action-secondary">✉️ Email to Myself</button>
+        <button onclick="clearReport()" class="btn-action btn-action-danger">🗑 Clear Report</button>
       </div>
 
-      <!-- Email panel -->
-      <div id="email-send-panel" style="display:none;align-items:center;gap:.75rem;flex-wrap:wrap;background:#f9fafb;border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.25rem;">
-        <input id="email-dest" type="email" placeholder="your@email.com" style="flex:1;min-width:220px;padding:.7rem 1rem;border:1.5px solid var(--border);border-radius:6px;font-size:.875rem;font-family:inherit;" />
-        <button onclick="emailReport()" style="padding:.7rem 1.25rem;background:#e07b6a;color:white;border:none;border-radius:6px;font-size:.875rem;font-weight:600;cursor:pointer;white-space:nowrap;">Send Report →</button>
-        <div id="email-status" style="font-size:.8rem;color:var(--muted);width:100%;display:none;"></div>
+      <div id="email-send-panel" class="email-panel">
+        <input id="email-dest" type="email" placeholder="your@email.com">
+        <button onclick="emailReport()" class="btn-send-email">Send Report →</button>
+        <div id="email-status" style="font-size:.8rem;color:var(--text-dim);width:100%;display:none;"></div>
       </div>
 
-      <div style="background:white;border:1px solid var(--border);border-radius:14px;padding:2.5rem;margin-bottom:1.5rem;" id="report-printable">
-        <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border);">
-          <div style="width:40px;height:40px;background:linear-gradient(135deg,#0096c7,#023e8a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;">🔬</div>
+      <div class="report-printable" id="report-printable">
+        <div class="report-header">
+          <div class="report-logo-icon">🔬</div>
           <div>
-            <div style="font-weight:700;font-size:1rem;">Your Functional Health Report</div>
-            <div style="font-size:.8rem;color:var(--muted);">FunctionAgain Health · Functional Medicine Optimal Ranges Analysis</div>
+            <div class="report-logo-title">Your Functional Health Report</div>
+            <div class="report-logo-sub">FunctionAgain Health · Functional Medicine Optimal Ranges Analysis</div>
           </div>
         </div>
-        <div id="report-content" style="font-size:.95rem;line-height:1.85;color:#2d2d2d;"></div>
+        <div id="report-content" style="font-size:.95rem;line-height:1.85;color:var(--text);"></div>
       </div>
 
       <div class="cta-box">
@@ -575,7 +967,6 @@
       <a href="mailto:sara@functionagainhealth.com" class="btn-white">Book a Lab Review Session</a>
       <a href="https://www.ultalabtests.com" target="_blank" class="btn-outline-white">Order Missing Labs →</a>
     </div>
-    </div><!-- /results-section -->
   </div>
 </div>
 
@@ -585,414 +976,95 @@
 </footer>
 
 <script>
-// ── FUNCTIONAL RANGES DATABASE ──────────────────────────────────────────────
-// Based on evidence-based functional medicine optimal ranges
-// Format: { optimal: [min, max], caution_low: min, caution_high: max, unit, explain_low, explain_high, explain_optimal }
+// ── FUNCTIONAL RANGES DATABASE ───────────────────────────────────────────────
 const MARKERS = {
-  wbc: {
-    name: 'White Blood Cells (WBC)',
-    unit: '10³/μL',
-    optimal: [5.5, 7.5],
-    standard: [4.5, 11.0],
-    explain_low: 'Low WBC can suggest immune suppression, chronic viral infection, nutritional deficiencies (B12, folate, zinc), or bone marrow stress.',
-    explain_high: 'Elevated WBC suggests active infection, inflammation, immune activation, or chronic stress. Even in the "normal" range, trending high warrants investigation.',
-    explain_optimal: 'Your WBC is in the functional optimal range — suggests a well-regulated immune system.'
-  },
-  rbc: {
-    name: 'Red Blood Cells (RBC)',
-    unit: 'M/μL',
-    optimal: [4.2, 4.9],
-    standard: [4.0, 5.5],
-    explain_low: 'Low RBC can indicate iron, B12, or folate deficiency, anemia, or poor bone marrow output. Even "normal low" warrants checking ferritin, B12, and folate.',
-    explain_high: 'High RBC can indicate dehydration, high altitude adaptation, or in some cases polycythemia — worth monitoring.',
-    explain_optimal: 'Your RBC count looks optimal for healthy oxygen transport.'
-  },
-  hemoglobin: {
-    name: 'Hemoglobin',
-    unit: 'g/dL',
-    optimal: [13.5, 15.0],
-    standard: [12.0, 17.5],
-    explain_low: 'Low hemoglobin is a classic sign of anemia. Most common causes: iron deficiency, B12/folate deficiency, chronic inflammation. Even slightly low can cause fatigue and brain fog.',
-    explain_high: 'High hemoglobin can suggest dehydration or polycythemia. Can increase blood viscosity.',
-    explain_optimal: 'Hemoglobin looks good — adequate oxygen-carrying capacity.'
-  },
-  hematocrit: {
-    name: 'Hematocrit',
-    unit: '%',
-    optimal: [40, 47],
-    standard: [36, 52],
-    explain_low: 'Low hematocrit follows low hemoglobin — suggests anemia pattern. Check iron, B12, folate.',
-    explain_high: 'High hematocrit can indicate dehydration or polycythemia. Increases clotting risk.',
-    explain_optimal: 'Hematocrit is in a healthy functional range.'
-  },
-  mcv: {
-    name: 'MCV (Mean Corpuscular Volume)',
-    unit: 'fL',
-    optimal: [85, 95],
-    standard: [80, 100],
-    explain_low: 'Low MCV (microcytic) suggests iron deficiency anemia or thalassemia trait. Cells are smaller than they should be — often from low iron stores.',
-    explain_high: 'High MCV (macrocytic) suggests B12 or folate deficiency. Cells are too large. Can also be seen with thyroid dysfunction or alcohol use.',
-    explain_optimal: 'MCV is in the optimal range — red cell size looks healthy.'
-  },
-  platelets: {
-    name: 'Platelets',
-    unit: '10³/μL',
-    optimal: [175, 350],
-    standard: [150, 400],
-    explain_low: 'Low platelets can indicate immune dysfunction, nutritional deficiency, or bone marrow issues. Worth investigating if trending down.',
-    explain_high: 'Elevated platelets can suggest inflammation, infection, or iron deficiency. Can increase clotting risk.',
-    explain_optimal: 'Platelet count looks good for healthy clotting function.'
-  },
-  glucose: {
-    name: 'Fasting Glucose',
-    unit: 'mg/dL',
-    optimal: [75, 86],
-    standard: [70, 99],
-    explain_low: 'Fasting glucose below 75 can suggest hypoglycemia tendency, adrenal fatigue, or poor glycogen storage. Often associated with fatigue between meals.',
-    explain_high: 'Fasting glucose 87-99 is "normal" but functionally is early blood sugar dysregulation. Above 90 fasting is a meaningful early signal worth addressing through diet and lifestyle before it becomes prediabetes.',
-    explain_optimal: 'Optimal fasting glucose — excellent insulin sensitivity.'
-  },
-  bun: {
-    name: 'BUN (Blood Urea Nitrogen)',
-    unit: 'mg/dL',
-    optimal: [13, 18],
-    standard: [7, 25],
-    explain_low: 'Low BUN can suggest low protein intake, malabsorption, or liver dysfunction. The liver needs protein to make urea.',
-    explain_high: 'High BUN suggests high protein intake, dehydration, kidney stress, or poor hydration. Often benign but worth monitoring with creatinine.',
-    explain_optimal: 'BUN looks balanced — good protein metabolism and kidney function.'
-  },
-  creatinine: {
-    name: 'Creatinine',
-    unit: 'mg/dL',
-    optimal: [0.8, 1.1],
-    standard: [0.6, 1.3],
-    explain_low: 'Low creatinine often reflects low muscle mass or a very low protein diet. Can also be seen with severe liver disease.',
-    explain_high: 'Elevated creatinine suggests kidney filtration is reduced. Even at the upper end of "normal," this is worth monitoring alongside BUN.',
-    explain_optimal: 'Creatinine looks healthy — kidney filtration appears to be working well.'
-  },
-  sodium: {
-    name: 'Sodium',
-    unit: 'mEq/L',
-    optimal: [135, 142],
-    standard: [136, 145],
-    explain_low: 'Low sodium (hyponatremia) can reflect overhydration, adrenal insufficiency, or SIADH. Even mild functional low sodium can cause fatigue and brain fog.',
-    explain_high: 'High sodium suggests dehydration. Easy fix — increase water intake.',
-    explain_optimal: 'Sodium is well-balanced — hydration and electrolytes look good.'
-  },
-  potassium: {
-    name: 'Potassium',
-    unit: 'mEq/L',
-    optimal: [4.0, 4.5],
-    standard: [3.5, 5.1],
-    explain_low: 'Low potassium can cause muscle cramps, fatigue, and heart rhythm irregularities. Common with poor diet, diuretic use, or high stress (cortisol depletes potassium).',
-    explain_high: 'High potassium can indicate kidney issues, adrenal dysfunction (Addison\'s), or cell breakdown. Requires investigation.',
-    explain_optimal: 'Potassium is in the optimal functional range — good electrolyte balance.'
-  },
-  alt: {
-    name: 'ALT (Liver Enzyme)',
-    unit: 'U/L',
-    optimal: [10, 26],
-    standard: [7, 56],
-    explain_low: 'Very low ALT is rarely concerning but can be seen with B6 deficiency.',
-    explain_high: 'Elevated ALT signals liver stress. The functional ceiling (26) is much lower than standard reference ranges. Even ALT of 30-40 suggests early liver inflammation from diet, alcohol, medications, or fatty liver beginning.',
-    explain_optimal: 'ALT is functionally optimal — liver appears to be handling its load well.'
-  },
-  ast: {
-    name: 'AST (Liver Enzyme)',
-    unit: 'U/L',
-    optimal: [10, 26],
-    standard: [10, 40],
-    explain_low: 'Very low AST is rarely significant.',
-    explain_high: 'Elevated AST, especially alongside ALT, indicates liver stress or muscle damage. The ratio of AST:ALT can help distinguish the cause.',
-    explain_optimal: 'AST looks healthy — no signs of liver or muscle stress.'
-  },
-  albumin: {
-    name: 'Albumin',
-    unit: 'g/dL',
-    optimal: [4.0, 5.0],
-    standard: [3.5, 5.5],
-    explain_low: 'Low albumin is a significant finding — indicates liver dysfunction, malnutrition, chronic inflammation, or malabsorption. Albumin carries hormones, medications, and nutrients through the blood.',
-    explain_high: 'High albumin typically reflects dehydration.',
-    explain_optimal: 'Albumin is in an excellent range — good liver function and protein status.'
-  },
-  tsh: {
-    name: 'TSH (Thyroid Stimulating Hormone)',
-    unit: 'mIU/L',
-    optimal: [1.0, 2.0],
-    standard: [0.4, 4.5],
-    explain_low: 'TSH below 1.0 suggests the thyroid may be overactive or you may be over-supplementing. Can cause anxiety, heart palpitations, and bone loss.',
-    explain_high: 'TSH above 2.0 functionally suggests the thyroid is being pushed hard to maintain output. Classic symptoms: fatigue, weight gain, cold hands/feet, hair loss, brain fog. The standard cutoff of 4.5 misses years of suboptimal thyroid function.',
-    explain_optimal: 'TSH is in the functional sweet spot — thyroid is working efficiently without being overdriven.'
-  },
-  free_t4: {
-    name: 'Free T4',
-    unit: 'ng/dL',
-    optimal: [1.0, 1.5],
-    standard: [0.8, 1.8],
-    explain_low: 'Low Free T4 suggests the thyroid isn\'t producing enough hormone. This is the inactive form that gets converted to T3.',
-    explain_high: 'High Free T4 can suggest hyperthyroidism or conversion issues (T4 building up because it\'s not converting to T3).',
-    explain_optimal: 'Free T4 looks good — adequate thyroid hormone production.'
-  },
-  free_t3: {
-    name: 'Free T3',
-    unit: 'pg/mL',
-    optimal: [3.0, 3.5],
-    standard: [2.3, 4.2],
-    explain_low: 'Low Free T3 is the most functionally significant thyroid marker. T3 is the active form — it enters cells and drives metabolism. Low T3 with normal TSH is extremely common and almost always missed by standard screening.',
-    explain_high: 'High Free T3 suggests hyperthyroid or over-supplementation.',
-    explain_optimal: 'Free T3 is in the optimal range — active thyroid hormone looks good.'
-  },
-  total_cholesterol: {
-    name: 'Total Cholesterol',
-    unit: 'mg/dL',
-    optimal: [160, 220],
-    standard: [0, 200],
-    explain_low: 'Very low cholesterol (<160) is associated with increased risk of depression, hormonal issues, and immune dysfunction. Cholesterol is the precursor to all steroid hormones and vitamin D.',
-    explain_high: 'Elevated total cholesterol should be evaluated in context of LDL particle size, HDL, triglycerides, and inflammation markers. Total cholesterol alone is a poor predictor of cardiovascular risk.',
-    explain_optimal: 'Total cholesterol is in a functional range — enough for hormone production without excess.'
-  },
-  ldl: {
-    name: 'LDL Cholesterol',
-    unit: 'mg/dL',
-    optimal: [80, 130],
-    standard: [0, 100],
-    explain_low: 'Very low LDL can suggest malnutrition, thyroid issues, or liver dysfunction. Cholesterol is essential for cell membrane integrity and hormone production.',
-    explain_high: 'Elevated LDL warrants investigation — particularly LDL particle number and size, which are more predictive of risk than LDL-C alone.',
-    explain_optimal: 'LDL is in a reasonable functional range.'
-  },
-  hdl: {
-    name: 'HDL Cholesterol',
-    unit: 'mg/dL',
-    optimal: [55, 75],
-    standard: [40, 999],
-    explain_low: 'Low HDL is one of the strongest independent cardiovascular risk factors. Key drivers: sedentary lifestyle, high triglycerides, insulin resistance, smoking.',
-    explain_high: 'Very high HDL (>80) can sometimes paradoxically increase risk — worth noting but rarely actionable.',
-    explain_optimal: 'HDL is in an excellent functional range — strong cardiovascular protective factor.'
-  },
-  triglycerides: {
-    name: 'Triglycerides',
-    unit: 'mg/dL',
-    optimal: [60, 100],
-    standard: [0, 150],
-    explain_low: 'Very low triglycerides are generally positive — suggests low carb intake and good fat metabolism.',
-    explain_high: 'Elevated triglycerides (even 101-150, which is "normal") are a strong signal of carbohydrate excess, insulin resistance, and metabolic dysfunction. The functional threshold is much lower than standard labs.',
-    explain_optimal: 'Triglycerides are in the functional optimal range — excellent metabolic health marker.'
-  },
-  hba1c: {
-    name: 'HbA1c (3-Month Blood Sugar Average)',
-    unit: '%',
-    optimal: [4.8, 5.3],
-    standard: [4.0, 5.6],
-    explain_low: 'Very low HbA1c can occasionally indicate certain anemias or hemolytic conditions affecting the test accuracy.',
-    explain_high: 'HbA1c above 5.3 functionally suggests chronic blood sugar elevation is beginning to glycate proteins. By the time it reaches 5.7 (prediabetes), years of damage have already occurred. Even 5.4-5.6 is worth addressing through diet.',
-    explain_optimal: 'HbA1c is in an excellent functional range — blood sugar has been well-controlled over the past 3 months.'
-  },
-  hscrp: {
-    name: 'hsCRP (High-Sensitivity C-Reactive Protein)',
-    unit: 'mg/L',
-    optimal: [0, 1.0],
-    standard: [0, 3.0],
-    explain_low: 'Low hsCRP is excellent — indicates minimal systemic inflammation.',
-    explain_high: 'Elevated hsCRP is one of the most important markers to address. Chronic low-grade inflammation drives cardiovascular disease, autoimmune conditions, cancer risk, and accelerated aging. Even 1-3 mg/L (standard "normal") is functionally significant.',
-    explain_optimal: 'hsCRP is in an excellent range — inflammation appears well-controlled.'
-  },
-  insulin: {
-    name: 'Fasting Insulin',
-    unit: 'μIU/mL',
-    optimal: [2, 8],
-    standard: [0, 25],
-    explain_low: 'Very low fasting insulin is generally positive. In rare cases extreme lows can suggest type 1 diabetes risk.',
-    explain_high: 'Elevated fasting insulin is the earliest sign of insulin resistance — often present for a decade before glucose or HbA1c rise. This is the most underordered and underinterpreted metabolic marker. If yours is high and your glucose looks "normal," you\'re in the insulin resistance window.',
-    explain_optimal: 'Fasting insulin is in an excellent range — strong insulin sensitivity.'
-  },
-  ferritin: {
-    name: 'Ferritin (Iron Storage)',
-    unit: 'ng/mL',
-    optimal: [50, 150],
-    standard: [12, 300],
-    explain_low: 'Low ferritin is the earliest sign of iron depletion — long before anemia shows up in CBC. Classic symptoms: fatigue, hair loss, poor exercise recovery, restless legs. Standard reference ranges allow ferritin as low as 12, but functional deficiency begins below 50.',
-    explain_high: 'Elevated ferritin above 150 can indicate iron overload, inflammation (ferritin is an acute phase reactant), or liver stress. Very high ferritin (>300) requires further investigation.',
-    explain_optimal: 'Ferritin is in an excellent functional range — iron stores look adequate.'
-  },
-  vitamin_d: {
-    name: 'Vitamin D (25-OH)',
-    unit: 'ng/mL',
-    optimal: [50, 80],
-    standard: [30, 100],
-    explain_low: 'Vitamin D below 50 ng/mL is functionally deficient even if labs say "normal." Vitamin D functions as a hormone — it regulates immune function, mood, bone density, insulin sensitivity, and inflammation. Most people are severely under-optimized.',
-    explain_high: 'Vitamin D above 100 warrants checking calcium levels. Toxicity is rare but possible with excessive supplementation.',
-    explain_optimal: 'Vitamin D is in an excellent functional range — well-optimized for immune and hormonal support.'
-  },
-  homocysteine: {
-    name: 'Homocysteine',
-    unit: 'μmol/L',
-    optimal: [5, 8],
-    standard: [0, 15],
-    explain_low: 'Very low homocysteine is generally positive.',
-    explain_high: 'Elevated homocysteine is a significant cardiovascular and neurological risk marker. It damages blood vessel walls and increases stroke risk. Standard reference ranges are far too permissive. Even 8-12 μmol/L is functionally elevated. Usually responsive to B12, B6, and folate.',
-    explain_optimal: 'Homocysteine is in an excellent functional range — methylation and B-vitamin status looks good.'
-  },
-
-  // ── HORMONES ────────────────────────────────────────────────────────────
-  testosterone_male: {
-    name: 'Testosterone (Total) — Male',
-    unit: 'ng/dL',
-    optimal: [500, 900],
-    standard: [300, 1000],
-    explain_low: 'Low testosterone in men is one of the most common and under-addressed health issues of our time. Symptoms: fatigue, low libido, muscle loss, brain fog, mood changes, belly fat accumulation. Standard labs allow down to 300 ng/dL — functionally, anything below 500 warrants investigation. Common drivers: poor sleep, high stress, insulin resistance, zinc deficiency, low vitamin D, alcohol, and excess body fat.',
-    explain_high: 'High total testosterone can indicate testosterone replacement without proper monitoring, PCOS in women, or adrenal issues. In men, very high levels may indicate exogenous testosterone use or rare conditions.',
-    explain_optimal: 'Total testosterone is in a healthy functional range — good androgenic hormone status.'
-  },
-  testosterone_female: {
-    name: 'Testosterone (Total) — Female',
-    unit: 'ng/dL',
-    optimal: [25, 70],
-    standard: [15, 70],
-    explain_low: 'Low testosterone in women is common and rarely addressed. Symptoms: low libido, fatigue, poor muscle tone, mood flatness, and brain fog. Often overlooked because standard labs have very wide ranges for women.',
-    explain_high: 'Elevated testosterone in women is associated with PCOS, insulin resistance, and adrenal overactivity. Symptoms include acne, excess hair growth, irregular cycles, and mood changes. Often tied to high fasting insulin.',
-    explain_optimal: 'Female testosterone is in the functional optimal range — balanced androgenic hormone status.'
-  },
-  free_testosterone_male: {
-    name: 'Free Testosterone — Male',
-    unit: 'pg/mL',
-    optimal: [9, 18],
-    standard: [9, 30],
-    explain_low: 'Free testosterone is the biologically active fraction. Low free T — even with normal total T — means the hormone isn\'t reaching your cells. High SHBG is the most common cause, which can be driven by thyroid dysfunction, liver issues, or low insulin. This is the marker that actually correlates with symptoms.',
-    explain_high: 'High free testosterone suggests either high total testosterone or low SHBG. Context matters — evaluate alongside total T and SHBG.',
-    explain_optimal: 'Free testosterone is in the functional optimal range — active androgenic hormone is available to tissues.'
-  },
-  estradiol: {
-    name: 'Estradiol (E2)',
-    unit: 'pg/mL',
-    optimal: [60, 150],
-    standard: [20, 350],
-    explain_low: 'Low estradiol causes bone loss, vaginal dryness, poor sleep, mood instability, cardiovascular risk, and accelerated aging. In perimenopausal women, this is one of the most important markers to track. Standard reference ranges allow for levels that are far too low for optimal function.',
-    explain_high: 'Elevated estradiol is associated with estrogen dominance — fibroids, heavy periods, mood swings, water retention, and increased breast cancer risk. In men, high estradiol causes low libido, gynecomastia, and testosterone suppression. Key driver: aromatase activity, which increases with body fat and alcohol.',
-    explain_optimal: 'Estradiol is in a functional optimal range — good estrogenic hormone status.'
-  },
-  progesterone: {
-    name: 'Progesterone',
-    unit: 'ng/mL',
-    optimal: [5, 25],
-    standard: [1, 25],
-    explain_low: 'Low progesterone is extremely common in women, especially in the second half of the cycle and perimenopause. Symptoms: anxiety, insomnia, PMS, heavy periods, estrogen dominance pattern. Progesterone is the calming, protective hormone — when it\'s low, estrogen goes unopposed.',
-    explain_high: 'Very high progesterone outside of pregnancy is uncommon. During luteal phase and pregnancy, higher values are expected and normal.',
-    explain_optimal: 'Progesterone looks balanced — good luteal phase support.'
-  },
-  dheas: {
-    name: 'DHEA-S',
-    unit: 'μg/dL',
-    optimal: [150, 380],
-    standard: [65, 380],
-    explain_low: 'DHEA-S is the adrenal precursor to testosterone and estrogen. Low DHEA-S is one of the earliest signs of adrenal fatigue and accelerated aging. It declines with chronic stress, poor sleep, and aging. Symptoms: fatigue, low mood, reduced resilience to stress, low libido.',
-    explain_high: 'Elevated DHEA-S can indicate adrenal hyperactivity, PCOS, or congenital adrenal hyperplasia. In women, it can cause androgen excess symptoms.',
-    explain_optimal: 'DHEA-S is in a healthy functional range — good adrenal reserve and hormonal precursor status.'
-  },
-  cortisol: {
-    name: 'Cortisol (AM, fasting)',
-    unit: 'μg/dL',
-    optimal: [10, 18],
-    standard: [6, 23],
-    explain_low: 'Low morning cortisol suggests HPA axis dysregulation — the adrenal fatigue pattern. Symptoms: extreme morning fatigue that doesn\'t improve with sleep, low blood pressure, salt cravings, poor stress resilience. The cortisol awakening response is one of the body\'s most important regulatory signals.',
-    explain_high: 'Elevated morning cortisol reflects chronic HPA activation — prolonged stress, poor sleep, blood sugar dysregulation, inflammation. High cortisol suppresses thyroid function, breaks down muscle, promotes belly fat storage, and disrupts sleep architecture.',
-    explain_optimal: 'Morning cortisol is in the functional optimal range — good HPA axis function.'
-  },
-  shbg: {
-    name: 'SHBG (Sex Hormone Binding Globulin)',
-    unit: 'nmol/L',
-    optimal: [25, 55],
-    standard: [17, 124],
-    explain_low: 'Low SHBG is strongly associated with insulin resistance, metabolic syndrome, and PCOS. It means more free (active) sex hormones are circulating, which sounds good for testosterone but also means more free estrogen. Usually an early metabolic warning signal.',
-    explain_high: 'High SHBG binds up testosterone and estrogen, leaving too little free hormone available. Common causes: thyroid hyperthyroidism, liver dysfunction, low insulin, high estrogen, aging. Even with normal total T, high SHBG can cause low testosterone symptoms.',
-    explain_optimal: 'SHBG is in a functional optimal range — good hormone binding balance.'
-  },
-  lh: {
-    name: 'LH (Luteinizing Hormone)',
-    unit: 'mIU/mL',
-    optimal: [2, 8],
-    standard: [1.7, 15],
-    explain_low: 'Low LH suppresses testosterone production in men and disrupts ovulation in women. Can be caused by high stress (cortisol suppresses LH), overtraining, undereating, or pituitary issues.',
-    explain_high: 'High LH in women with irregular cycles is a classic PCOS finding. In men, high LH suggests primary testicular failure — the brain is signaling hard but the testes aren\'t responding.',
-    explain_optimal: 'LH is in the functional optimal range — good pituitary-gonadal communication.'
-  },
-  fsh: {
-    name: 'FSH (Follicle Stimulating Hormone)',
-    unit: 'mIU/mL',
-    optimal: [2, 9],
-    standard: [1.5, 12.4],
-    explain_low: 'Low FSH suppresses egg and sperm development. Often seen with hypothalamic dysfunction from chronic stress or undereating.',
-    explain_high: 'High FSH in women is one of the earliest signs of declining ovarian reserve and perimenopause. In men, high FSH indicates impaired sperm production. Elevated FSH means the pituitary is working harder to compensate.',
-    explain_optimal: 'FSH is in the functional optimal range.'
-  },
-  prolactin: {
-    name: 'Prolactin',
-    unit: 'ng/mL',
-    optimal: [3, 15],
-    standard: [2, 29],
-    explain_low: 'Very low prolactin is uncommon and rarely clinically significant.',
-    explain_high: 'Elevated prolactin suppresses testosterone and estrogen, disrupts ovulation, and causes low libido, infertility, and galactorrhea. Common causes: stress, hypothyroidism, certain medications (especially antidepressants), and in some cases a benign pituitary tumor (prolactinoma). Always recheck with a morning, fasting sample.',
-    explain_optimal: 'Prolactin is in the functional optimal range — no evidence of suppression of reproductive hormones.'
-  },
-  igf1: {
-    name: 'IGF-1 (Growth Hormone Proxy)',
-    unit: 'ng/mL',
-    optimal: [150, 300],
-    standard: [100, 300],
-    explain_low: 'Low IGF-1 reflects low growth hormone output — associated with poor muscle mass, slow recovery, fatigue, increased body fat, poor skin and hair quality, and accelerated aging. Key drivers: poor sleep (GH is released during deep sleep), low protein intake, insulin resistance, and zinc deficiency.',
-    explain_high: 'Elevated IGF-1 can indicate acromegaly or excess GH. In some contexts, higher-normal IGF-1 is associated with faster cellular growth — context and symptoms matter.',
-    explain_optimal: 'IGF-1 is in the functional optimal range — good growth hormone axis activity.'
-  }
+  wbc: { name:'White Blood Cells (WBC)', unit:'10³/μL', optimal:[5.5,7.5], standard:[4.5,11.0], explain_low:'Low WBC can suggest immune suppression, chronic viral infection, nutritional deficiencies (B12, folate, zinc), or bone marrow stress.', explain_high:'Elevated WBC suggests active infection, inflammation, immune activation, or chronic stress. Even in the "normal" range, trending high warrants investigation.', explain_optimal:'Your WBC is in the functional optimal range — suggests a well-regulated immune system.' },
+  rbc: { name:'Red Blood Cells (RBC)', unit:'M/μL', optimal:[4.2,4.9], standard:[4.0,5.5], explain_low:'Low RBC can indicate iron, B12, or folate deficiency, anemia, or poor bone marrow output.', explain_high:'High RBC can indicate dehydration, high altitude adaptation, or in some cases polycythemia.', explain_optimal:'Your RBC count looks optimal for healthy oxygen transport.' },
+  hemoglobin: { name:'Hemoglobin', unit:'g/dL', optimal:[13.5,15.0], standard:[12.0,17.5], explain_low:'Low hemoglobin is a classic sign of anemia. Most common causes: iron deficiency, B12/folate deficiency, chronic inflammation.', explain_high:'High hemoglobin can suggest dehydration or polycythemia.', explain_optimal:'Hemoglobin looks good — adequate oxygen-carrying capacity.' },
+  hematocrit: { name:'Hematocrit', unit:'%', optimal:[40,47], standard:[36,52], explain_low:'Low hematocrit follows low hemoglobin — suggests anemia pattern. Check iron, B12, folate.', explain_high:'High hematocrit can indicate dehydration or polycythemia. Increases clotting risk.', explain_optimal:'Hematocrit is in a healthy functional range.' },
+  mcv: { name:'MCV', unit:'fL', optimal:[85,95], standard:[80,100], explain_low:'Low MCV (microcytic) suggests iron deficiency anemia or thalassemia trait.', explain_high:'High MCV (macrocytic) suggests B12 or folate deficiency.', explain_optimal:'MCV is in the optimal range — red cell size looks healthy.' },
+  platelets: { name:'Platelets', unit:'10³/μL', optimal:[175,350], standard:[150,400], explain_low:'Low platelets can indicate immune dysfunction, nutritional deficiency, or bone marrow issues.', explain_high:'Elevated platelets can suggest inflammation, infection, or iron deficiency.', explain_optimal:'Platelet count looks good for healthy clotting function.' },
+  glucose: { name:'Fasting Glucose', unit:'mg/dL', optimal:[75,86], standard:[70,99], explain_low:'Fasting glucose below 75 can suggest hypoglycemia tendency, adrenal fatigue, or poor glycogen storage.', explain_high:'Fasting glucose 87-99 is "normal" but functionally is early blood sugar dysregulation.', explain_optimal:'Optimal fasting glucose — excellent insulin sensitivity.' },
+  bun: { name:'BUN', unit:'mg/dL', optimal:[13,18], standard:[7,25], explain_low:'Low BUN can suggest low protein intake, malabsorption, or liver dysfunction.', explain_high:'High BUN suggests high protein intake, dehydration, kidney stress, or poor hydration.', explain_optimal:'BUN looks balanced — good protein metabolism and kidney function.' },
+  creatinine: { name:'Creatinine', unit:'mg/dL', optimal:[0.8,1.1], standard:[0.6,1.3], explain_low:'Low creatinine often reflects low muscle mass or a very low protein diet.', explain_high:'Elevated creatinine suggests kidney filtration is reduced.', explain_optimal:'Creatinine looks healthy — kidney filtration appears to be working well.' },
+  sodium: { name:'Sodium', unit:'mEq/L', optimal:[135,142], standard:[136,145], explain_low:'Low sodium can reflect overhydration, adrenal insufficiency, or SIADH.', explain_high:'High sodium suggests dehydration. Easy fix — increase water intake.', explain_optimal:'Sodium is well-balanced — hydration and electrolytes look good.' },
+  potassium: { name:'Potassium', unit:'mEq/L', optimal:[4.0,4.5], standard:[3.5,5.1], explain_low:'Low potassium can cause muscle cramps, fatigue, and heart rhythm irregularities.', explain_high:'High potassium can indicate kidney issues, adrenal dysfunction, or cell breakdown.', explain_optimal:'Potassium is in the optimal functional range — good electrolyte balance.' },
+  alt: { name:'ALT (Liver Enzyme)', unit:'U/L', optimal:[10,26], standard:[7,56], explain_low:'Very low ALT is rarely concerning but can be seen with B6 deficiency.', explain_high:'Elevated ALT signals liver stress. Even ALT of 30-40 suggests early liver inflammation.', explain_optimal:'ALT is functionally optimal — liver appears to be handling its load well.' },
+  ast: { name:'AST (Liver Enzyme)', unit:'U/L', optimal:[10,26], standard:[10,40], explain_low:'Very low AST is rarely significant.', explain_high:'Elevated AST, especially alongside ALT, indicates liver stress or muscle damage.', explain_optimal:'AST looks healthy — no signs of liver or muscle stress.' },
+  bilirubin: { name:'Total Bilirubin', unit:'mg/dL', optimal:[0.3,1.0], standard:[0.1,1.2], explain_low:'Very low bilirubin is rarely clinically significant.', explain_high:'Elevated bilirubin can indicate liver dysfunction, hemolysis, or bile duct obstruction.', explain_optimal:'Bilirubin is in a healthy range.' },
+  total_protein: { name:'Total Protein', unit:'g/dL', optimal:[6.9,7.4], standard:[6.3,8.2], explain_low:'Low total protein suggests poor protein intake, malabsorption, or liver/kidney issues.', explain_high:'High total protein can reflect dehydration or chronic inflammation/infection.', explain_optimal:'Total protein looks balanced.' },
+  albumin: { name:'Albumin', unit:'g/dL', optimal:[4.0,5.0], standard:[3.5,5.5], explain_low:'Low albumin is a significant finding — indicates liver dysfunction, malnutrition, or chronic inflammation.', explain_high:'High albumin typically reflects dehydration.', explain_optimal:'Albumin is in an excellent range — good liver function and protein status.' },
+  tsh: { name:'TSH', unit:'mIU/L', optimal:[1.0,2.0], standard:[0.4,4.5], explain_low:'TSH below 1.0 suggests the thyroid may be overactive.', explain_high:'TSH above 2.0 functionally suggests the thyroid is being pushed hard to maintain output.', explain_optimal:'TSH is in the functional sweet spot — thyroid is working efficiently without being overdriven.' },
+  free_t4: { name:'Free T4', unit:'ng/dL', optimal:[1.0,1.5], standard:[0.8,1.8], explain_low:'Low Free T4 suggests the thyroid isn\'t producing enough hormone.', explain_high:'High Free T4 can suggest hyperthyroidism or conversion issues.', explain_optimal:'Free T4 looks good — adequate thyroid hormone production.' },
+  free_t3: { name:'Free T3', unit:'pg/mL', optimal:[3.0,3.5], standard:[2.3,4.2], explain_low:'Low Free T3 is the most functionally significant thyroid marker. T3 is the active form that drives metabolism.', explain_high:'High Free T3 suggests hyperthyroid or over-supplementation.', explain_optimal:'Free T3 is in the optimal range — active thyroid hormone looks good.' },
+  total_cholesterol: { name:'Total Cholesterol', unit:'mg/dL', optimal:[160,220], standard:[0,200], explain_low:'Very low cholesterol is associated with depression, hormonal issues, and immune dysfunction.', explain_high:'Elevated total cholesterol should be evaluated in context of LDL particle size, HDL, and inflammation.', explain_optimal:'Total cholesterol is in a functional range.' },
+  ldl: { name:'LDL Cholesterol', unit:'mg/dL', optimal:[80,130], standard:[0,100], explain_low:'Very low LDL can suggest malnutrition, thyroid issues, or liver dysfunction.', explain_high:'Elevated LDL warrants investigation — particularly LDL particle number and size.', explain_optimal:'LDL is in a reasonable functional range.' },
+  hdl: { name:'HDL Cholesterol', unit:'mg/dL', optimal:[55,75], standard:[40,999], explain_low:'Low HDL is one of the strongest independent cardiovascular risk factors.', explain_high:'Very high HDL (>80) can sometimes paradoxically increase risk.', explain_optimal:'HDL is in an excellent functional range — strong cardiovascular protective factor.' },
+  triglycerides: { name:'Triglycerides', unit:'mg/dL', optimal:[60,100], standard:[0,150], explain_low:'Very low triglycerides suggest low carb intake and good fat metabolism.', explain_high:'Elevated triglycerides are a strong signal of carbohydrate excess and insulin resistance.', explain_optimal:'Triglycerides are in the functional optimal range — excellent metabolic health marker.' },
+  hba1c: { name:'HbA1c', unit:'%', optimal:[4.8,5.3], standard:[4.0,5.6], explain_low:'Very low HbA1c can occasionally indicate certain anemias affecting test accuracy.', explain_high:'HbA1c above 5.3 functionally suggests chronic blood sugar elevation. Even 5.4-5.6 is worth addressing.', explain_optimal:'HbA1c is in an excellent functional range — blood sugar well-controlled.' },
+  hscrp: { name:'hsCRP', unit:'mg/L', optimal:[0,1.0], standard:[0,3.0], explain_low:'Low hsCRP is excellent — indicates minimal systemic inflammation.', explain_high:'Elevated hsCRP is one of the most important markers to address. Chronic low-grade inflammation drives cardiovascular disease and accelerated aging.', explain_optimal:'hsCRP is in an excellent range — inflammation appears well-controlled.' },
+  insulin: { name:'Fasting Insulin', unit:'μIU/mL', optimal:[2,8], standard:[0,25], explain_low:'Very low fasting insulin is generally positive.', explain_high:'Elevated fasting insulin is the earliest sign of insulin resistance — often present for a decade before glucose or HbA1c rise.', explain_optimal:'Fasting insulin is in an excellent range — strong insulin sensitivity.' },
+  ferritin: { name:'Ferritin', unit:'ng/mL', optimal:[50,150], standard:[12,300], explain_low:'Low ferritin is the earliest sign of iron depletion — long before anemia shows up. Classic symptoms: fatigue, hair loss, poor exercise recovery.', explain_high:'Elevated ferritin above 150 can indicate iron overload, inflammation, or liver stress.', explain_optimal:'Ferritin is in an excellent functional range — iron stores look adequate.' },
+  vitamin_d: { name:'Vitamin D (25-OH)', unit:'ng/mL', optimal:[50,80], standard:[30,100], explain_low:'Vitamin D below 50 ng/mL is functionally deficient. Affects immune function, mood, bone density, and insulin sensitivity.', explain_high:'Vitamin D above 100 warrants checking calcium levels.', explain_optimal:'Vitamin D is in an excellent functional range — well-optimized.' },
+  homocysteine: { name:'Homocysteine', unit:'μmol/L', optimal:[5,8], standard:[0,15], explain_low:'Very low homocysteine is generally positive.', explain_high:'Elevated homocysteine damages blood vessel walls and increases stroke risk. Usually responsive to B12, B6, and folate.', explain_optimal:'Homocysteine is in an excellent range — methylation and B-vitamin status looks good.' },
+  testosterone_male: { name:'Testosterone (Total) — Male', unit:'ng/dL', optimal:[500,900], standard:[300,1000], explain_low:'Low testosterone: fatigue, low libido, muscle loss, brain fog. Anything below 500 warrants investigation.', explain_high:'High total testosterone can indicate replacement therapy without monitoring or adrenal issues.', explain_optimal:'Total testosterone is in a healthy functional range.' },
+  testosterone_female: { name:'Testosterone (Total) — Female', unit:'ng/dL', optimal:[25,70], standard:[15,70], explain_low:'Low testosterone in women: low libido, fatigue, poor muscle tone, mood flatness.', explain_high:'Elevated testosterone in women is associated with PCOS and insulin resistance.', explain_optimal:'Female testosterone is in the functional optimal range.' },
+  free_testosterone_male: { name:'Free Testosterone — Male', unit:'pg/mL', optimal:[9,18], standard:[9,30], explain_low:'Low free T — even with normal total T — means the hormone isn\'t reaching your cells. High SHBG is the most common cause.', explain_high:'High free testosterone suggests either high total testosterone or low SHBG.', explain_optimal:'Free testosterone is in the functional optimal range.' },
+  estradiol: { name:'Estradiol (E2)', unit:'pg/mL', optimal:[60,150], standard:[20,350], explain_low:'Low estradiol causes bone loss, poor sleep, mood instability, and accelerated aging.', explain_high:'Elevated estradiol is associated with estrogen dominance — fibroids, heavy periods, mood swings, water retention.', explain_optimal:'Estradiol is in a functional optimal range.' },
+  progesterone: { name:'Progesterone', unit:'ng/mL', optimal:[5,25], standard:[1,25], explain_low:'Low progesterone: anxiety, insomnia, PMS, heavy periods, estrogen dominance pattern.', explain_high:'Very high progesterone outside of pregnancy is uncommon.', explain_optimal:'Progesterone looks balanced.' },
+  dheas: { name:'DHEA-S', unit:'μg/dL', optimal:[150,380], standard:[65,380], explain_low:'Low DHEA-S is one of the earliest signs of adrenal fatigue. Fatigue, low mood, reduced resilience to stress.', explain_high:'Elevated DHEA-S can indicate adrenal hyperactivity or PCOS.', explain_optimal:'DHEA-S is in a healthy functional range.' },
+  cortisol: { name:'Cortisol (AM)', unit:'μg/dL', optimal:[10,18], standard:[6,23], explain_low:'Low morning cortisol suggests HPA axis dysregulation — the adrenal fatigue pattern.', explain_high:'Elevated morning cortisol reflects chronic HPA activation — prolonged stress, poor sleep, blood sugar dysregulation.', explain_optimal:'Morning cortisol is in the functional optimal range.' },
+  shbg: { name:'SHBG', unit:'nmol/L', optimal:[25,55], standard:[17,124], explain_low:'Low SHBG is strongly associated with insulin resistance, metabolic syndrome, and PCOS.', explain_high:'High SHBG binds up testosterone and estrogen, leaving too little free hormone available.', explain_optimal:'SHBG is in a functional optimal range.' },
+  lh: { name:'LH', unit:'mIU/mL', optimal:[2,8], standard:[1.7,15], explain_low:'Low LH suppresses testosterone production in men and disrupts ovulation in women.', explain_high:'High LH in women with irregular cycles is a classic PCOS finding.', explain_optimal:'LH is in the functional optimal range.' },
+  fsh: { name:'FSH', unit:'mIU/mL', optimal:[2,9], standard:[1.5,12.4], explain_low:'Low FSH suppresses egg and sperm development.', explain_high:'High FSH in women is one of the earliest signs of declining ovarian reserve and perimenopause.', explain_optimal:'FSH is in the functional optimal range.' },
+  prolactin: { name:'Prolactin', unit:'ng/mL', optimal:[3,15], standard:[2,29], explain_low:'Very low prolactin is uncommon and rarely clinically significant.', explain_high:'Elevated prolactin suppresses testosterone and estrogen, disrupts ovulation, and causes low libido.', explain_optimal:'Prolactin is in the functional optimal range.' },
+  igf1: { name:'IGF-1', unit:'ng/mL', optimal:[150,300], standard:[100,300], explain_low:'Low IGF-1: poor muscle mass, slow recovery, fatigue, increased body fat, accelerated aging.', explain_high:'Elevated IGF-1 can indicate acromegaly or excess GH.', explain_optimal:'IGF-1 is in the functional optimal range.' }
 };
 
-// ── GLOBAL STATE ────────────────────────────────────────────────────────────
+// ── LIVE RANGE BAR ───────────────────────────────────────────────────────────
+function updateRangeBar(input, key) {
+  const marker = MARKERS[key];
+  if (!marker) return;
+  const bar = document.getElementById('bar-' + key);
+  const lbl = document.getElementById('lbl-' + key);
+  if (!bar || !lbl) return;
+  const val = parseFloat(input.value);
+  if (isNaN(val) || input.value === '') {
+    bar.style.width = '0%';
+    bar.className = 'range-bar-fill';
+    lbl.textContent = '';
+    lbl.className = 'range-status-label';
+    return;
+  }
+  const [lo, hi] = marker.optimal;
+  const [slo, shi] = marker.standard || [lo * 0.7, hi * 1.5];
+  const rangeTotal = shi - slo;
+  const pct = 0.1;
+  const cautLo = lo * (1 - pct);
+  const cautHi = hi * (1 + pct);
+  let status, label;
+  if (val >= lo && val <= hi) { status = 'optimal'; label = 'OPTIMAL'; }
+  else if (val < lo) { status = val >= cautLo ? 'caution' : 'flag'; label = status === 'caution' ? 'LOW — CAUTION' : 'BELOW OPTIMAL'; }
+  else { status = val <= cautHi ? 'caution' : 'flag'; label = status === 'caution' ? 'HIGH — CAUTION' : 'ABOVE OPTIMAL'; }
+  const fillPct = Math.min(100, Math.max(3, ((val - slo) / rangeTotal) * 100));
+  bar.style.width = fillPct + '%';
+  bar.className = 'range-bar-fill ' + status;
+  lbl.textContent = label;
+  lbl.className = 'range-status-label ' + status;
+}
+
+// ── GLOBAL STATE ─────────────────────────────────────────────────────────────
 let _currentLabs = {};
 
-// ── PATTERN DETECTION ENGINE (mirrors analyze.js) ────────────────────────────
-const FUNCTIONAL_RANGES_REPORT = {
-  glucose: { name: 'Fasting Glucose', unit: 'mg/dL', lo: 75, hi: 86 },
-  hba1c: { name: 'HbA1c', unit: '%', lo: 4.8, hi: 5.3 },
-  insulin: { name: 'Fasting Insulin', unit: 'μIU/mL', lo: 2, hi: 8 },
-  triglycerides: { name: 'Triglycerides', unit: 'mg/dL', lo: 60, hi: 100 },
-  total_chol: { name: 'Total Cholesterol', unit: 'mg/dL', lo: 160, hi: 220 },
-  ldl: { name: 'LDL', unit: 'mg/dL', lo: 80, hi: 120 },
-  hdl: { name: 'HDL', unit: 'mg/dL', lo: 55, hi: 75 },
-  tsh: { name: 'TSH', unit: 'mIU/L', lo: 1.0, hi: 2.0 },
-  free_t3: { name: 'Free T3', unit: 'pg/mL', lo: 3.0, hi: 3.5 },
-  free_t4: { name: 'Free T4', unit: 'ng/dL', lo: 1.0, hi: 1.5 },
-  ferritin: { name: 'Ferritin', unit: 'ng/mL', lo: 50, hi: 150 },
-  serum_iron: { name: 'Serum Iron', unit: 'μg/dL', lo: 85, hi: 130 },
-  tibc: { name: 'TIBC', unit: 'μg/dL', lo: 250, hi: 370 },
-  vitamin_d: { name: 'Vitamin D (25-OH)', unit: 'ng/mL', lo: 50, hi: 80 },
-  b12: { name: 'Vitamin B12', unit: 'pg/mL', lo: 450, hi: 900 },
-  homocysteine: { name: 'Homocysteine', unit: 'μmol/L', lo: 5, hi: 8 },
-  hscrp: { name: 'hsCRP', unit: 'mg/L', lo: 0, hi: 1.0 },
-  wbc: { name: 'WBC', unit: '10³/μL', lo: 5.5, hi: 7.5 },
-  rbc: { name: 'RBC', unit: 'M/μL', lo: 4.2, hi: 4.9 },
-  hemoglobin: { name: 'Hemoglobin', unit: 'g/dL', lo: 13.5, hi: 15.0 },
-  hematocrit: { name: 'Hematocrit', unit: '%', lo: 40, hi: 47 },
-  mcv: { name: 'MCV', unit: 'fL', lo: 85, hi: 95 },
-  ferritin: { name: 'Ferritin', unit: 'ng/mL', lo: 50, hi: 150 },
-  alt: { name: 'ALT', unit: 'U/L', lo: 10, hi: 26 },
-  ast: { name: 'AST', unit: 'U/L', lo: 10, hi: 26 },
-  vitamin_d: { name: 'Vitamin D', unit: 'ng/mL', lo: 50, hi: 80 },
-  cortisol: { name: 'Cortisol (AM)', unit: 'μg/dL', lo: 10, hi: 18 },
-  dheas: { name: 'DHEA-S', unit: 'μg/dL', lo: 150, hi: 380 },
-  testosterone_m: { name: 'Testosterone (Male)', unit: 'ng/dL', lo: 500, hi: 900 },
-  testosterone_f: { name: 'Testosterone (Female)', unit: 'ng/dL', lo: 25, hi: 70 },
-  estradiol: { name: 'Estradiol (E2)', unit: 'pg/mL', lo: 60, hi: 150 },
-  magnesium: { name: 'Magnesium', unit: 'mg/dL', lo: 2.0, hi: 2.5 },
-  hscrp: { name: 'hsCRP', unit: 'mg/L', lo: 0, hi: 1.0 },
-};
-
+// ── PATTERN DETECTION ────────────────────────────────────────────────────────
 const PATTERN_DEFS = [
-  { name: 'Metabolic Syndrome', keys: ['glucose','hba1c','triglycerides','hdl','insulin'], description: 'A cluster of metabolic disruptions that dramatically increase cardiovascular and diabetes risk. The underlying driver is typically insulin resistance — your cells aren\'t responding properly to insulin, forcing the pancreas to produce more. This creates a cascade of downstream effects across blood sugar, lipids, and inflammation.' },
-  { name: 'Iron Deficiency', keys: ['ferritin','serum_iron','tibc','mcv','hemoglobin'], description: 'Your body\'s iron stores appear depleted. Iron is essential for oxygen transport, cellular energy production, thyroid function, and neurotransmitter synthesis. This pattern commonly presents as fatigue, brain fog, poor exercise tolerance, and cold hands/feet — often years before anemia develops.' },
-  { name: 'Thyroid Dysfunction', keys: ['tsh','free_t3','free_t4'], description: 'Your thyroid markers suggest suboptimal thyroid function. The thyroid regulates metabolism, body temperature, heart rate, mood, and energy. Even subtle dysfunction outside functional ranges can cause persistent fatigue, weight changes, brain fog, constipation, hair thinning, and depression — often dismissed as "normal" by standard reference ranges.' },
-  { name: 'Chronic Inflammation', keys: ['hscrp','wbc','homocysteine'], description: 'Elevated inflammatory markers suggest systemic low-grade inflammation. This is a root driver of cardiovascular disease, metabolic dysfunction, autoimmunity, accelerated aging, and cognitive decline. Common triggers include poor sleep, processed food, gut dysbiosis, hidden infections, excess body fat, and chronic stress.' },
-  { name: 'Insulin Resistance', keys: ['glucose','hba1c','insulin','hdl','triglycerides'], description: 'Your markers suggest your cells are becoming less responsive to insulin. This is the earliest stage of metabolic dysfunction — often present a decade before a diabetes diagnosis. Insulin resistance drives fat storage, inflammation, hormonal disruption, and cognitive decline.' },
-  { name: 'B12/Folate Deficiency', keys: ['b12','homocysteine','mcv'], description: 'Your markers suggest B12 or folate insufficiency. These nutrients are essential for DNA synthesis, red blood cell formation, nerve function, and methylation — the biochemical process that regulates gene expression, detoxification, and neurotransmitter production. Deficiency is common in people taking metformin, PPIs, or who eat low-animal-protein diets.' },
-  { name: 'Vitamin D Deficiency', keys: ['vitamin_d'], description: 'Low vitamin D affects immune regulation, calcium absorption, mood, thyroid function, and cardiovascular health. It functions more like a hormone than a vitamin — receptors for it exist in virtually every tissue in the body. Deficiency is extremely common and dramatically underdiagnosed.' },
-  { name: 'Adrenal Stress Pattern', keys: ['cortisol','dheas'], description: 'Your cortisol and/or DHEA-S values suggest adrenal stress. Chronic stress dysregulates the HPA axis — the communication system between your brain and adrenal glands — leading to disrupted energy, sleep, immunity, and sex hormone production. This pattern often presents as wired-but-tired, poor stress resilience, and morning fatigue.' },
+  { name:'Metabolic Syndrome', keys:['glucose','hba1c','triglycerides','hdl','insulin'], description:'A cluster of metabolic disruptions that dramatically increase cardiovascular and diabetes risk. The underlying driver is typically insulin resistance — your cells aren\'t responding properly to insulin, forcing the pancreas to produce more.' },
+  { name:'Iron Deficiency', keys:['ferritin','mcv','hemoglobin'], description:'Your body\'s iron stores appear depleted. Iron is essential for oxygen transport, cellular energy production, and thyroid function. This pattern commonly presents as fatigue, brain fog, poor exercise tolerance, and cold hands/feet.' },
+  { name:'Thyroid Dysfunction', keys:['tsh','free_t3','free_t4'], description:'Your thyroid markers suggest suboptimal thyroid function. Even subtle dysfunction outside functional ranges can cause persistent fatigue, weight changes, brain fog, and depression — often dismissed as "normal".' },
+  { name:'Chronic Inflammation', keys:['hscrp','wbc','homocysteine'], description:'Elevated inflammatory markers suggest systemic low-grade inflammation. This is a root driver of cardiovascular disease, accelerated aging, and cognitive decline.' },
+  { name:'Insulin Resistance', keys:['glucose','hba1c','insulin','hdl','triglycerides'], description:'Your markers suggest your cells are becoming less responsive to insulin. This is the earliest stage of metabolic dysfunction — often present a decade before a diabetes diagnosis.' },
+  { name:'Vitamin D Deficiency', keys:['vitamin_d'], description:'Low vitamin D affects immune regulation, mood, thyroid function, and cardiovascular health. Deficiency is extremely common and dramatically underdiagnosed.' },
+  { name:'Adrenal Stress Pattern', keys:['cortisol','dheas'], description:'Your cortisol and/or DHEA-S values suggest adrenal stress. Chronic stress dysregulates the HPA axis — leading to disrupted energy, sleep, and sex hormone production.' },
 ];
 
 function detectPatternsLocal(labs, results) {
@@ -1003,13 +1075,13 @@ function detectPatternsLocal(labs, results) {
 function getFollowUpLabs(labs, results) {
   const flaggedKeys = new Set(results.filter(r => r.status !== 'optimal').map(r => r.key));
   const suggestions = [];
-  if ((flaggedKeys.has('tsh') || flaggedKeys.has('free_t3')) && !labs.tpo_ab) suggestions.push({ lab: 'TPO Antibodies', reason: 'Rule out Hashimoto\'s autoimmune thyroid disease' });
-  if (flaggedKeys.has('glucose') || flaggedKeys.has('hba1c')) suggestions.push({ lab: 'Fasting Insulin', reason: 'Quantify insulin resistance beyond blood sugar levels' });
-  if (flaggedKeys.has('ferritin') || flaggedKeys.has('hemoglobin')) suggestions.push({ lab: 'Iron Panel (serum iron, TIBC, transferrin saturation)', reason: 'Complete the iron deficiency picture' });
-  if (flaggedKeys.has('hscrp') || flaggedKeys.has('homocysteine')) suggestions.push({ lab: 'Oxidized LDL + Lp(a)', reason: 'Assess true cardiovascular risk beyond standard lipid panel' });
-  if (!labs.vitamin_d) suggestions.push({ lab: '25-OH Vitamin D', reason: 'Foundational marker — affects immunity, mood, thyroid, and calcium metabolism' });
-  if (!labs.magnesium) suggestions.push({ lab: 'RBC Magnesium (not serum)', reason: 'Serum magnesium misses intracellular deficiency. RBC magnesium is accurate.' });
-  if (flaggedKeys.has('cortisol') || flaggedKeys.has('dheas')) suggestions.push({ lab: '4-point salivary cortisol', reason: 'Map the full daily cortisol curve — a single AM draw misses the pattern' });
+  if ((flaggedKeys.has('tsh') || flaggedKeys.has('free_t3')) && !labs.tpo_ab) suggestions.push({ lab:'TPO Antibodies', reason:'Rule out Hashimoto\'s autoimmune thyroid disease' });
+  if (flaggedKeys.has('glucose') || flaggedKeys.has('hba1c')) suggestions.push({ lab:'Fasting Insulin', reason:'Quantify insulin resistance beyond blood sugar levels' });
+  if (flaggedKeys.has('ferritin') || flaggedKeys.has('hemoglobin')) suggestions.push({ lab:'Iron Panel (serum iron, TIBC, transferrin saturation)', reason:'Complete the iron deficiency picture' });
+  if (flaggedKeys.has('hscrp') || flaggedKeys.has('homocysteine')) suggestions.push({ lab:'Oxidized LDL + Lp(a)', reason:'Assess true cardiovascular risk beyond standard lipid panel' });
+  if (!labs.vitamin_d) suggestions.push({ lab:'25-OH Vitamin D', reason:'Foundational marker — affects immunity, mood, thyroid, and calcium metabolism' });
+  if (!labs.magnesium) suggestions.push({ lab:'RBC Magnesium (not serum)', reason:'Serum magnesium misses intracellular deficiency. RBC magnesium is accurate.' });
+  if (flaggedKeys.has('cortisol') || flaggedKeys.has('dheas')) suggestions.push({ lab:'4-point salivary cortisol', reason:'Map the full daily cortisol curve' });
   return suggestions.slice(0, 5);
 }
 
@@ -1019,40 +1091,36 @@ function generateReport(results, labs) {
   const optimal = results.filter(r => r.status === 'optimal');
   const patterns = detectPatternsLocal(labs, results);
   const followUp = getFollowUpLabs(labs, results);
-  const score = Math.round((optimal.length / results.length) * 100);
-
   const priorityList = [...flagged, ...caution].slice(0, 7);
-
-  let html = `<div style="font-family:'Inter',sans-serif;color:#111827;line-height:1.75;">`;
+  let html = '<div style="font-family:\'Inter\',sans-serif;color:#e2e8f0;line-height:1.75;">';
 
   // Executive Summary
-  html += `<div style="background:linear-gradient(135deg,#05152e,#0a2a52);color:white;border-radius:10px;padding:1.75rem 2rem;margin-bottom:1.75rem;">
-    <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f4a0a0;margin-bottom:.5rem;">Executive Summary</div>
+  html += `<div style="background:linear-gradient(135deg,rgba(0,212,255,0.12),rgba(5,13,26,0.8));border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:1.75rem 2rem;margin-bottom:1.75rem;">
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f4a0a0;margin-bottom:.5rem;font-family:'Space Mono',monospace;">Executive Summary</div>
     <p style="font-size:1rem;line-height:1.7;opacity:.9;">`;
-
   if (flagged.length === 0 && caution.length === 0) {
     html += `All ${results.length} markers entered are in the functional optimal range. Your biology is running well. Focus on maintaining these levels through consistent habits.`;
   } else if (flagged.length >= 3) {
-    html += `${flagged.length} markers are significantly outside functional optimal ranges, with ${caution.length} additional markers in caution zones. ${patterns.length > 0 ? `The pattern analysis points to ${patterns.map(p => p.name).join(' and ')} as likely root drivers.` : ''} These findings warrant attention — but they\'re also actionable.`;
+    html += `${flagged.length} markers are significantly outside functional optimal ranges, with ${caution.length} additional markers in caution zones. ${patterns.length > 0 ? `The pattern analysis points to ${patterns.map(p => p.name).join(' and ')} as likely root drivers.` : ''} These findings warrant attention — but they're also actionable.`;
   } else {
     html += `${flagged.length + caution.length} of ${results.length} markers show room for optimization. ${optimal.length > 0 ? `${optimal.length} markers look strong. ` : ''}${patterns.length > 0 ? `The pattern data points toward ${patterns[0].name} as the most significant area to address.` : 'No strong patterns detected — individual markers are the focus.'}`;
   }
   html += `</p></div>`;
 
-  // All Marker Results
+  // All Markers
   html += `<div style="margin-bottom:1.75rem;">
-    <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Full Marker Analysis</div>`;
-
+    <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;font-family:'Space Mono',monospace;">Full Marker Analysis</div>`;
   results.forEach(r => {
-    const borderColor = r.status === 'flag' ? '#fecaca' : r.status === 'caution' ? '#fde68a' : '#bbf7d0';
-    const bgColor = r.status === 'flag' ? '#fef2f2' : r.status === 'caution' ? '#fffbeb' : '#f0fdf4';
-    html += `<div style="background:${bgColor};border-left:4px solid ${borderColor};border-radius:6px;padding:1rem 1.25rem;margin-bottom:.75rem;">
+    const borderColor = r.status === 'flag' ? '#ef4444' : r.status === 'caution' ? '#f59e0b' : '#00d4ff';
+    const bgColor = r.status === 'flag' ? 'rgba(239,68,68,0.1)' : r.status === 'caution' ? 'rgba(245,158,11,0.1)' : 'rgba(0,212,255,0.07)';
+    const textColor = r.status === 'flag' ? '#fca5a5' : r.status === 'caution' ? '#fcd34d' : '#67e8f9';
+    html += `<div style="background:${bgColor};border-left:3px solid ${borderColor};border-radius:6px;padding:1rem 1.25rem;margin-bottom:.75rem;">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem;">
-        <strong style="font-size:.9rem;">${r.icon} ${r.marker.name}</strong>
-        <span style="font-size:.78rem;font-weight:600;opacity:.7;">${r.label}</span>
+        <strong style="font-size:.9rem;color:#fff;">${r.icon} ${r.marker.name}</strong>
+        <span style="font-size:.72rem;font-weight:700;color:${borderColor};font-family:'Space Mono',monospace;">${r.label}</span>
       </div>
-      <div style="font-size:.82rem;color:#374151;margin-bottom:.4rem;">Your value: <strong>${r.val} ${r.marker.unit}</strong> · Functional optimal: ${r.lo}–${r.hi} ${r.marker.unit}</div>
-      <div style="font-size:.85rem;color:#4b5563;line-height:1.6;">${r.explain}</div>
+      <div style="font-size:.8rem;color:#94a3b8;margin-bottom:.4rem;font-family:'Space Mono',monospace;">Value: ${r.val} ${r.marker.unit} · Optimal: ${r.lo}–${r.hi}</div>
+      <div style="font-size:.85rem;color:${textColor};line-height:1.6;">${r.explain}</div>
     </div>`;
   });
   html += `</div>`;
@@ -1060,27 +1128,27 @@ function generateReport(results, labs) {
   // Patterns
   if (patterns.length > 0) {
     html += `<div style="margin-bottom:1.75rem;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Pattern Analysis</div>`;
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;font-family:'Space Mono',monospace;">Pattern Analysis</div>`;
     patterns.forEach(p => {
-      html += `<div style="background:white;border:1px solid #e5e0d8;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:.75rem;">
-        <div style="font-weight:700;font-size:.95rem;margin-bottom:.5rem;">🔗 ${p.name}</div>
-        <div style="font-size:.875rem;color:#4b5563;line-height:1.7;">${p.description}</div>
-        <div style="font-size:.78rem;color:#9ca3af;margin-top:.5rem;">Related markers: ${p.keys.join(', ')}</div>
+      html += `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:.75rem;">
+        <div style="font-weight:700;font-size:.95rem;margin-bottom:.5rem;color:#fff;">🔗 ${p.name}</div>
+        <div style="font-size:.875rem;color:#94a3b8;line-height:1.7;">${p.description}</div>
+        <div style="font-size:.72rem;color:#475569;margin-top:.5rem;font-family:'Space Mono',monospace;">Related markers: ${p.keys.join(', ')}</div>
       </div>`;
     });
     html += `</div>`;
   }
 
-  // Priority Action Plan
+  // Priority Actions
   if (priorityList.length > 0) {
     html += `<div style="margin-bottom:1.75rem;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Priority Action Plan</div>
-      <p style="font-size:.875rem;color:#6b7280;margin-bottom:1rem;">Ranked by functional impact. Address these in order — fixing upstream drivers often resolves downstream markers automatically.</p>`;
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;font-family:'Space Mono',monospace;">Priority Action Plan</div>
+      <p style="font-size:.875rem;color:#64748b;margin-bottom:1rem;">Ranked by functional impact. Address these in order — fixing upstream drivers often resolves downstream markers automatically.</p>`;
     priorityList.forEach((r, i) => {
-      html += `<div style="display:flex;gap:1rem;padding:.9rem 0;border-bottom:1px solid #f3f4f6;">
-        <div style="flex-shrink:0;width:28px;height:28px;background:#05152e;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;">${i+1}</div>
-        <div><strong style="font-size:.9rem;">${r.marker.name}</strong> <span style="font-size:.8rem;color:#9ca3af;">(${r.label})</span>
-        <div style="font-size:.83rem;color:#4b5563;margin-top:.25rem;">Your value ${r.val} ${r.marker.unit} — functional optimal is ${r.lo}–${r.hi}. ${r.explain.split('.')[0]}.</div></div>
+      html += `<div style="display:flex;gap:1rem;padding:.9rem 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <div style="flex-shrink:0;width:28px;height:28px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.3);color:#00d4ff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;font-family:'Space Mono',monospace;">${i+1}</div>
+        <div><strong style="font-size:.9rem;color:#fff;">${r.marker.name}</strong> <span style="font-size:.78rem;color:#64748b;">(${r.label})</span>
+        <div style="font-size:.83rem;color:#94a3b8;margin-top:.25rem;">Value ${r.val} ${r.marker.unit} — optimal: ${r.lo}–${r.hi}. ${r.explain.split('.')[0]}.</div></div>
       </div>`;
     });
     html += `</div>`;
@@ -1089,11 +1157,11 @@ function generateReport(results, labs) {
   // Follow-up labs
   if (followUp.length > 0) {
     html += `<div style="margin-bottom:1.75rem;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;">Recommended Follow-Up Labs</div>`;
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#e07b6a;margin-bottom:1rem;font-family:'Space Mono',monospace;">Recommended Follow-Up Labs</div>`;
     followUp.forEach(f => {
-      html += `<div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid #f3f4f6;">
-        <span style="color:#e07b6a;font-weight:700;flex-shrink:0;">+</span>
-        <div><strong style="font-size:.875rem;">${f.lab}</strong><div style="font-size:.82rem;color:#6b7280;">${f.reason}</div></div>
+      html += `<div style="display:flex;gap:.75rem;align-items:flex-start;padding:.75rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+        <span style="color:#00d4ff;font-weight:700;flex-shrink:0;">+</span>
+        <div><strong style="font-size:.875rem;color:#fff;">${f.lab}</strong><div style="font-size:.82rem;color:#64748b;">${f.reason}</div></div>
       </div>`;
     });
     html += `</div>`;
@@ -1101,33 +1169,31 @@ function generateReport(results, labs) {
 
   // Positives
   if (optimal.length > 0) {
-    html += `<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
-      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#15803d;margin-bottom:.75rem;">What's Working ✅</div>
-      <p style="font-size:.875rem;color:#166534;">${optimal.map(r => r.marker.name).join(', ')} — all in functional optimal range. These are real strengths to protect.</p>
+    html += `<div style="background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.2);border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.75rem;">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#00d4ff;margin-bottom:.75rem;font-family:'Space Mono',monospace;">What's Working ✅</div>
+      <p style="font-size:.875rem;color:#67e8f9;">${optimal.map(r => r.marker.name).join(', ')} — all in functional optimal range. These are real strengths to protect.</p>
     </div>`;
   }
 
   // Disclaimer
-  html += `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:1rem 1.25rem;font-size:.78rem;color:#6b7280;line-height:1.6;">
-    ⚕️ <strong>Educational use only.</strong> This analysis is based on functional medicine optimal ranges and is intended for educational purposes. It does not constitute medical advice, diagnosis, or treatment. Please discuss your results with a licensed healthcare provider before making any changes to your health regimen.
+  html += `<div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:1rem 1.25rem;font-size:.78rem;color:#475569;line-height:1.6;">
+    ⚕️ <strong style="color:#64748b;">Educational use only.</strong> This analysis is based on functional medicine optimal ranges and is intended for educational purposes. It does not constitute medical advice, diagnosis, or treatment.
   </div>`;
-
   html += `</div>`;
   return html;
 }
 
 // ── REPORT ACTIONS ────────────────────────────────────────────────────────────
-
 function downloadReport() {
   const printable = document.getElementById('report-printable');
   const win = window.open('', '_blank');
   win.document.write(`<!DOCTYPE html><html><head>
     <meta charset="UTF-8"/>
     <title>Functional Health Report — FunctionAgain Health</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
     <style>
-      body { font-family: 'Inter', sans-serif; color: #111827; padding: 2.5rem; max-width: 800px; margin: 0 auto; font-size: 14px; line-height: 1.75; }
-      @media print { body { padding: 1rem; } button { display: none !important; } }
+      body { font-family:'Inter',sans-serif; color:#111827; padding:2.5rem; max-width:800px; margin:0 auto; font-size:14px; line-height:1.75; background:#fff; }
+      @media print { body { padding:1rem; } button { display:none !important; } }
     </style>
   </head><body>
     <div style="border-bottom:2px solid #05152e;padding-bottom:1rem;margin-bottom:2rem;display:flex;justify-content:space-between;align-items:flex-end;">
@@ -1135,13 +1201,13 @@ function downloadReport() {
         <div style="font-family:serif;font-size:1.4rem;font-weight:400;color:#05152e;">FunctionAgain Health</div>
         <div style="font-size:.8rem;color:#6b7280;margin-top:.2rem;">Functional Blood Chemistry Analysis</div>
       </div>
-      <div style="font-size:.8rem;color:#6b7280;">Generated: ${new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' })}</div>
+      <div style="font-size:.8rem;color:#6b7280;">Generated: ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}</div>
     </div>
     ${printable.innerHTML}
     <div style="border-top:1px solid #e5e7eb;margin-top:2rem;padding-top:1rem;font-size:.75rem;color:#9ca3af;">
-      This report was generated by FunctionAgain Health's functional blood chemistry analysis tool. It is for educational purposes only and does not constitute medical advice. functionagain-health.netlify.app
+      This report was generated by FunctionAgain Health's functional blood chemistry analysis tool. Educational purposes only. functionagain-health.netlify.app
     </div>
-    <script>window.onload = function() { window.print(); }<\/script>
+    <script>window.onload=function(){window.print();}<\/script>
   </body></html>`);
   win.document.close();
 }
@@ -1150,33 +1216,24 @@ async function emailReport() {
   const email = document.getElementById('email-dest').value.trim();
   const status = document.getElementById('email-status');
   if (!email || !email.includes('@')) {
-    status.style.display = 'block';
-    status.style.color = '#dc2626';
-    status.textContent = 'Please enter a valid email address.';
-    return;
+    status.style.display = 'block'; status.style.color = '#ef4444';
+    status.textContent = 'Please enter a valid email address.'; return;
   }
   const reportHtml = document.getElementById('report-printable').innerHTML;
-  status.style.display = 'block';
-  status.style.color = '#6b7280';
-  status.textContent = 'Sending...';
+  status.style.display = 'block'; status.style.color = '#64748b'; status.textContent = 'Sending...';
   try {
     const res = await fetch('/.netlify/functions/send-report', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, reportHtml, date: new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' }) }),
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ email, reportHtml, date: new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'}) }),
     });
-    const data = await res.json();
     if (res.ok) {
-      status.style.color = '#16a34a';
+      status.style.color = '#10b981';
       status.textContent = '✓ Report sent. Check your inbox (and spam folder if needed).';
       document.getElementById('email-dest').value = '';
-    } else {
-      status.style.color = '#dc2626';
-      status.textContent = 'Failed to send. Please use the Download PDF option instead.';
-    }
+    } else { throw new Error(); }
   } catch (e) {
-    status.style.color = '#dc2626';
-    status.textContent = 'Connection error. Please use the Download PDF option instead.';
+    status.style.color = '#ef4444';
+    status.textContent = 'Failed to send. Please use the Download PDF option instead.';
   }
 }
 
@@ -1189,32 +1246,23 @@ function clearReport() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ── STRIPE CHECKOUT (single $49 tier) ────────────────────────────────────────
+// ── STRIPE CHECKOUT ───────────────────────────────────────────────────────────
 async function handleCheckout() {
   const btn = event.currentTarget;
   const origText = btn.textContent;
-  btn.disabled = true;
-  btn.textContent = 'Redirecting to payment...';
+  btn.disabled = true; btn.textContent = 'Redirecting to payment...';
   try {
     const res = await fetch('/.netlify/functions/create-checkout', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({ labs: _currentLabs, tier: 'report' }),
     });
     const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      btn.disabled = false;
-      btn.textContent = origText;
-    }
-  } catch (e) {
-    btn.disabled = false;
-    btn.textContent = origText;
-  }
+    if (data.url) { window.location.href = data.url; }
+    else { btn.disabled = false; btn.textContent = origText; }
+  } catch (e) { btn.disabled = false; btn.textContent = origText; }
 }
 
-// ── CHECK FOR PAID RETURN — run in-browser report engine after Stripe redirect ──
+// ── PAID RETURN ───────────────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   const sessionId = params.get('session_id');
@@ -1222,8 +1270,6 @@ window.addEventListener('DOMContentLoaded', () => {
   if (sessionId && labsParam) {
     try {
       const labValues = JSON.parse(decodeURIComponent(labsParam));
-
-      // Re-run the analysis engine against returned lab values
       const results = [];
       for (const [key, marker] of Object.entries(MARKERS)) {
         const val = labValues[key];
@@ -1232,42 +1278,62 @@ window.addEventListener('DOMContentLoaded', () => {
         if (isNaN(v)) continue;
         const [lo, hi] = marker.optimal;
         const pct = 0.1;
-        const cautLo = lo * (1 - pct);
-        const cautHi = hi * (1 + pct);
+        const cautLo = lo * (1 - pct), cautHi = hi * (1 + pct);
         let status, icon, label;
-        if (v >= lo && v <= hi) { status = 'optimal'; icon = '✅'; label = 'Optimal'; }
-        else if (v < lo) { status = v >= cautLo ? 'caution' : 'flag'; icon = status === 'caution' ? '⚠️' : '🚩'; label = status === 'caution' ? 'Low — Caution Zone' : 'Below Optimal'; }
-        else { status = v <= cautHi ? 'caution' : 'flag'; icon = status === 'caution' ? '⚠️' : '🚩'; label = status === 'caution' ? 'High — Caution Zone' : 'Above Optimal'; }
-        const explain = status === 'optimal' ? marker.explain_optimal : v < lo ? marker.explain_low : marker.explain_high;
-        results.push({ key, marker, val: v, status, icon, label, explain, lo, hi });
+        if (v >= lo && v <= hi) { status='optimal'; icon='✅'; label='Optimal'; }
+        else if (v < lo) { status = v >= cautLo ? 'caution' : 'flag'; icon = status==='caution'?'⚠️':'🚩'; label = status==='caution'?'Low — Caution Zone':'Below Optimal'; }
+        else { status = v <= cautHi ? 'caution' : 'flag'; icon = status==='caution'?'⚠️':'🚩'; label = status==='caution'?'High — Caution Zone':'Above Optimal'; }
+        const explain = status==='optimal' ? marker.explain_optimal : v < lo ? marker.explain_low : marker.explain_high;
+        results.push({ key, marker, val:v, status, icon, label, explain, lo, hi });
       }
-      results.sort((a, b) => ({ flag: 0, caution: 1, optimal: 2 }[a.status] - { flag: 0, caution: 1, optimal: 2 }[b.status]));
-
-      // Render full report
+      results.sort((a,b)=>({flag:0,caution:1,optimal:2}[a.status]-{flag:0,caution:1,optimal:2}[b.status]));
       document.getElementById('results').style.display = 'block';
       document.getElementById('ai-report').style.display = 'block';
       document.getElementById('paywall-section').style.display = 'none';
       document.getElementById('report-content').innerHTML = generateReport(results, labValues);
-      setTimeout(() => document.getElementById('results').scrollIntoView({ behavior: 'smooth' }), 300);
-    } catch (e) {
-      console.error('Could not parse labs from URL', e);
-    }
+      setTimeout(() => document.getElementById('results').scrollIntoView({ behavior:'smooth' }), 300);
+    } catch(e) { console.error('Could not parse labs from URL', e); }
   }
 });
 
-// ── PANEL TOGGLE ────────────────────────────────────────────────────────────
+// ── PANEL TOGGLE ──────────────────────────────────────────────────────────────
 function togglePanel(header) {
   header.classList.toggle('open');
   header.nextElementSibling.classList.toggle('open');
 }
 
-// ── ANALYSIS ENGINE ─────────────────────────────────────────────────────────
+// ── RADIAL GAUGE ──────────────────────────────────────────────────────────────
+function animateGauge(score) {
+  const circle = document.getElementById('gauge-circle');
+  const numEl = document.getElementById('gauge-num');
+  const circumference = 364.4;
+  const offset = circumference - (score / 100) * circumference;
+  circle.style.strokeDashoffset = offset;
+  if (score >= 70) circle.style.stroke = '#00d4ff';
+  else if (score >= 40) circle.style.stroke = '#f59e0b';
+  else circle.style.stroke = '#ef4444';
+  let current = 0;
+  const step = score / 60;
+  const timer = setInterval(() => {
+    current = Math.min(current + step, score);
+    numEl.textContent = Math.round(current);
+    if (current >= score) clearInterval(timer);
+  }, 16);
+}
+
+// ── SCAN EFFECT ───────────────────────────────────────────────────────────────
+function triggerScan(cb) {
+  const overlay = document.getElementById('scan-overlay');
+  overlay.style.display = 'block';
+  setTimeout(() => { overlay.style.display = 'none'; if (cb) cb(); }, 1300);
+}
+
+// ── ANALYSIS ENGINE ───────────────────────────────────────────────────────────
 function analyzeBloodwork() {
   const form = document.getElementById('quiz-form');
   const data = new FormData(form);
   const results = [];
-  let entered = 0;
-  let optimal = 0;
+  let entered = 0, optimal = 0;
 
   for (const [key, marker] of Object.entries(MARKERS)) {
     const raw = data.get(key);
@@ -1275,67 +1341,43 @@ function analyzeBloodwork() {
     const val = parseFloat(raw);
     if (isNaN(val)) continue;
     entered++;
-
     const [lo, hi] = marker.optimal;
-    const [slo, shi] = marker.standard || [lo * 0.8, hi * 1.3];
-
+    const pct = 0.1;
+    const cautLo = lo * (1 - pct), cautHi = hi * (1 + pct);
     let status, icon, explain, label;
-    const pct = 0.1; // 10% caution band outside optimal
-    const cautLo = lo * (1 - pct);
-    const cautHi = hi * (1 + pct);
-
     if (val >= lo && val <= hi) {
-      status = 'optimal'; icon = '✅'; label = 'Optimal';
-      explain = marker.explain_optimal;
-      optimal++;
+      status='optimal'; icon='✅'; label='Optimal'; explain=marker.explain_optimal; optimal++;
     } else if (val < lo) {
-      if (val >= cautLo) {
-        status = 'caution'; icon = '⚠️'; label = 'Low — Caution Zone';
-      } else {
-        status = 'flag'; icon = '🚩'; label = 'Below Optimal';
-      }
+      status = val >= cautLo ? 'caution' : 'flag';
+      icon = status==='caution'?'⚠️':'🚩';
+      label = status==='caution'?'Low — Caution Zone':'Below Optimal';
       explain = marker.explain_low;
     } else {
-      if (val <= cautHi) {
-        status = 'caution'; icon = '⚠️'; label = 'High — Caution Zone';
-      } else {
-        status = 'flag'; icon = '🚩'; label = 'Above Optimal';
-      }
+      status = val <= cautHi ? 'caution' : 'flag';
+      icon = status==='caution'?'⚠️':'🚩';
+      label = status==='caution'?'High — Caution Zone':'Above Optimal';
       explain = marker.explain_high;
     }
-
     results.push({ key, marker, val, status, icon, label, explain, lo, hi });
   }
 
-  if (entered === 0) {
-    alert('Please enter at least one lab value to analyze.');
-    return;
-  }
+  if (entered === 0) { alert('Please enter at least one lab value to analyze.'); return; }
 
-  // Sort: flags first, then caution, then optimal
-  results.sort((a, b) => {
-    const order = { flag: 0, caution: 1, optimal: 2 };
-    return order[a.status] - order[b.status];
-  });
-
-  // Score
+  results.sort((a,b) => ({flag:0,caution:1,optimal:2}[a.status]-{flag:0,caution:1,optimal:2}[b.status]));
   const score = Math.round((optimal / entered) * 100);
+
   let headline, subhead;
-  if (score >= 80) { headline = '🌟 Looking Strong!'; subhead = `${optimal} of ${entered} markers are in the functional optimal range.`; }
-  else if (score >= 50) { headline = '⚠️ Some Areas to Address'; subhead = `${optimal} of ${entered} markers are optimal. A few patterns worth exploring.`; }
-  else { headline = '🚩 Patterns Detected'; subhead = `${optimal} of ${entered} markers are optimal. These findings are worth a deeper look with a practitioner.`; }
+  if (score >= 80) { headline='🌟 Looking Strong'; subhead=`${optimal} of ${entered} markers in functional optimal range.`; }
+  else if (score >= 50) { headline='⚠️ Some Areas to Address'; subhead=`${optimal} of ${entered} markers optimal. A few patterns worth exploring.`; }
+  else { headline='🚩 Patterns Detected'; subhead=`${optimal} of ${entered} markers optimal. These findings are worth a deeper look.`; }
 
   document.getElementById('results-headline').textContent = headline;
   document.getElementById('results-subhead').textContent = subhead;
-  document.getElementById('score-text').textContent = `${score}% of entered markers in functional optimal range`;
-  setTimeout(() => { document.getElementById('score-fill').style.width = score + '%'; }, 100);
 
-  // Save labs globally
   const formData2 = new FormData(document.getElementById('quiz-form'));
   _currentLabs = {};
   for (const [k, v] of formData2.entries()) { if (v && v.trim() !== '') _currentLabs[k] = parseFloat(v); }
 
-  // Show first 3 free, lock the rest
   const freeResults = results.slice(0, 3);
   const lockedCount = Math.max(0, results.length - 3);
 
@@ -1344,63 +1386,48 @@ function analyzeBloodwork() {
     <div class="result-card ${r.status}">
       <div class="result-icon">${r.icon}</div>
       <div class="result-info">
-        <div class="result-name">${r.marker.name} <span style="font-weight:400; font-size:0.8rem;">(${r.label})</span></div>
-        <div class="result-value">Your value: <strong>${r.val} ${r.marker.unit}</strong> · Functional optimal: ${r.lo}–${r.hi} ${r.marker.unit}</div>
+        <div class="result-name">${r.marker.name} <span style="font-weight:400;font-size:.78rem;opacity:.7;">(${r.label})</span></div>
+        <div class="result-value">Value: ${r.val} ${r.marker.unit} · Optimal: ${r.lo}–${r.hi}</div>
         <div class="result-explain">${r.explain}</div>
       </div>
     </div>
   `).join('');
 
-  // Blurred preview of next 3
   if (lockedCount > 0) {
     cardsEl.innerHTML += `
       <div style="position:relative;margin-top:0.5rem;">
-        <div style="filter:blur(5px);pointer-events:none;user-select:none;opacity:0.45;">
-          ${results.slice(3, 6).map(r => `
-            <div class="result-card ${r.status}" style="margin-bottom:0.75rem;">
+        <div style="filter:blur(5px);pointer-events:none;user-select:none;opacity:0.35;">
+          ${results.slice(3,6).map(r => `
+            <div class="result-card ${r.status}" style="margin-bottom:.75rem;">
               <div class="result-icon">${r.icon}</div>
               <div class="result-info">
                 <div class="result-name">${r.marker.name}</div>
-                <div class="result-value">Your value: ${r.val} ${r.marker.unit}</div>
+                <div class="result-value">Value: ${r.val} ${r.marker.unit}</div>
                 <div class="result-explain">Full analysis included in report...</div>
               </div>
             </div>
           `).join('')}
         </div>
         <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-          <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem 2rem;box-shadow:0 8px 40px rgba(0,0,0,0.14);text-align:center;max-width:320px;">
-            <div style="font-size:1.5rem;margin-bottom:.4rem;">🔒</div>
-            <div style="font-weight:700;font-size:.95rem;margin-bottom:.3rem;">${lockedCount} more marker${lockedCount > 1 ? 's' : ''} analyzed</div>
-            <div style="font-size:.82rem;color:var(--muted);">Unlock the full report to see all results</div>
+          <div style="background:rgba(8,15,31,0.95);border:1px solid rgba(0,212,255,0.3);border-radius:12px;padding:1.5rem 2rem;box-shadow:0 8px 40px rgba(0,0,0,0.5),0 0 20px rgba(0,212,255,0.1);text-align:center;max-width:320px;">
+            <div style="font-size:1.4rem;margin-bottom:.4rem;">🔒</div>
+            <div style="font-weight:700;font-size:.95rem;margin-bottom:.3rem;color:#fff;">${lockedCount} more marker${lockedCount>1?'s':''} analyzed</div>
+            <div style="font-size:.82rem;color:#64748b;">Unlock the full report to see all results</div>
           </div>
         </div>
       </div>`;
   }
 
   document.getElementById('results').style.display = 'block';
-  document.getElementById('results-section').style.display = 'none';
   document.getElementById('paywall-section').style.display = lockedCount > 0 ? 'block' : 'none';
   document.getElementById('ai-report').style.display = 'none';
 
-  // Show email gate (skip if already captured)
-  if (localStorage.getItem('sara_lead_email')) {
-    document.getElementById('email-gate').style.display = 'none';
-    document.getElementById('results-section').style.display = 'block';
-  } else {
-    document.getElementById('email-gate').style.display = 'block';
-  }
-  document.getElementById('email-gate').scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function submitEmailGate() {
-  const email = document.getElementById("gate-email").value;
-  if (!email || !email.includes("@")) { alert("Please enter a valid email."); return; }
-  console.log("Lead captured:", email);
-  localStorage.setItem("sara_lead_email", email);
-  document.getElementById("email-gate").style.display = "none";
-  document.getElementById("results-section").style.display = "block";
-  document.getElementById("results-section").scrollIntoView({ behavior: 'smooth', block: 'start' });
+  triggerScan(() => {
+    animateGauge(score);
+    document.getElementById('results').scrollIntoView({ behavior:'smooth', block:'start' });
+  });
 }
 </script>
+
 </body>
 </html>
