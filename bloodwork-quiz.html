@@ -458,6 +458,97 @@
     }
     .footer-disc { max-width: 600px; margin: .5rem auto; color: #374151; font-size: .75rem; }
 
+    /* ── EMAIL GATE MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 500;
+      background: rgba(5,13,26,0.92);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-box {
+      background: #080f1f;
+      border: 1px solid rgba(0,212,255,0.25);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      max-width: 440px; width: 100%;
+      box-shadow: 0 0 60px rgba(0,212,255,0.1), 0 20px 60px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .modal-badge {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--cyan);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 1rem;
+    }
+    .modal-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 400; color: #fff;
+      margin-bottom: .5rem; line-height: 1.2;
+    }
+    .modal-sub {
+      font-size: .875rem; color: var(--text-dim);
+      margin-bottom: 1.5rem; line-height: 1.6;
+    }
+    .modal-field { margin-bottom: 1rem; }
+    .modal-field label {
+      display: block; font-size: .75rem; font-weight: 600;
+      color: var(--text-dim); margin-bottom: .35rem;
+      text-transform: uppercase; letter-spacing: .06em;
+      font-family: 'Space Mono', monospace;
+    }
+    .modal-field input {
+      width: 100%; padding: .7rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; font-size: .95rem;
+      font-family: 'Inter', sans-serif; color: var(--text);
+      transition: border-color .2s, background .2s;
+    }
+    .modal-field input:focus {
+      outline: none; border-color: var(--cyan);
+      background: rgba(0,212,255,0.06);
+    }
+    .modal-consent {
+      display: flex; align-items: flex-start; gap: .75rem;
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px; padding: .9rem 1rem;
+    }
+    .modal-consent input[type="checkbox"] {
+      margin-top: 2px; flex-shrink: 0;
+      width: 16px; height: 16px; accent-color: var(--cyan);
+      cursor: pointer;
+    }
+    .modal-consent-text {
+      font-size: .78rem; color: var(--text-dim); line-height: 1.55;
+    }
+    .modal-consent-text strong { color: var(--text); }
+    .btn-modal-submit {
+      width: 100%; padding: .9rem;
+      background: transparent; border: 1.5px solid var(--cyan);
+      color: var(--cyan); border-radius: 8px;
+      font-size: .95rem; font-weight: 700;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: .04em; cursor: pointer;
+      transition: background .2s, box-shadow .2s;
+    }
+    .btn-modal-submit:hover {
+      background: rgba(0,212,255,0.1);
+      box-shadow: var(--cyan-glow);
+    }
+    .btn-modal-submit:disabled { opacity: .4; cursor: not-allowed; }
+    .modal-privacy {
+      font-size: .72rem; color: #334155; text-align: center;
+      margin-top: .75rem; line-height: 1.5;
+    }
+    .modal-error {
+      font-size: .78rem; color: var(--red);
+      margin-bottom: .75rem; display: none;
+    }
+
     /* ── SCAN ANIMATION on results ── */
     @keyframes scanline {
       0%   { transform: translateY(-100%); opacity: 0; }
@@ -477,6 +568,32 @@
   </style>
 </head>
 <body>
+
+<!-- EMAIL GATE MODAL -->
+<div class="modal-overlay" id="email-gate-modal" style="display:none;" role="dialog" aria-modal="true">
+  <div class="modal-box">
+    <div class="modal-badge"><div class="badge-dot"></div> Almost there</div>
+    <h2 class="modal-title">Where should we send your results?</h2>
+    <p class="modal-sub">Enter your name and email to view your free functional analysis. No spam — just your results and occasional health insights from Sara.</p>
+    <div class="modal-error" id="modal-error"></div>
+    <div class="modal-field">
+      <label for="gate-name">First Name</label>
+      <input type="text" id="gate-name" placeholder="e.g. Alex" autocomplete="given-name">
+    </div>
+    <div class="modal-field">
+      <label for="gate-email">Email Address</label>
+      <input type="email" id="gate-email" placeholder="you@example.com" autocomplete="email">
+    </div>
+    <div class="modal-consent">
+      <input type="checkbox" id="gate-consent">
+      <div class="modal-consent-text">
+        <strong>I understand and agree:</strong> This tool is for educational purposes only and does not constitute medical advice. My anonymized, de-identified health data may be used to improve FunctionAgain Health's analysis engine and research. My personal information will never be sold or shared with third parties without my explicit consent. <a href="/privacy" style="color:var(--cyan);text-decoration:none;">Privacy Policy</a>
+      </div>
+    </div>
+    <button class="btn-modal-submit" id="modal-submit-btn" onclick="submitEmailGate()">VIEW MY RESULTS →</button>
+    <p class="modal-privacy">🔒 HIPAA-aware · No spam · Unsubscribe anytime</p>
+  </div>
+</div>
 
 <div class="scan-overlay" id="scan-overlay" style="display:none;">
   <div class="scan-line"></div>
@@ -1328,8 +1445,46 @@ function triggerScan(cb) {
   setTimeout(() => { overlay.style.display = 'none'; if (cb) cb(); }, 1300);
 }
 
-// ── ANALYSIS ENGINE ───────────────────────────────────────────────────────────
+// ── EMAIL GATE ────────────────────────────────────────────────────────────────
+let _pendingAnalysis = false;
+let _capturedUser = null;
+
 function analyzeBloodwork() {
+  // If already captured, run directly
+  if (_capturedUser) { runAnalysis(); return; }
+  // Validate at least one value entered
+  const form = document.getElementById('quiz-form');
+  const data = new FormData(form);
+  let hasValue = false;
+  for (const [, v] of data.entries()) { if (v && v.trim() !== '') { hasValue = true; break; } }
+  if (!hasValue) { alert('Please enter at least one lab value to analyze.'); return; }
+  // Show gate
+  document.getElementById('email-gate-modal').style.display = 'flex';
+  setTimeout(() => document.getElementById('gate-name').focus(), 100);
+}
+
+function submitEmailGate() {
+  const name = document.getElementById('gate-name').value.trim();
+  const email = document.getElementById('gate-email').value.trim();
+  const consent = document.getElementById('gate-consent').checked;
+  const errEl = document.getElementById('modal-error');
+  errEl.style.display = 'none';
+  if (!name) { errEl.textContent = 'Please enter your first name.'; errEl.style.display = 'block'; return; }
+  if (!email || !email.includes('@')) { errEl.textContent = 'Please enter a valid email address.'; errEl.style.display = 'block'; return; }
+  if (!consent) { errEl.textContent = 'Please review and check the consent box to continue.'; errEl.style.display = 'block'; return; }
+  _capturedUser = { name, email, consent: true, ts: new Date().toISOString() };
+  document.getElementById('email-gate-modal').style.display = 'none';
+  // Fire-and-forget lead capture
+  fetch('/.netlify/functions/capture-lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, consent: true, source: 'bloodwork-quiz', ts: _capturedUser.ts }),
+  }).catch(() => {}); // silent fail — don't block the user
+  runAnalysis();
+}
+
+// ── ANALYSIS ENGINE ───────────────────────────────────────────────────────────
+function runAnalysis() {
   const form = document.getElementById('quiz-form');
   const data = new FormData(form);
   const results = [];
@@ -1361,7 +1516,7 @@ function analyzeBloodwork() {
     results.push({ key, marker, val, status, icon, label, explain, lo, hi });
   }
 
-  if (entered === 0) { alert('Please enter at least one lab value to analyze.'); return; }
+  if (entered === 0) { alert('Please enter at least one lab value to analyze.'); return; } // fallback
 
   results.sort((a,b) => ({flag:0,caution:1,optimal:2}[a.status]-{flag:0,caution:1,optimal:2}[b.status]));
   const score = Math.round((optimal / entered) * 100);
